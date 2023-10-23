@@ -9,142 +9,157 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# 1. Le simulazioni
+# 1. The simulations
 
-## 1.1. Introduzione:
+## 1.1. Introduction:
 
-Le simulazioni sono impiegate allo scopo di imitare – simulare, appunto –
-operazioni nei pi`u svariati contesti applicativi. Una definizione generale, che
-accomuna vari contesti `e la seguente:
+Simulations are used for the purpose of imitating – simulating, precisely – operations in the most 
+varied application contexts. A general definition, which common to various contexts is the 
+following:
 
-**Definizione 1.1.** Il termine simulazione si riferisce al fatto che un problema reale viene 
-riprodotto in un contesto artificialmente costruito e dunque perfettamente – o in larga misura – controllabile.
+**Definition 1.1.** The term simulation refers to the fact that a real problem occurs
+reproduced in an artificially constructed context and therefore perfectly – or to a large extent – controllable.
 
-Si tratta di un particolare tipo di sperimentazione ed infatti, un esempio di
-simulazione sono gli esperimenti di laboratorio. Questi possono vedersi come
-riproduzioni in scala ridotta di un problema reale che, in tal modo, `e reso
-perfettamente controllabile dallo/a sperimentatore/trice.
+This is a particular type of experimentation and in fact, an example of simulation are laboratory experiments. These can be seen as reduced-scale reproductions of a real problem which, in this way, 
+is rendered perfectly controllable by the experimenter.
 
-Il modello `e un’astrazione, teorica o reale, che riassume tutto ci`o che del sistema `e noto, 
-riproducendone le componenti strutturali essenziali, le propriet`a e le relazioni fra tali 
-componenti.
+The model is an abstraction, theoretical or real, which summarizes everything that is known about 
+the system, reproducing its essential structural components, properties and relationships between 
+them components.
 
-I modelli simbolici sono traduzioni logico-formali del sistema secondo uno schema matematico 
-astratto - ad esempio un sistema di equazioni che definiscono un modello economico.
+Symbolic models are logical-formal translations of the system according to a mathematical scheme
+abstract - for example a system of equations that define an economic model.
 
-La scienza statistica utilizza i modelli come semplificazione teorica della realt`a, in genere 
-basati su ipotesi e assunzioni che riguardano il funzionamento del sistema stesso. Se il sistema `e stocastico, il modello `e conseguentemente un modello stocastico (simbolico) che pu`o pensarsi come 
-un insieme di funzioni, pi`u o meno complesse, di variabili casuali.
+Statistical science uses models as a theoretical simplification of reality, in general based on 
+hypotheses and assumptions regarding the functioning of the system itself. If the system is 
+stochastic, the model is consequently a stochastic (symbolic) model which can be thought of as a set 
+of functions, more or less complex, of random variables.
 
-Si studia il funzionamento di un sistema, per via simulativa, simulando realizzazioni da un certo 
-modello con l’obiettivo di comprendere, prevedere e controllare le reazioni del sistema reale 
-modellato a variazioni artificialmente determinate.
+The functioning of a system is studied, through simulation, by simulating realizations from a 
+certain model with the aim of understanding, predicting and controlling the reactions of the real 
+system modeled to artificially determined variations.
 
-Produrre dati artificialmente delle osservazioni – nel seguito indicate come pseudo-dati – 
-rappresenta una valida pratica per formulare e verificare ipotesi sul funzionamento del sistema 
-reale. In tali contesti, dunque, simulare il sistema significa campionare dati dal modello. In questo ambito le teorie probabilistiche e la statistica svolgono un ruolo, strumentale, per altri dettagli
-si rimanda a (Mecatti et al., 2008).
+The functioning of a system is studied, through simulation, by simulating realizations from a 
+certain model with the aim of understanding, predicting and controlling the reactions of the real 
+system modeled to artificially determined variations.
 
-Il tradizionale campo di applicazione delle simulazioni si `e recentemente ampliato, ed `e tutt’ora 
-in espansione, grazie anche all’incremento della potenza computazione dei computer. In ambito 
-economico politico si ipotizzano complessi modelli econometrici e si generano pseudo-realizzazioni da questo; in ambito economico aziendale, si simulano ad esempio gli effetti di una campagna di 
-investimenti sulle vendite di una grande azienda in relazione ad un preciso modello. La simulazioni 
-sono spesso richieste per validare un nuovo modello e sono riportate in molti articoli scientifici.
+Artificially producing data from observations – hereinafter referred to as pseudo-data – represents 
+a valid practice for formulating and testing hypotheses on the functioning of the system real. In 
+such contexts, therefore, simulating the system means sampling data from the model. In this context, probabilistic theories and statistics play an instrumental role for other details please refer to 
+(Mecatti et al., 2008).
 
-Lo sviluppo delle simulazioni in ambito statistico, cos`ı come in altri campi, `e strettamente 
-legato all’avanzamento tecnologico e informatico. Le prime simulazioni stocastiche condotte al 
-calcolatore datano intorno al 1944. Tuttavia, degli esempi di simulazioni si incontrano in svariate occasioni anche nella storia meno recente. Fra queste possiamo ricordare il procedimento noto come 
-Ago di Buffon risalente alla seconda met`a del XVIII secolo ad opera di G.L. Lecrerc Comte de Buffon (1707-1788). L’esperimento originale, avente come obiettivo l’approssimazione decimale del numero irrazionale $\pi$, non impiegava, naturalmente, il calcolatore ma un ago lanciato un gran numero
-di volte su un piano dotato di riferimento cartesiano. Piu` tardi, nel 1899, Lord Rayleigh propose l’impiego di un particolare processo stocastico, noto come random walk (che verr`a 
-trattato nel corso di inferenza Bayesiana) per fornire una soluzione approssimata di una equazione differenziale parabolica.
+The traditional scope of simulations has recently expanded, and still does expanding, thanks also to 
+the increase in the computing power of computers. Within political economic complex econometric 
+models are hypothesized and pseudo-realizations are generated from this; in the corporate economic 
+field, for example, the effects of a campaign are simulated investments on the sales of a large 
+company in relation to a specific model. The simulations they are often required to validate a new 
+model and are reported in many scientific articles.
 
-Nel 1931 Kolmogorov, a cui si deve la moderna impostazione assiomatica del calcolo delle 
-probabilit`a, dimostr`o le connessioni tra il processo denominato catene di Markov, un altro tipo di processo stocastico (che verr`a trattato durante il corso di inferenza Bayesiana) e particolari 
-equazioni differenziali mediante una simulazione stocastica. Nel 1908 Student, pseudonimo di W.S.
-Gosset, impieg`o una simulazione stocastica, ovvero esperimenti di campionamento artificialmente 
-condotti, per sviluppare la sua famosa distribuzione detta T di Student. E molti altri ancora sono 
-gli esempi che possono essere citati quali precursori delle moderne simulazioni stocastiche al 
-calcolatore.
+The development of simulations in statistics, as well as in other fields, is strictly linked to technological and IT advancement. The first stochastic simulations conducted at computer date back 
+to around 1944. However, examples of simulations are encountered on various occasions even in less 
+recent history. Among these we can remember the procedure known as Buffon needle dating back to the 
+second half of the 18th century by G.L. Lecrerc Comte de Buffon (1707-1788). The original experiment, which had as its objective the decimal approximation of the irrational number $\pi$, did not, 
+of course, use a calculator but a needle thrown at a large number of times on a plane with a 
+Cartesian reference. Later, in 1899, Lord Rayleigh proposed the use of a particular stochastic 
+process, known as random walk (which will be covered in the Bayesian inference course) to provide an approximate solution to a parabolic differential equation.
 
-Le simulazioni in ambito statistico sono essenzialmente simulazioni stocastiche in cui i modelli 
-sono variabili casuali o processi stocastici con una data legge di probabilit`a. Le fondamenta per costruire una simulazione stocastica sono dunque rappresentate dall’abilit`a di produrre 
-artificialmente – si dice generare al calcolatore – determinazioni da certe variabili casuali.
-La generazione di determinazioni da variabili casuali al calcolatore, utilizza i cos`ı detti numeri pseudo-casuali.
+In 1931 Kolmogorov, to whom we owe the modern axiomatic approach to the calculus of probability, he demonstrated the connections between the process called Markov chains, another type of stochastic 
+process (which will be treated during the Bayesian inference course) and particular differential 
+equations using a stochastic simulation. In 1908 Student, pseudonym of W.S. Gosset, employed 
+stochastic simulation, or artificially sampling experiments conducted, to develop his famous 
+distribution called Student's T. And there are many more the examples that can be cited as 
+precursors of modern stochastic simulations al computer.
 
-## 1.2. Numeri pseudo-casuali:
+Statistical simulations are essentially stochastic simulations in which models they are random 
+variables or stochastic processes with a given probability law. The foundations for building a 
+stochastic simulation are therefore represented by the ability to produce artificially – it is said 
+to generate by computer – determinations from certain random variables.
 
-La simulazine stocastica prevede l'esecuzione dei seguenti passi:
-1. la generazione di numeri casuali;
-2. la generazione di determinazioni d particolari variabili casuali con prreassegnata legge di 
-probabilita;
-3. l'tuilizzo dei valori generati per la soluzione di rpblemi statistici mediante simulazioni 
-stocastiche.
+The generation of determinations from random variables to the computer uses so-called pseudo-random numbers.
 
-Nel corso degli anni, con lo sviluppo delle tecnologie informatiche, sono mutati i metodi di 
-generazione dei numeri casuali. Nelle simulazioni stocastiche si utilizzano insiemi numerosi di 
-numeri casuali. Si parla allora di serie di numeri casuali la cui definizione (moderna) `e riportata 
-di seguito.
+## 1.2. Pseudo-random numbers:
 
-Definizione 1.2. Una serie di numeri casuali `e un insieme di numeri reali compresi tra 0 e 1 che rappresentano un campione Bernoulliano di determinazioni da una variabile casuale Uniforme 
-(continua) sull’intervallo (0,1). 
+The stochastic simulation involves the execution of the following steps:
+1. the generation of random numbers;
+2. the generation of determinations of particular random variables with a pre-assigned law of
+chance;
+3. the use of the values generated for the solution of statistical problems through simulations
+stochastic.
 
-Per tale motivo si parla pi`u precisamente, di numeri casuali uniformi. I moderni generatori di 
-numeri casuali sono basati su dispositivi algebricoricorsivi implementati sul calcolatore, cio`e le 
-serie di numeri sono prodotte mediante un algoritmo. Cos`ı, se da un lato si ottiene il vantaggio di superare i principali inconvenienti dei generatori meccanici e fisici/naturali, dall’altro si 
-introduce l’evidente svantaggio dovuto alla perdita della casualit`a nel processo di generazione e, conseguentemente, nei numeri generati.
+Over the years, with the development of information technologies, the methods of generation of 
+random numbers. In stochastic simulations, large sets of are used random numbers. We then speak of a series of random numbers whose (modern) definition is reported right away.
 
-Infatti, i numeri prodotti al calcolatore da generatori algebrico-ricorsivi sono il risultato di una 
-serie ordinata e finita di operazioni logico-matematiche – l’algoritmo appunto1 – in cui nulla `e 
-casuale e tutto `e deterministico. Inoltre, la ricorsivit`a del generatore, che impiega un numero 
-generato in precedenza per produrre il numero successivo, contrasta con la richiesta d’indipendenza
-fra i numeri della serie, inducendo un’evidente correlazione.
+Definition 1.2. A random number series is a set of real numbers between 0 and 1 that represent a 
+Bernoulli sample of determinations from a Uniform random variable (continued) on the interval (0,1).
 
-Di fronte ad una serie di numeri generata da un algoritmo implementato al calcolatore, la domanda 
-che non ha senso porsi `e “questa sequenza `e casuale?”, poich´e la risposta `e certamente no, 
-ma “questa sequenza si comporter`a come se fosse casuale una volta applicata al problema 
-d’interesse?”. Per tale motivo, si parla pi`u precisamente di numeri pseudo-casuali. In una
-serie pseudo-casuale, i numeri hanno l’apparenza della casualit`a cio`e sembrano indipendenti ed equiprobabili ovvero appaiono come determinazioni della variabile casuale Uniforme sull’intervallo 
-(0,1).
+For this reason we speak more precisely of uniform random numbers. Modern generators random numbers 
+are based on algebraic-recursive devices implemented on the computer, i.e series of numbers are 
+produced using an algorithm. Thus, if on the one hand the advantage of overcoming the main drawbacks 
+of mechanical and physical/natural generators is obtained, on the other introduces the obvious disadvantage due to the loss of randomness in the generation process and, consequently, in the 
+numbers generated.
 
-In altri termini, per perseguire i vantaggi offerti dalla generazione al calcolatore gi`a ricordati, 
-si rinuncia alla casualit`a della serie per accontentarsi della pseudo-casualit`a.
+In fact, the numbers produced on the computer by algebraic-recursive generators are the result of a
+ordered and finite series of logical-mathematical operations – precisely the algorithm1 – in which 
+nothing is random and everything is deterministic. Furthermore, the recursion of the generator, 
+which uses a number generated previously to produce the next number, contrasts with the request for independence between the numbers of the series, inducing an evident correlation.
 
-```
-** 1.La parola “algoritmo” affonda le sue radici nella latinizzazione del nome del
-matematico persiano Muhammad ibn Musa al-Khwarizmi
-```
-In sintesi, le propriet`a di un buon generatore algebrico-ricorsivo sono le seguenti:
-1. produce serie di numeri che appaiono uniformemente distribuiti sull’intervallo (0,1) e che non 
-mostrano correlazione o altro tipo di struttura di dipendenza;
-2. `e sufficientemente veloce per i fini simulativi ed ha esigenze di memoria sostenibili;
-3. garantisce la riproducibilit`a di qualunque serie prodotta: ci`o consente, ad esempio, la 
-validazione dei risultati della simulazione ed i confronti della medesima simulazione condotta su modelli/sistemi diversi, tenendo sotto controllo le variazioni.
+Faced with a series of numbers generated by a computer-implemented algorithm, the question which 
+makes no sense to ask is "is this sequence random?", since the answer is certainly no, but 
+“this sequence will behave as if it were random once applied to the problem of interest?”. For this reason, we speak more precisely of pseudo-random numbers. In a pseudo-random series, the numbers 
+have the appearance of randomness, that is, they appear independent and equiprobable or appear as determinations of the random variable Uniform on the interval (0.1).
 
-La bont`a del generatore, influisce sui risultati simulativi determinandone la qualit`a e la 
-validit`a. Esiste in tale ambito una vastissima letteratura che coinvolge svariate discipline e competenze: algebra astratta, teoria dei numeri, informatica, ingegneria dell’hardware e statistica.
+In other words, to pursue the advantages offered by computer generation already mentioned, we give 
+up the randomness of the series to settle for pseudo-randomness.
 
-In particolare si rende necessario un momento di verifica della pseudo-casualit`a della serie 
-utilizzata, ovvero della bont`a del generatore impiegato. Questi test prendono il nome di Test di Casualit`a (Random Tests). Entrare nel dettaglio dei generatori algebrico-ricorsivi va al di l`a 
-degli scopi di questo corso. Pertanto, nel seguito si introduce in modo semplice il principale 
-generatore lineare per individuarne le caratteristiche salienti.
 
-## 1.2.1 Metodi congruenziali
 
-I metodi attualmente utilizzati, che meglio rispondono alle propriet`a richieste ad un buon 
-generatore algebrico-ricorsivo, sono noti come metodi lineari congruenziali perch´e si basano su una relazione congruenziale lineare dovuta all’operazione di modulo di un intero m:
+** The word "algorithm" has its roots in the Latinization of the name of Persian mathematician 
+Muhammad ibn Musa al-Khwarizmi
 
-Definizione 1.3. Divisione modulo
+In summary, the properties of a good algebraic-recursive generator are the following:
+1. produces series of numbers that appear uniformly distributed on the interval (0,1) and which do 
+not show correlation or other type of dependency structure;
+2. it is fast enough for simulation purposes and has sustainable memory needs;
+3. guarantees the reproducibility of any series produced: this allows, for example, the validation 
+of the simulation results and comparisons of the same simulation conducted on different 
+models/systems, keeping variations under control.
 
-Il numero *x* modulo $m \in N$ e'
+
+The goodness of the generator affects the simulation results, determining their quality and reliability
+validity. There is a vast literature in this field that involves various disciplines and skills: abstract algebra, number theory, computer science, hardware engineering and statistics.
+
+
+The goodness of the generator affects the simulation results, determining their quality and reliability
+validity. There is a vast literature in this field that involves various disciplines and skills: abstract algebra, number theory, computer science, hardware engineering and statistics.
+
+
+In particular, a moment of verification of the pseudo-randomness of the series is necessary
+used, or the goodness of the generator used. These tests are called Random Tests. Going into detail about algebraic-recursive generators goes beyond that
+of the aims of this course. Therefore, in the following we introduce the main one in a simple way
+linear generator to identify its salient characteristics.
+
+
+
+
+
+## 1.2.1 Congruential methods
+
+The methods currently used, which best respond to the properties required of a good
+algebraic-recursive generator, are known as linear congruential methods because they are based on a linear congruential relation due to the modulus operation of an integer m:
+
+Definition 1.3. Module division
+
+The number *x* modul $m \in N$ is
 
 $$x mod m = x - [\frac{x}{m}]m$$
 
-dove $[x]$ indica la parte intera di x (cio e' il grande intero minore o uguale a x)
+where $[x]$ indicates the integer part of x (i.e. the large integer less than or equal to x)
 
-Esempio:
+Example:
 
-Siano x = 1, 2, . . . e m = 4. Il calcolo della divisione in modulo x mod m per numeri successivi 
-`e il seguente:
+Let them be x = 1, 2, . . . e m = 4. The calculation of division in modulus x mod m by successive numbers
+is the following:
+
 $$1 mod 4= 1- [\frac{1}{4}]4= 1-  0.4 = 1$$
 $$2 mod 4= 1- [\frac{2}{4}]4= 2-  0.4 = 2$$
 $$3 mod 4= 1- [\frac{3}{4}]4= 3-  0.4 = 3$$
@@ -156,35 +171,35 @@ $$8 mod 4= 1- [\frac{8}{4}]4= 8-  0.4 = 0$$
 $$.......................................$$
 
 
-COme si avince dal rededente esempio il risultato e' costituito soltanto da numeri interi: gli interi 0,1,...., m-1.
+As can be seen from the inspiring example, the result consists only of integers: the integers 0,1,...., m-1.
 
-I moderni generatori algebrico-ricorsivi che impiegano metodi lineari congruenziali, si basano 
-pertanto sull’idea che il resto della divisione – il modulo appunto – sia sufficientemente 
-irregolare da simulare la casualit`a.
+Modern algebraic-recursive generators employing linear congruent methods are based
+therefore on the idea that the rest of the division - the module precisely - is sufficient
+irregular to simulate randomness.
 
-## Metodo congruenziale misto:
-E il pi`u generale fra i metodi congruenziali lineari, introdotti da Lehmer nel `
-1951.
+## Mixed congruential method:
 
-Se $x_i$ e' l'i-esimo numero generato , allora il successivo $(i+1)$-esimo e' dato dalla realazione (congruenziale lineare) seguente
+It is the most general of the linear congruential methods, introduced by Lehmer in 1951.
+
+If $x_i$ is the i-th number generated, then the next $(i+1)$-th is given by the following (linear congruential) reaction.
 
 $x_{i+1}= (a.x_i + c)$ mod $m$
 
-dove a, c, m sono interi non negativi rispettivamente detti moltiplicatore, incremento e modulo.
+where a, c, m are non-negative integers called multiplier, increment and modulus respectively.
 
 
-Il valore iniziale $x_0$ `e detto seme del generatore e rappresenta il dispositivo di 
-riproducibilit`a della serie generata. Infatti, poich´e la serie di numeri `e prodotta deterministicamente, lo stesso valore $x_0$ produce sempre la medesima serie.
+The initial value $x_0$ is called the seed of the generator and represents the device of
+reproducibility of the generated series. In fact, since the series of numbers is produced deterministically, the same value $x_0$ always produces the same series.
 
-In genere, e con l’obiettivo di produrre serie differenti, il seme x0 `e assegnato in base 
-all’ultimo valore dell’ultima serie generata ovvero in base al clock (l’orologio interno) della 
-macchina su cui `e implementato il generatore. Poich´e xi `e il risultato di un’operazione di modulo 
-e assume i valori 0, 1, 2...m−1, allora un numero pseudo-casuale secondo la definizione moderna 
-indicato con $u_i$ si ottiene come rapporto: $u_i= x_i/m$
+Generally, and with the aim of producing different series, the seed x0 is assigned based
+to the last value of the last generated series or based on the clock (the internal clock) of the
+machine on which the generator is implemented. Since xi is the result of a module operation
+and takes the values 0, 1, 2...m−1, then a pseudo-random number according to the modern definition
+indicated with $u_i$ is obtained as a ratio: $u_i= x_i/m$
 
-Esempio: 1.2
+Example: 1.2
 
-Con le scelte $a=c=x_0=3$ e $m=5$, dall'equazione (1.1.) si produce la seguiente serie:
+With choices $a=c=x_0=3$ e $m=5$, from equation (1.1.) the following series is produced:
 
 $$x_0=3$$
 $$x_1= (3x3+3)mod5= 12-[12/5]=2$$
@@ -192,54 +207,58 @@ $$x_2= (3x2+3)mod5= 9-[9/5]=4$$
 $$x_1= (3x4+3)mod5= 15-[15/5]=0$$
 $$x_1= (3x0+3)mod5= 3-[3/5]=3$$
 
-Avendo ottenuto il valore di paretenza , e' evidente che $x_i=x_{i-4}$ per $i=5,6...$
+Having obtained the starting value, it is evident that $x_i=x_{i-4}$ per $i=5,6...$
 
-Ancora per il fatto che $0=< x_i < m$, e immediato individuare un ulteriore inconveniente dei 
-generatori algebrico ricorsivi basati su metodi congruenziali lineari, vale a dire la loro 
-periodicit`a. Infatti, i valori generati diversi fra loro sono al pi`u m e, dopo un certo numero di iterazioni, i numeri cominceranno a ripetersi, cio`e a presentare una sistematicit`a perdendo conseguentemente la richiesta di apperente casualit`a.
+Again for the fact that $0=< x_i < m$, and immediately identify a further drawback of the
+Recursive algebraic generators based on linear congruential methods, i.e. their
+periodicity. In fact, the generated values that are different from each other are at most m and, after a certain number of iterations, the numbers will begin to repeat themselves, that is, to present a systematic nature, consequently losing the requirement of apparent randomness.
 
-La periodicit`a, l’uniformit`a e la densit`a in (0,1) dei valori generati, vengono a dipendere dai parametri del generatore: il seme, il moltiplicatore, l’incremento e il modulo; pertanto possono 
-essere controllati mediante opportune scelte di tali costanti.
 
-Si richiede che il generatore abbia periodo sufficientemente lungo e che i valori generati siano sufficientemente densi in (0,1) per l’uniformit`a.
+The periodicity, uniformity and density in (0,1) of the generated values depend on the generator parameters: the seed, the multiplier, the increment and the modulus; therefore they can
+be controlled by appropriate choices of these constants.
 
-Marsaglia (1968) ha verificato che con la seguente equazione
+
+It is required that the generator has a sufficiently long period and that the generated values are sufficiently dense in (0,1) for uniformity.
+
+
+Marsaglia (1968) verified that with the following equation
+
 $$x_{j+1}= 65539(x_j)mod2^31$$
 
-vengono generati dei numeri che per ogni sequenza lineare hanno un andamento non casuale. Esiste una 
-vasta letteratura tecnica a tal proposito per cui oggi disponiamo di teoremi che indicano le scelte 
-pi`u opportune per perseguire gli obiettivi su elencati. Alcune indicazioni sono le seguenti:
-- $m$ e' un numero primo piutosto grande
-- $c$ e' un intero primo relativamente a $m$ (e ed m non hanno divisori comuni tranne l'1)
-- a e' della forma $2^r +1 $ con >=2;
+numbers are generated which for each linear sequence have a non-random trend. There is one
+vast technical literature on this subject, so today we have theorems that indicate the choices
+most appropriate to pursue the objectives listed above. Some indications are the following:
+- $m$ is a rather large prime number
+- $c$ is a prime integer relative to $m$ (e and m have no common divisors except 1)
+- a is of the form $2^r +1 $ with >=2;
 
-Le macchine IBM 360/370, che si utilizzavano negli anni ’80, erano dotate di un generatore con 
-parametri: $a=2^16+3,c =0, m=2^{31}-1$ che, oggi, `e noto per essere piuttosto scadente sotto il 
-profilo della pseudo-casualit`a, della periodicit`a e dell’uniformit`a. Per altre proposte si veda anche https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill.
+The IBM 360/370 machines, which were used in the 1980s, were equipped with a generator with
+parameters: $a=2^16+3,c =0, m=2^{31}-1$ which, today, is known to be rather poor under the
+profile of pseudo-randomness, periodicity and uniformity. For other proposals see also https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill.
 
-Attualmente, sono considerate accettabili le scelte: $m=2^{35}, a=2^7+1, c=1$  ed esistono 
-tantissimi tipi di test per valutare la casualit`a della serie generata, si veda per esempio su 
-Wikipedia i randomness test http: //en.wikipedia.org/wiki/randomness_test.
 
-Il metodo congruenziale moltiplicativo deriva dal metodo misto ponendo l’incremento c uguale a zero 
-da cui il nome:
+Currently, the choices: $m=2^{35}, a=2^7+1, c=1$ are considered acceptable and exist
+many types of tests to evaluate the randomness of the generated series, see for example above
+Wikipedia randomness tests http: //en.wikipedia.org/wiki/randomness_test.
+
+The multiplicative congruential method derives from the mixed method by setting the increment c equal to zero hence the name:
 $x_{i+1} a.x_i$ mod $m$
 
-Analogamente al metodo misto, un numero casuale uniforme si ottiene dal rapporto: $u_i=x_i/m$
+Similar to the mixed method, a uniform random number is obtained from the ratio: $u_i=x_i/m$
 
-Esempio: 1.3.
+Example: 1.3.
 
-Ponendo$a=x_0=7,m=11$ l'equazione (1.2) genera la seguente serie:
+Posing $a=x_0=7,m=11$ equation (1.2) generates the following series:
 
 $$x_0=7$$
 $$x_1=7x7 mod 11= 49-[49/11]11=5$$
 $$x_2=5x7 mod 11= 35-[35/11]11=2$$
 $$x_3=2x7 mod 11= 14-[14/11]11=3$$
-e cosi via...
+and so on...
 
-## 1.2.2 Variabile casuale Uniforme continua:
+## 1.2.2 Continuous Uniform Random Variable:
 
-E' detta o rrettangolare una variabile casuale continua con la seguente funzione di densita:
+A continuous random variable with the following density function is called rectangular:
 
 $$
 
@@ -258,81 +277,86 @@ $$
 
 con $-\infty < a< b< \infty$
 
-E’ una funzione simmetrica con centro in $x=(a+b)/2$ che risulta il punto centrale dell’intervallo 
-chiuso [a, b]. La funzione di densit`a `e nulla per valori esterni all’intervallo. I momenti che definiscono il valore atteso e la varianza sono i seguenti
+It is a symmetric function with center at $x=(a+b)/2$ which is the central point of the interval
+closed [a, b]. The density function is zero for values outside the interval. The moments that define the expected value and the variance are the following
 
 $$E[X]= \frac{a+b}{2}$$
 
 $$Var[X]= \frac{(b-a)^2}{12}$$
 
-graphic - fig -1
 
-1.2.3. Variabile casuale Chi-QUadrato
-
-La distribuzione chi-quadrato con r gradi di liberta e' definita come $\ci_r^2$. La forma della distribuzione di densita della variabile casuale con r=1...5 gradi di liberta e' quella riportata in fig.1.2. Un'approssimazione regionevole alla distribuzione Normale si ha per r almeno pari a 30. Se 
-$Y\sim \chi_r^2$ si ha:
+The chi-square distribution with r degrees of freedom is defined as $\ci_r^2$. The shape of the density distribution of the random variable with r=1...5 degrees of freedom is the one shown in fig.1.2. A reasonable approximation to the Normal distribution occurs for r at least equal to 30. If
+$Y\sim \chi_r^2$ we have:
 
 $$E[Y]= r$$
 $$Var[Y]= 2r$$
 
-Graficamente il punto di cut-off al livello del 5% per una distribuzione con 5 gradi di libert`a `e visualizzabile nella Figura 1.3.
+Graphically the cut-off point at the 5% level for a distribution with 5 degrees of freedom can be seen in Figure 1.3.
 
-1.3. Test di casualita:
+1.3. Randomness test:
 
-1.3 Test di casualit`a
-Qualunque generatore iterativo implementato al calcolatore produce serie di numeri completamente deterministiche e serialmente dipendenti. Occorre verificare la pseudo-casualit`a della serie 
-generata cio`e che:
-- la serie abbia l’apparenza di serie casuale (uniforme);
-- i numeri della serie si comportino come stocasticamente indipendenti.
-Quando ci`o si realizza, la serie prodotta al calcolatore pu`o essere utilizzata come serie di 
-numeri casuali essendo assimilabile ad un insieme di determinazioni indipendenti da una variabile 
-casuale Uniforme in (0,1).
+1.3 Randomness test
+Any iterative generator implemented on the computer produces completely deterministic and serially dependent series of numbers. It is necessary to verify the pseudo-randomness of the series
+generated that is:
+- the series has the appearance of a random (uniform) series;
+- the numbers in the series behave as stochastically independent.
+When this is achieved, the series produced by the computer can be used as a series of
+random numbers being similar to a set of determinations independent of a variable
+random Uniform at (0,1).
 
-1.3.1. Test empirici:
+1.3.1. Empirical tests:
 
-I test empirici si utilizzano per valutare la pseudo-casualit`a di una serie di numeri prodotta al calcolatore da un generatore iterativo. Se, ad esempio, si utilizza un generatore di numeri casuali 
-per simulare la distribuzione di uno stimatore che `e noto essere non distorto, i risultati della simulazione devono essere compatibili con tale nozione; in altri termini la distribuzione simulata 
-deve avere media sufficientemente vicina al valore atteso del parametro oggetto di stima.
+Empirical tests are used to evaluate the pseudo-randomness of a series of numbers produced on the computer by an iterative generator. For example, if you use a random number generator
+to simulate the distribution of an estimator that is known to be unbiased, the simulation results must be compatible with this notion; in other words the simulated distribution
+must have an average sufficiently close to the expected value of the parameter being estimated.
 
-Un secondo metodo, semplice e naturale, classificabile come test empirico, `e la valutazione grafica dell’apparente equiprobabilit`a e indipendenza dei numeri generati. Per una serie di n numeri, ci`o 
-pu`o realizzarsi rispetto al piano cartesiano nel modo seguente.
+A second method, simple and natural, classifiable as an empirical test, is the graphical evaluation of the apparent equiprobability and independence of the generated numbers. For a series of n numbers, that is
+can be realized with respect to the Cartesian plane in the following way.
 
-- Si rappresentano i numeri, nell’ordine in cui sono stati prodotti, come punti sul piano cartesiano. 
-Se i punti appaiono ben sparsi nel rettangolo (0,n)×(0,1) ci`o `e indice di (apparente) 
-equiprobabilit`a; devono presentarsi senza agglomerazioni o tendenze particolari quando ‘epresente
-(apparente) indipendenza.
-- Analogamente si pu`o utilizzare la rappresentazione con il diagramma a dispersione nel rettangolo 
-(o porzione di piano) (1, n − 1) × (2, n). In pratica si considera il valore corrente rispetto al precedente valore della serie. In questo modo si possono visualizzare eventuali correlazioni seriali.
-- Se n `e elevato, si costruisce un istogramma della distribuzione di densit`a di frequenza dei 
-punti in un insieme di sottointervalli arbitrari dell’intervallo (0,1). La distribuzione 
-rappresentata deve apparire sufficientemente uniforme ovvero deve avere forma sufficientemente 
-simile al rettangolo (0,1)×(0,1).
 
-1.3.2. Test statistici:
 
-Il modo a noi pi`u consono per valutare la qualit`a di un generatore, ovvero la pseudo-casualit`a 
-di una serie generata al calcolatore, `e l’esecuzione di test statistici. Tali test seguono la 
-logica secondo cui una serie di n numeri generata al calcolatore, `e vista alla stregua di un 
-campione Bernoulliano di ampiezza n dalla variabile casuale Y con funzione di ripartizione (f.r.)
-F (y). Si formula l’ipotesi che Y sia variabile casuale Uniforme in (0,1); formalmente:
+
+
+
+
+
+- The numbers are represented, in the order in which they were produced, as points on the Cartesian plane.
+If the points appear well spread out in the rectangle (0,n)×(0,1) this is an indication of (apparent)
+equiprobability; they must present themselves without clusters or particular tendencies when present
+(apparent) independence.
+- Similarly, the representation with the scatter diagram in the rectangle can be used
+(or portion of plane) (1, n − 1) × (2, n). In practice, the current value is considered compared to the previous value of the series. In this way any serial correlations can be visualized.
+- If n is large, a histogram of the frequency density distribution of i is constructed
+points in a set of arbitrary subintervals of the interval (0,1). The distribution
+represented must appear sufficiently uniform or must have a sufficient shape
+similar to the rectangle (0.1)×(0.1).
+
+
+1.3.2. Statistical tests:
+The most suitable way for us to evaluate the quality of a generator, i.e. pseudo-randomness
+of a computer-generated series, is the execution of statistical tests. These tests follow the
+logic according to which a computer-generated series of n numbers is seen as a
+Bernoulli sample of size n from the random variable Y with distribution function (f.r.)
+F (y). The hypothesis is formulated that Y is a Uniform random variable in (0,1); formally:
+
 
 $$H_0: F(y)= F_0(y)=y$$
 - $0=< y=<1$
 
-Il problema `e dunque formulato come la verifica di ipotesi sulla forma funzionale della f.r. F (y) 
-ed i test statistici basati su tale logica sono detti test di Bont`a di Adattamento (Goodness of fit tests). Si osservi che l’ipotesi nulla H0 `e semplice poich´e F0 (y) non dipende da parametri ignoti ovvero `e completamente specificata.
+The problem is therefore formulated as the verification of hypotheses on the functional form of the 
+f.r. F (y) and the statistical tests based on this logic are called Goodness of fit tests. Note that the null hypothesis H0 is simple since F0 (y) does not depend on unknown parameters or is completely specified.
 
-Nel seguito si considerano i test Kolmogorov-Smirnov ed il test Chi Quadrato che sono due test 
-statistici adattati come random tests per il contesto in esame. Il primo test `e basato sulla 
-nozione di Funzione di Ripartizione Empirica.
+In the following we consider the Kolmogorov-Smirnov tests and the Chi Square test which are two tests
+statistics adapted as random tests for the context under consideration. The first test is based on
+notion of Empirical Distribution Function.
 
-#### Funzione di ripartizione empirica:
+#### Empirical distribution function:
 
-Definizione 1.4. Dato un campione Bernoulliano di ampiezza n dalla variabile casuale X con f.r.F(x)
-e considerati oridinati gli n valori campionari $x_i =< x_{i+1}, i=1///n-1$  e' detta funzione di ripartizione empirica $Fde$ la funzione $\hat{F_n}$  a valori nell'intervallo [0,1] che assegna ad ogni x il suo peso campionario 1/n
+Definition 1.4. Given a Bernoulli sample of size n from the random variable
+and considering the n sample values $x_i =< x_{i+1}, i=1///n-1$, the empirical distribution function $Fde$ is called the empirical distribution function $\hat{F_n}$ with values in 'interval [0,1] which assigns to each x its sampling weight 1/n
 $$\hat{F_n}: R-> (0,1)$$
 
-tale che:
+such that:
 
 $$
 \begin{equation}
@@ -350,111 +374,110 @@ i/n & x_i=< x_{i+1}, \mbox{i=1...n-1} & x\in R \\
 \end{equation}
 $$
 
-In situazione di totale assenza di informazioni circa la legge di probabilit`a F della variabile 
-casuale da cui `e estratto il campione, la Fde pu`o assumersi quale stima di F.
+In a situation of total absence of information about the probability law F of the variable
+random from which the sample is drawn, the Fde can be assumed as an estimate of F.
 
 
-Alcune ragioni teoriche che giustificano l’utilizzo delle funzione di ripartizione empirica sono le seguenti. Si osservi che, per $x\in R$ fissato, al variare del campione in X la Fde descrive una 
-variabile casuale interprete della frequenza (relativa) dell'evento ($X_i =< x$) che , a priori , ha probabilita F(x) di verificarsi, copstante ad ogni estrazione. Pertanto per l'indipendenza delle n estrazioni, tale variabile casuale assume i valori $i/n, i=1...n$ e ha distribuzione Binomiale di parametri n e F(x) e dunque ha media F(x) e varianza $F(x)[1-F(x)]/n$ Ne segue che per, ogni $x\in R$ 
-la Fde e' non distorta e consistente per l'ignota F.
-- $E[\hat{F_n}]= F(x)$- correttezza
-- $MSE- \frac{F_n(x)(1-F_n(x))}{n}-> 0$ = consistenza
-- la variabile casuale descrittiva da $\hat{F_n}$ converge in modeo uniforme alla vera Fde per il teorema di Glivenko-Cantelli -1933 $\\hat{F_n(x)}-> F(x)$
+Some theoretical reasons that justify the use of empirical distribution functions are the following. Observe that, for a fixed $x\in R$, as the sample in X varies the Fde describes a
+random variable interpreting the (relative) frequency of the event ($X_i =< x$) which, a priori, has probability F(x) of occurring, constant at each extraction. Therefore, due to the independence of the n extractions, this random variable takes on the values $i/n, i=1...n$ and has a Binomial distribution of parameters n and F(x) and therefore has a mean F(x) and variance $ F(x)[1-F(x)]/n$ It follows that for, every $x\in R$
+the Fde is undistorted and consistent for the unknown F.
+- $E[\hat{F_n}]= F(x)$- correctness
+- $MSE- \frac{F_n(x)(1-F_n(x))}{n}-> 0$ = consistency
+- la variabile casuale descrittiva da $\hat{F_n}$ converges uniformly to the true Faith by the Glivenko-Cantelli theorem -1933 $\\hat{F_n(x)}-> F(x)$
 
-Il test viene effettuato in modo empirico confrontando a livello grafico l’aderenza della funzione 
-di ripartizione empirica dei valori generati con quella teorica specificata dall’ipotesi nulla. 
-Si rimanda alle dispese delle applicazioni per altri dettagli.
+The test is carried out empirically by comparing the adherence of the function on a graphic level
+of empirical distribution of the values generated with the theoretical one specified by the null hypothesis.
+Please refer to the application fees for further details.
 
-### Test di Kolmogorov-Smirnov
+### Kolmogorov-Smirnov test
 
-Il test di Kolmogorov-Smirnov (K-S) sfrutta le propriet`a della f.d.r. e pu`o essere utilizzato per verificare la pseudo-casualit`a. Sia il vettore $y_1...y_n$ della serie di numeri di cui si vuole verificare la pseudo-casualit`a, vista come campione Bernoulliano dalla variabile casuale Y con f.r.
+The Kolmogorov-Smirnov (K-S) test exploits the properties of the f.d.r. and can be used to test for pseudo-randomness. Let the vector $y_1...y_n$ be the series of numbers whose pseudo-randomness you want to verify, seen as a Bernoulli sample from the random variable Y with f.r.
 F(y).
 
-Si considera la seguente ipotesi
+The following hypothesis is considered
 $$H_0: \hat{F_n}(y)= F_0(y)=y$$
 - $0=< y=< 1$
 
-Se $H_0$ e\ vera , alcrescere di n,la Fde risultara sempre piu prossima a $F_0(y)$
+If $H_0$ is true, as n increases, the Fde will be increasingly closer to $F_0(y)$
 
-Un metodo per stabilire la bont`a di adattamento di $F_0(y)$ ai dati - cioe alla serie di numeri sottoposta a verifica - e' allora quello di stabilire una qualche misura di distanza fra le due 
-funzioni $\hat{F_n}(y)$ e $F_0(y)$ e rifiutare $H_0$ qualora tale distanza risulti troppo elevata. 
-La distanza impiegata dal test K-S `e semplicemente la distanza verticale fra i valori assunti da 
-$\hat{F_n}(y)$ e da $F_0(y) in correspondenza di ciascuno degli n numeri $y_i$ a disposzione, il valore sperimentale del test e' lla poi grande fra tali distanze:
+A method to establish the goodness of fit of $F_0(y)$ to the data - that is to the series of numbers subjected to verification - is then to establish some measure of distance between the two
+functions $\hat{F_n}(y)$ and $F_0(y)$ and reject $H_0$ if this distance is too high.
+The distance used by the K-S test is simply the vertical distance between the values assumed by
+$\hat{F_n}(y)$ and from $F_0(y) corresponding to each of the n numbers $y_i$ available, the experimental value of the test is then the largest between these distances:
 
 $$d_n= sup_{y\in\{ y_1...u_n\}}|\hat{F_n}(y)- F_0(y)|= sup_{y\in\{ y_1...u_n\}}|\hat{F_n}(y)- y|$$
 
 
-Il test K-S consente di verificare l’adattamento alla distribuzione ipotizzata di ciascuno degli n 
-numeri della serie. L’equazione (1.3) tender`a a fornire valori prossimi allo zero se H0 `e vera e 
-valori positivi lontani da zero se $H_0$ per valori elevati di $d_n$ ovvero a concentrare la regione critica del test sulla coda di destra.
+The K-S test allows you to verify the adaptation to the hypothesized distribution of each of the n
+series numbers. Equation (1.3) will tend to provide values close to zero if H0 is true e
+positive values far from zero if $H_0$ for high values of $d_n$ or to concentrate the critical region of the test on the right tail.
 
-Al variare del campione $d_n$ descrive la variabile casuale $D_n$  (statistica test) la cui 
-distribuzione esatta, sotto $H_0$, e' tabulata per valori piccoi di n. . In particolare, fissato il livello di significativit`a $(1-\alpha)$ le tavole forniscono il quantile di ordine $(1-\alpha)$ delle variabile casuale $D_n$ vale a dire il valore $d_{\alpha}$ soluzione dell'equazione $\alpha= P(rif.H_0|H_o)= P(D_n > d_{\alpha})$
-, che rappresenta il valore cvritico del test. Il testt statisctico e' ale cse si fifiuta $H_0$, a
-livello $(1-\alpha)*100$% , se $d_n >= d_{\alpha}$. Rifiutando $H_0$ si conclude che la serie
-di numeri generata al calcolatore non `e pseudo-casuale e, qualora a una tale conclusione si 
-pervenga per una elevata percentuale di differenti serie di numeri prodotte dal medesimo generatore iterativo, si `e portati a dubitare della qualit`a di quest’ultimo.
+As the sample varies, $d_n$ describes the random variable $D_n$ (test statistic) whose
+exact distribution, under $H_0$, is tabulated for small values of n. . In particular, once the significance level $(1-\alpha)$ is fixed, the tables provide the order quantile $(1-\alpha)$ of the random variable $D_n$, i.e. the value $d_{\alpha} $ solution of the equation $\alpha= P(rif.H_0|H_o)= P(D_n > d_{\alpha})$
+, which represents the critical value of the test. The statistical test is if $H_0$ is rejected, a
+level $(1-\alpha)*100$% , if $d_n >= d_{\alpha}$. Rejecting $H_0$ we conclude that the series
+of numbers generated by the computer is not pseudo-random and, if this conclusion is reached, yes
+arrives for a high percentage of different series of numbers produced by the same iterative generator, one is led to doubt the quality of the latter.
 
-Per valori elevati di n Kolmogorov ha dimostrato il seguente risultato asintotico:
+For large values of n Kolmogorov proved the following asymptotic result:
 
 $$lim_{n->\infty} P(\sqrt{x}D_n =< x )= 1- 2\sum_{j=1}^{\infty}(-1)^{j-1} exp(-2j^2x^2)=$$
 
 $$\frac{\sqrt{2\pi}}{n} \sum_{j=1}^{\infty} exp(-(2j-1)^2 \frac{\pi^2}{8x^2})= H(x)$$
 - $x>0$
 
+Note that H (x) does not depend in any way on the distribution of the random variable Y from which the sample comes; in this case we say that it is free from the distribution of Y
+(Distribution Free). The calculation of the critical value of the K-S test involves an infinite sum,
+which however converges rather quickly as n increases. Marsaglia et al. (2003) have
+developed an algorithm for the calculation
 
-Si osservi che H (x) non dipende in alcun modo dalla distribuzione della variabile casuale Y da cui proviene il campione; si dice, in tal caso, che `e libera dalla distribuzione di Y 
-(Distribution Free). Il calcolo del valore critico del test K-S coinvolge una somma infinita, 
-che tuttavia converge piuttosto velocemente al crescere di n. Marsaglia et al. (2003) hanno 
-sviluppato un algoritmo per il calcolo 
+#### Chi-Square Test:
 
-#### Test Chi-Quadrato:
-
-Il test si basa sull’indice di connessio $\chi^2$ 
-2 di Pearson che confronta le frequenze osservate e le frequenze attese o teoriche. Lo stesso 
-Pearson, e pi`u tardi Cram´er (1946), Fisher e altri, hanno dimostrato che le statistiche, basate
-sul confronto fra frequenze osservate e frequenze attese, hanno distribuzione asintotica Chi 
-Quadrato con un certo numero di gradi di libert`a (gdl) quando l’ipotesi nulla H0 `e assunta vera.
+The test is based on the connection index $\chi^2$
+2 which compares the observed frequencies and the expected or theoretical frequencies. The same
+Pearson, and later Cram´er (1946), Fisher and others, have shown that statistics, based
+on the comparison between observed frequencies and expected frequencies, they have asymptotic distribution Chi
+Square with a certain number of degrees of freedom (dof) when the null hypothesis H0 is assumed true.
 
 
-In particolare, nel caso del contesto in esame, si tratta di frequenze attese sotto l’ipotesi 
-secondo cui gli n valori campionari – cio`e la serie generata e sottoposta a verifica di 
-pseudo-casualit`a – provengano da una variabile casuale Uniforme in (0,1).
+In particular, in the case of the context under examination, these are frequencies expected under the hypothesis
+according to which the n sample values – i.e. the series generated and subjected to verification of
+pseudo-randomness – come from a Uniform random variable in (0,1).
 
-Sia (y_1...y_i...y_n) la serie di n numeri prodotti al calcolatore e:
+Let (y_1...y_i...y_n) be the series of n numbers produced by the computer and:
 $$H_0: F(y)= y$$  $0=< y=< 1$
-l'ipotesi nulla.
+the null hypothesis.
 
 
-L’intervallo [0, 1] viene suddiviso in k sottointervalli disgiunti $I_j, j=1...k$ con k intero 
-prefissato. . Dato che la variabile casuale Uniforme ha funzione di densit`a (f.d.) costante e pari 
-a 1 su tale intervallo, si definiscono le frequenze attese in base a H0 nel modo seguente:
+The interval [0, 1] is divided into k disjoint subintervals $I_j, j=1...k$ with k integer
+predetermined. . Since the Uniform random variable has a constant and even density function (f.d.).
+at 1 on this interval, the expected frequencies based on H0 are defined as follows:
 
 $$np_j^0= n.(ampiezza del sottointervallo I_j)$$
 
-Le frequenze osservate sono date da
+The observed frequencies are given by
 
 $$n_j = \# (y_i \in I_j; i=1...n)$$
 
-Dove il simbolo # e' "il numero di", cioe cio`e la frequenza assoluta dei numeri della serie che 
-rientrano nel j-esimo sottointervallo.
+Where the symbol # is "the number of", that is, the absolute frequency of the numbers in the series that
+fall within the j-th subinterval.
 
-Il valore sperimentale del test `e
+The experimental value of the test is
 $$x^2 = \sum_{j=1}^k \frac{(n_j - np_j^0)^2}{np_j^0}$$
 
 
-Operativamente, si suddivide l’intervallo [0, 1] in sottointervalli di uguale
-ampiezza 1/k. In tal modo le frequenze attese risultano costanti e pari a $n.p_j^0=n/k, j-1...k$ e il valore sperimentale del test assume la seguente formulazione:
+Operationally, the interval [0, 1] is divided into equal subintervals
+amplitude 1/k. In this way the expected frequencies are constant and equal to $n.p_j^0=n/k, j-1...k$ and the experimental value of the test takes on the following formulation:
 
 $$x^2 = \frac{k}{n} \sum_{j=1}^k (n_j - \frac{n}{k})^2$$
 
 
-che tender`a a fornire valori prossimi allo zero se H0 `e vera e valori positivi lontani da zero 
-se H0 `e falsa. Conseguentemente, si `e portati a rifiutare H0 per valori grandi di $x^2$ ovvero a concentrare la regione critica del test sulla coda di destra. Al variare del campione $X^2$ descrive 
-la varaibil casuale $X^2$ (statistica test) con distribuzione asintotica, sotto $H_0$, Chi-Quadrato 
-con (k-1) gdl. Fissato il livello di significativita $(1-\alpha)$ per n sufficientemente
-grande, il valore critico del test `e il quantile di ordine ($1-\alpha$) della variabile casuale Chi-
-Quadrato conk-1 gdl. vale a dire il valore $\chi_{k-1; 1-\alpha}^2$ soluzione dell'equazione
+which will tend to provide values close to zero if H0 is true and positive values far from zero
+if H0 is false. Consequently, we are led to reject H0 for large values of $x^2$ or to concentrate the critical region of the test on the right tail. As the sample varies, $X^2$ describes
+the random variable $X^2$ (test statistic) with asymptotic distribution, under $H_0$, Chi-Square
+with (k-1) dof. Set the significance level $(1-\alpha)$ for n sufficiently
+large, the critical value of the test is the order quantile ($1-\alpha$) of the random variable Chi-
+Square conk-1 dof. i.e. the value $\chi_{k-1; 1-\alpha}^2$ solution of the equation
 
 $$\alpha = P(rifiutare H_0|H_0) \sim P(X^2 >= \chi_{k-1;1-\alpha})
 $$
@@ -463,100 +486,99 @@ Graficamente:
 
 fraf-2
 
-Si rifiuta H0, a livello $(1-\alpha)*199$ se $x^2 >= \chi_{k-1'1-\alpha}^2$. QUalora si rifiuti 
-$H_0$, si conclude che la serie di numeri generata al calcolatore  non `e pseudo-casuale. Se a una 
-tale conclusione si perviene per una elevata percentuale di differenti serie di numeri prodotte dal medesimo generatore algebrico-ricorsivo (o, anche, iterativo) si `e portati a dubitare della 
-qualit`a di quest’ultimo.
+H0 is rejected, at level $(1-\alpha)*199$ if $x^2 >= \chi_{k-1'1-\alpha}^2$. If you refuse
+$H_0$, we conclude that the series of numbers generated by the computer is not pseudo-random. If at one
+this conclusion is reached for a high percentage of different series of numbers produced by the same algebraic-recursive (or, even, iterative) generator, one is led to doubt the
+quality of the latter.
 
 
-Osserviamo che:
-- l'approssimazione di $X^2$ a $\chi_{k-1}^2$ e' asontptica , ovvero migliora al crescere di n.
+We observe that:
+- the approximation of $X^2$ to $\chi_{k-1}^2$ is asontptic, i.e. it improves as n increases.
 
-- Una regola empirica consiglia che sia $n_j >= 5, j=1...k$. E dunque ` conveniente scegliere k 
-in modo tale che sia rispettata tale condizione: quanto pi`u `e piccolo k tanto pi`u `e facile che 
-tale condizione sia soddisfatta. Va per`o tenuto presente che la scelta di k influisce sui gradi di
-libert`a e dunque sul valore critico del test.
+- An empirical rule recommends that $n_j >= 5, j=1...k$. It is therefore convenient to choose k
+in such a way that this condition is respected: the smaller k is, the easier it is for
+this condition is satisfied. However, it should be kept in mind that the choice of k affects the degrees of
+freedom and therefore on the critical value of the test.
 
-- Se l’approssimazione al Chi-Quadrato non `e buona perch´e n non `e sufficientemente elevato oppure 
-se non tutte le frequenze osservate sono almeno pari a 5, il rischio che si corre `e che il livello 
-di significativit`a effettivo del test sia lontano dal livello nominale prefissato ($1-\alpha$). QUesta e' una tipica situazione che puo essere indagata tramite simulazioni.
+- If the Chi-Square approximation is not good because n is not high enough or
+if not all the observed frequencies are at least equal to 5, the risk we run is that the level
+actual significance level of the test is far from the pre-established nominal level ($1-\alpha$). This is a typical situation that can be investigated through simulations.
 
-#### Test assenza di autocorrelazione:
+#### Absence of autocorrelation test:
 
-La serie `e stata prodotta con un algoritmo ricorsivo pertanto le variabili di interesse sono 
-disposte in sequenza: il valore dipende da quello che lo precede. I dati denominati serie storica si considerano come un insieme di variabili casuali, $X_t$  indicizzate da t, dove t indica il tempo ed 
-`e tipicamente discreto e varia tra gli interi. Una serie temporale discreta `e definita processo stocastico, e si tratta di una sequenza di variabili casuali, $X_t$ indicizzate dal tempo. Una caratteristica importante dell’analisi delle serie temporali `e legata alle correlazioni tra le 
-coppie di termini della serie, ad esempio tra $X_t$ e il valore ritardato $X_{t-h}$.  Il test basato 
-sulla funzione di autocorrelazione consente di verificare l’ipotesi circa l’indipendenza stocastica 
-delle determinazioni. L’autocovarianza misura la dipendenza lineare tra due punti della stessa serie
-osservati in tempi diversi. Sia $\{ X_t\}_{t=1}^n$ una sequenza di variabili casuali si definisce 
-funzione di autocovarianza al ritardo k il seguente valore atteso:
+The series was produced with a recursive algorithm therefore the variables of interest are
+arranged in sequence: the value depends on the one preceding it. The data called time series are considered as a set of random variables, $X_t$ indexed by t, where t indicates the time and
+it is typically discrete and varies among the integers. A discrete time series is called a stochastic process, and it is a sequence of random variables, $X_t$ indexed by time. An important feature of time series analysis is related to the correlations between them
+pairs of series terms, for example between $X_t$ and the lagged value $X_{t-h}$. The test based
+on the autocorrelation function allows us to verify the hypothesis regarding stochastic independence
+of determinations. Autocovariance measures the linear dependence between two points in the same series
+observed at different times. Let $\{
+autocovariance function at lag k the following expected value:
 
 $$\gamma(t, t+k) = E[(X_t - \mu_t)(X_{t+k} - \mu_{t+k})]$$
+- where $\mu_t$ is the average value calculated with respect to t and $\mu_{t+k}$ is the one calculated for the series at lag k.
 
-- dove $\mu_t$ e' il valore medio calcolato rispetto a t e $\mu_{t+k}$ e' quello calcolato per la serie al ritardo k.
+If the process generating the data is stationary, that is, if each h-tuple $(X_{t1}... {t_h +k})$, then means, variances and autocovariances
+of $X_y$ are independent of k and the autocovariance function depends only on k and not on t si
+denote by $\gamma(k)$
 
-Se il processo generatore dei dati `e stazionario, cio`e se ogni h-upla $(X_{t1}... X_{t_h})$ ha la medesima distribuzione di $(X_{t_1 + k}... X_{t_h +k})$, allora medie , varianze e autocovarianze 
-delle $X_y$ sono indipendenti da k e la funzione di autocovarianza dipende solo da k e non da t si 
-denota con $\gamma(k)$
-
-La funzine di autocorrelazione al ritardo k e' data da 
+The autocorrelation function at lag k is given by
 
 $$\rho(k) = Corr(X_t, X_{t+k})= \frac{\gamma(k)}{\gamma(0)}$$
 
-e per la disuguaglianza di Cauchy-Schwarz2 `e compresa tra -1 e 1 e dipende
-dalla lunghezza del ritardo k ma `e costante nel tempo.
+and for the Cauchy-Schwarz2 inequality it is between -1 and 1 and depends
+by the delay length k but is constant over time.
 
-Si noti che sotto l’ipotesi che il generatore di numeri pseudo-casuali produca osservazioni 
-assimilabili a delle realizzazioni indipendenti da variabili identicamente distribuite,  il processo generatore dei dati `e stazionario. Un modo per verificare l’assenza di correlazione seriale di una sequenza di osservazioni `e testare l’ipotesi di assenza di autocorrelazione tale che:
+Note that under the assumption that the pseudo-random number generator produces observations
+similar to independent realizations from identically distributed variables, the data generating process is stationary. One way to verify the absence of serial correlation of a sequence of observations is to test the hypothesis of absence of autocorrelation such that:
 
 $$H_0: \rho(k) = 0$$
 
-L’autocovarianza viene stimata con lo stimatore plug-in seguente
+The autocovariance is estimated with the following plug-in estimator
 
 $$\hat{\gamma(k)} = \frac{1}{n} \sum_{t=1}^{n-k}[(X_t - \bar{X})(X_{t+k} - \bar{X})]$$
 
-Sotto l'ipotesi $H_0$ vale il risultato asintotico:
+Under the hypothesis $H_0$ the asymptotic result holds:
 
 $\sqrt{n}\hat{\rho_n}(k) \sim N(0,1)$
 
-per cui, per n grande, approssimativamente, $\rho_n}(k) \sim N(0,1)$
+so, for large n, approximately, $\rho_n}(k) \sim N(0,1)$
 
-L’analisi grafica della funzione di autocorrelazione campionaria permette di
+The graphical analysis of the sample autocorrelation function allows you to
 
 ```
 $Cov(X,Y) =< \sqrt{Var(X)Var(Y)}$
 ```
 
-verificare se circa $(1-\alpha)*100$% delle autocorrelazioni sono, in valore assoluto minori di $z_{1-\alpha/2} / \sqrt{n}$ (con $z_{1-\alpha}$ percentile della normale standard)
-
-
-
+check whether approximately $(1-\alpha)*100$% of the autocorrelations are, in absolute value, less than $z_{1-\alpha/2} / \sqrt{n}$ (with $z_{1-\alpha} $percentile of standard normal)
 
 
 # Demonstration:
 
-Nel seguito si mostra un esempio che implementa un algoritmo lineare di tipo congruenziale misto per 
-la generazione di numeri pseudo-casuali. Si riporta anche la funzione di R nel seguito chiamata 
+Below we show an example that implements a mixed congruential linear algorithm for
+the generation of pseudo-random numbers. The function of R called below is also reported
 runif.
 
-## Metodo congruenziale lineare:
-Si utilizza il metodo di generazione congruenziale misto in cui sono presenti le seguenti quantità. 
-Si genera una successione di valori in modo deterministico che appare causuale. Il generatore ha la seguente struttura:
+## Linear congruential method:
+The mixed congruential generation method is used in which the following quantities are present.
+A succession of values is generated in a deterministic way that appears causal. The generator has the following structure:
+
+
+
 $x_{i+1} = (a.x_i + c)$ mod $m$
 
-Lo applichiamo specificando i seguenti valori:
+We apply it by specifying the following values:
 
 $x_{i+1} = [(2^16)+1]*47838 + 5$ mod $34359738368$
 
-Ovvero:
-- il multiplicatore e' $a=2^16 + 1 = 65537$
-- il valore iniziale o seme: $x_0 = 47838$
-- l'incremento: $c=5%
-- il modullo: $m = 34359738368$ e $2^{\beta}= 2^{35}$
+That is to say:
+- the multiplier is $a=2^16 + 1 = 65537$
+- the initial value or seed: $x_0 = 47838$
+- the increase: $c=5%
+- the model: $m = 34359738368$ e $2^{\beta}= 2^{35}$
 
-Risultato:
-1. Primo numero generato:
+Result:
+1. First number generated:
 ```{r}
 a    <- 65537
 m    <-34359738368
@@ -565,22 +587,22 @@ c    <- 5
 (a*xini + c)%%m
 ```
 
-Da cui il primo numero pseudo-casuale si ottiene dividendo per il modulo
 
+From which the first pseudo-random number is obtained by dividing by the modulus
 ```{r}
 x1 <- (a*xini+c)%%m
 x1/m
 ```
 
-Secondo numero: il valore successivo si ottiene da quello ottenuto in precedenza:
+Second number: the next value is obtained from the one obtained previously:
 ```{r}
 (a*x1 + c)%%m
 x2 <- (a*x1+ c)%%m
 x2/m
 ```
 
-Il seguente costrutto iterativo permette di generare una sequenza di 1857 numeri pseudo-casuali le 
-cui determinazioni vengono salvate nel vettore random.n
+The following iterative construct allows you to generate a sequence of 1857 pseudo-random numbers le
+whose determinations are saved in the random.n vector
 
 ```{r}
 n <- 1857
@@ -593,14 +615,14 @@ head(random.n)
 tail(random.n)
 ```
 
-Si rimanda all’help Random per informazioni sul generatore di R. Il il metodo di default è
+Please refer to the Random help for information on the R generator. The default method is
 “Mersenne-Twister”.
 
-La funzione set.seed richiede un intero per specificare il seme in R.
+The set.seed function requires an integer to specify the seed in R.
 
-## 2.Valutazione della pseudo-casualita della serie
+## 2.Evaluation of the pseudo-randomness of the series
 
-Statistiche descrittive:
+Descriptive statistics:
 ```{r}
 require(skimr)
 skim_without_charts(random.n)
@@ -611,15 +633,15 @@ skim_without_charts(random.n)
 var(random.n)
 ```
 
-Gli indici di posizione sono in linea con quelli attesi rispetto alla distribuzione uniforme la
-cui variabile casuale ha un valore atteso è pari a 1/2. La varianza è conforme con quella teorica 
+The position indices are in line with those expected with respect to the uniform distribution la
+whose random variable has an expected value of 1/2. The variance conforms to the theoretical one
 1/12 = 0.08333.
 
-Test grafici
+Graphic tests
 
-a) Diagramma a dispersione
+a) Scatter diagram
 
-Il primo test grafico è il diagramma a dispersione sul piano (1, 𝑛 − 1) ⋅ (2 ∶ 𝑛)
+The first graphical test is the scatterplot on the plane (1, 𝑛 − 1) ⋅ (2 ∶ 𝑛)
 
 ```{r}
 plot(random.n[1:1856],
@@ -628,20 +650,20 @@ main="Grafico (1,n-1)*(2,n)",
 ylab = "valori generati con metodo congruenziale")
 ```
 
-Si nota che i punti sono in sequenza e non sono sparsi nel piano in modo casuale come
-dovrebbero essere se fossero osservazioni indipendeti. Se ci fosse indipendenza ogni coppia
-di punti $(𝑢_, _{𝑖−1})$ dovrebbe essere disposta con uguale probabilità sul piano. Il grafico
-evidenzia che il generatore non è adeguato.
+You notice that the points are in sequence and are not scattered across the plane randomly like
+they should be if they were independent observations. If there was independence every couple
+of points $(𝑢_, _{𝑖−1})$ should be placed with equal probability on the plane. The graph
+highlights that the generator is not adequate.
 
-Si verifichi che basta semplicemente aumentare il valore assegnato al termine 𝑐 (incremento),
-ad esempio ponendo 𝑐=235 perchè la serie non presenti più questo andamento nel grafico a
-dipesesione.
+Verify that it is sufficient to simply increase the value assigned to the term 𝑐 (increment),
+for example by setting 𝑐=235 so that the series no longer presents this trend in graph a
+dependency.
 
-c) Istogramma
+c) Histogram
 
-L’istogramma permette di valutare la densità di frequenza per ogni classe di valori.
-Nel seguito si disegna l’istogramma fissando 20 classi e si aggiunge il valore medio osservato
-oltre al testo nel grafico.
+The histogram allows you to evaluate the frequency density for each class of values.
+Below, the histogram is drawn by fixing 20 classes and the average observed value is added
+in addition to the text in the graph.
 
 ```{r}
 hist(random.n, col = 'purple',
@@ -659,17 +681,17 @@ hist(random.n, col = 'purple',
   col="blue")
 ```
 
-Si nota che le densità di frequenza sono approssimativamente simili ed intorno al valore 1.
-Il grafico è simile a quello atteso sotto l’ipotesi di uniforme distribuzione [0, 1].
+It is noted that the frequency densities are approximately similar and around the value 1.
+The graph is similar to that expected under the hypothesis of uniform distribution [0, 1].
 
 
-c) Funzione di ripartizione empirica
+c) Empirical distribution function
 
-Il test grafico seguente permette di confrontare la funzione di ripartizione empirica e
-quella teorica ottenuta con la funzione nativa di R.
+The following graphical test allows you to compare the empirical distribution function and
+the theoretical one obtained with the native function of R.
 
-Nel seguente chunk prima si disegna la distribuzione empirica e poi si aggiunge quella teorica
-ed infine si aggiunge la legenda al grafico.
+In the following chunk, first the empirical distribution is drawn and then the theoretical one is added
+and finally the legend is added to the graph.
 
 ```{r}
 plot(ecdf(random.n),
@@ -687,31 +709,31 @@ lty=c(1,2),
 cex=0.7)
 ```
 
-Non si notano particolari differenze tra le due funzioni di ripartizione poste a confronto.
+There are no particular differences between the two distribution functions compared.
 
-Test di Kolmogorov-Smirnov
+Kolmogorov-Smirnov test
 
-Il test non parametrico che permette di confrontare la funzione di ripartizione empirica con
-quella teorica della distribuzione uniforme si effettua con la funzione ks.test.
+The non-parametric test that allows you to compare the empirical distribution function with
+the theoretical one of the uniform distribution is carried out with the ks.test function.
 
-Dalle dispense della teoria ricordiamo che la statistica test si basa sulla massima differenza
-in modulo tra le due funzioni di ripartizione.
+From the theory notes we remember that the test statistic is based on the maximum difference
+in modulus between the two distribution functions.
 
-Sotto l’ipotesi nulla che le due funzioni di ripartizione siano uguali si utilizza la distribuzione
-asintotica (n grande) della statistica test (Birnbaum & Tingey, 1951).
+Under the null hypothesis that the two distribution functions are equal, the distribution is used
+asymptotic (large n) of the test statistic (Birnbaum & Tingey, 1951).
 
 ```{r}
 ks.test(random.n, "punif")
 ```
 
-Il valore osservato della statistica test è 0.009 e l’area definita è prossima a 1. Il livello
-di significatività osservato p-value è superiore a 0.1.,0.05, 0.01 pertanto il test induce ad
-accettare l’ipotesi nulla che i dati siano realizzazioni dalla variabile casuale uniforme in [0, 1].
+The observed value of the test statistic is 0.009 and the defined area is close to 1. The level
+of significance observed p-value is greater than 0.1.,0.05, 0.01 therefore the test leads to
+accept the null hypothesis that the data are realizations of the uniform random variable in [0, 1].
 
-Test Chi Quadrato
+Chi Square Test
 
-Per eseguire questo test si calcola la frequenza relativa dei valori osservati per ogniuno dei
-sottointervalli
+To perform this test, the relative frequency of the values observed for each of the values is calculated
+subintervals
 
 
 
@@ -724,41 +746,41 @@ int<-seq(0,1,by=0.1); int
 foss<-table(cut(random.n, int))/n; foss
 ```
 
-Le frequenze osservate vengono confrontate con quelle attese in base all’ipotesi che le determinazioni
-siano generate dalla distribuzione uniforme
+The observed frequencies are compared with those expected based on the hypothesis that the determinations
+are generated by the uniform distribution
 
 ```{r}
 p1 <- rep(0.1, 10); p1
 ```
 
-La funzione chisq.test permette di effettuare il test nel modo seguente
+The chisq.test function allows you to perform the test in the following way
 
 ```{r}
 chisq.test(foss,p=p1)
 ```
 
-Il 𝑝 − 𝑣𝑎𝑙𝑢𝑒 è prossimo a 1.
+The 𝑝 − 𝑣𝑎𝑙𝑢𝑒 is close to 1.
 
-Il valore critico della statistica test se l’ipotesi nulla è vera si determina fissando un valore
-per l’errore di primo tipo ad esempio 𝛼 = 0.05 nel modo seguente
+The critical value of the test statistic if the null hypothesis is true is determined by setting a value
+for the first type error for example 𝛼 = 0.05 as follows
 
 ```{r}
 qchisq(0.95,df=9)
 ```
-Essendo il valore critico del test pari a 17 questo risulta molto maggiore del valore ossevato
-(0.0011) ed il test non permette di rifiutare l’ipotesi nulla per ogni livello di significatività.
+Since the critical value of the test is equal to 17, this is much greater than the observed value
+(0.0011) and the test does not allow rejecting the null hypothesis for every level of significance.
 
-Pertanto anche in base a questo test le determinazioni sono assimilabili a quelle di una
-distribuzione uniforme in [0, 1].
+Therefore, also on the basis of this test, the determinations are similar to those of one
+uniform distribution in [0, 1].
 
-Occorre eseguire il test per altre (molte) serie di numeri generate con il generatore congruenziale
-precedente (cambiando il seme) per valutare accuratemente la qualità del generatore.
+The test must be performed for other (many) series of numbers generated with the congruent generator
+previous (changing the seed) to accurately evaluate the quality of the generator.
 
-Si noti che nelle situazioni reali in cui si considerano i dati campionari il test deve essere 
-svolto utilizzando le frequenze assolute e non le frequenze relative perchè altrimenti le 
-conclusioni possono essere errate dipendendo dalla numerosità campionaria.
+Note that in real situations where sample data are considered the test must be
+carried out using absolute frequencies and not relative frequencies because otherwise the
+conclusions may be erroneous depending on the sample size.
 
-Nel presente contesto occorre simulare un’ampia serie di numeri pseudo casuali per cui è comunque possibile utilizzare le frequenze relative. Con le frequenze assolute il test è il seguente
+In the present context it is necessary to simulate a large series of pseudo-random numbers for which it is still possible to use relative frequencies. With absolute frequencies the test is as follows
 
 ```{r}
 n <- length(random.n)
@@ -767,47 +789,47 @@ fossN<-table(cut(random.n, int)); fossN
 chisq.test(fossN)
 ```
 
-Funzione di autocorrelazione empirica
+Empirical autocorrelation function
 
-La rappresentazione grafica della funzione di autocorrelazione empirica viene chiamata
-correlogramma. In R si disegna con la funzione acf dove il ritardo di default è pari a 10 ⋅ log(𝑛)
+The graphical representation of the empirical autocorrelation function is called
+correlogram. In R we draw with the acf function where the default delay is equal to 10 ⋅ log(𝑛)
 
 ```{r}
 acf(random.n,
 main = " funzione di autocorrelazione")
 ```
 
-Il grafico si utilizza per le serie storiche in quanto i dati sono generati a istanti successivi.
-Il grafico mostra il valore della correlazione determinato tra due valori della serie con 
-$𝑘 = 𝑙𝑎𝑔$: i valori sono correlati: serial dependence. Al crescere al crescere della lunghezza dell’intervallo ci si aspetta che la correlazione tra 𝑋𝑡 e 𝑋𝑡+ℎ diminuisca. Il modo in cui 
-la funzione di autocorrelazione tende a zero viene considerato come una misura di memoria del 
-processo
+The graph is used for time series as the data is generated at successive moments.
+The graph shows the correlation value determined between two values of the series with
+$𝑘 = 𝑙𝑎𝑔$: values are correlated: serial dependence. As the length of the interval increases, the correlation between 𝑋𝑡 and 𝑋𝑡+ℎ is expected to decrease. The way in which
+the autocorrelation function tends to zero is considered as a measure of memory
+process
 
-Nel primo grafico si notano dei valori che si discostano da quelli attesi.
+In the first graph you can see some values that deviate from the expected ones.
 
 ```{r}
 n<-length(random.n)
 acf(random.n, main = " funzione di autocorrelazione", lag.max =n)
 ```
 
-Anche nel grafico con ritardo pari a 1 le osservazioni sono dipendenti. Infatti a livello
-antitotico vale la seguente distribuzione
+Even in the graph with lag equal to 1 the observations are dependent. Indeed at the level
+antitotic the following distribution holds
 
 $$\hat{p} \sim N(0,1/n)$$
 
-Si notano alcuni valori superiori ai valori soglia (linee tratteggiate) in base all’ipotesi di
-processo stazionario sottostante.
-Questo grafico suggerisce che le determinazioni non sono indipendenti come già notato nel
-grafico dei punti posti sul piano cartesiano.
+We note some values higher than the threshold values (dashed lines) based on the hypothesis of
+underlying stationary process.
+This graph suggests that the determinations are not independent as already noted in
+graph of the points placed on the Cartesian plane.
 
 
 
-Funzione runif
+Runif function
 
-Nel seguito si utilizza il generatore di R che si richiama con la funzione runif e si ripetono i
-test effettuati in precedenza su questa nuova serie di realizzazioni di numeri pseudo-casuali.
-Si noti che la funzione set.seed definisce il valore iniziale e permette di poter generare
-sempre gli stessi valori.
+In the following, we use the R generator which is called with the runif function and repeats i
+previously performed tests on this new set of pseudo-random number realizations.
+Note that the set.seed function defines the initial value and allows it to be generated
+always the same values.
 
 ```{r}
 set.seed(3882)
@@ -815,8 +837,8 @@ n <- 2000
 rand <- runif(n, min=0, max=1)
 head(rand)
 ```
-a) diagramma a dispersione
 
+a) scatter diagram
 ```{r}
 plot(rand[1:(n-1)],
 rand[2:n],
@@ -824,10 +846,9 @@ main="Grafico (1,n-1)*(2:n)",
 ylab = "valori generati con funzione runif")
 
 ```
+You can see that the points are randomly scattered across the plane.
 
-Si nota che i punti sono sparsi nel piano in modo casuale.
-
-b) Funzione di ripartizione empirica
+b) Empirical distribution function
 
 ```{r}
 plot(ecdf(rand),
@@ -845,9 +866,9 @@ lty=c(1,2),
 cex=0.6)
 ```
 
-Non si notano particolari differenze tra le due funzioni di ripartizione.
+There are no particular differences between the two distribution functions.
 
-c) Istogramma
+c) Histogram
 
 ```{r}
 hist(rand, col = 'yellow',
@@ -866,28 +887,28 @@ col="blue")
 ```
 
 
-La densità appare quasi uniforme.
+The density appears almost uniform.
 
-Rispetto ai grafici riferiti alla serie di numeri ottenuti con il metodo congruenziale questi
-ultimi conducono ad accettare l’ipotesi che le determinazioni provengano da una distribuzione
-uniforme.
+Compared to the graphs referring to the series of numbers obtained with the congruential method, these
+the latter lead to accepting the hypothesis that the determinations come from a distribution
+uniform.
 
-Anche i test statistici confermano quest’affermazione.
+Statistical tests also confirm this statement.
 
-Test statistici
+Statistical tests
 
 Kolmogorov-Smirnov
 ```{r}
 ks.test(rand, "punif")
 ```
 
-Chi Quadrato
+Chi Square
 
 ```{r}
 foss<-table(cut(rand, int))/n; foss
 ```
 
-Autocorrelazione
+Autocorrelation
 
 ```{r}
 acf(rand,
