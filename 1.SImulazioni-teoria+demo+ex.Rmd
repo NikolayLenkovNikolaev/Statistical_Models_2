@@ -1,0 +1,898 @@
+---
+title: "1.Simulazioni"
+author: "NikolayNikolaev"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. Le simulazioni
+
+## 1.1. Introduzione:
+
+Le simulazioni sono impiegate allo scopo di imitare – simulare, appunto –
+operazioni nei pi`u svariati contesti applicativi. Una definizione generale, che
+accomuna vari contesti `e la seguente:
+
+**Definizione 1.1.** Il termine simulazione si riferisce al fatto che un problema reale viene 
+riprodotto in un contesto artificialmente costruito e dunque perfettamente – o in larga misura – controllabile.
+
+Si tratta di un particolare tipo di sperimentazione ed infatti, un esempio di
+simulazione sono gli esperimenti di laboratorio. Questi possono vedersi come
+riproduzioni in scala ridotta di un problema reale che, in tal modo, `e reso
+perfettamente controllabile dallo/a sperimentatore/trice.
+
+Il modello `e un’astrazione, teorica o reale, che riassume tutto ci`o che del sistema `e noto, 
+riproducendone le componenti strutturali essenziali, le propriet`a e le relazioni fra tali 
+componenti.
+
+I modelli simbolici sono traduzioni logico-formali del sistema secondo uno schema matematico 
+astratto - ad esempio un sistema di equazioni che definiscono un modello economico.
+
+La scienza statistica utilizza i modelli come semplificazione teorica della realt`a, in genere 
+basati su ipotesi e assunzioni che riguardano il funzionamento del sistema stesso. Se il sistema `e stocastico, il modello `e conseguentemente un modello stocastico (simbolico) che pu`o pensarsi come 
+un insieme di funzioni, pi`u o meno complesse, di variabili casuali.
+
+Si studia il funzionamento di un sistema, per via simulativa, simulando realizzazioni da un certo 
+modello con l’obiettivo di comprendere, prevedere e controllare le reazioni del sistema reale 
+modellato a variazioni artificialmente determinate.
+
+Produrre dati artificialmente delle osservazioni – nel seguito indicate come pseudo-dati – 
+rappresenta una valida pratica per formulare e verificare ipotesi sul funzionamento del sistema 
+reale. In tali contesti, dunque, simulare il sistema significa campionare dati dal modello. In questo ambito le teorie probabilistiche e la statistica svolgono un ruolo, strumentale, per altri dettagli
+si rimanda a (Mecatti et al., 2008).
+
+Il tradizionale campo di applicazione delle simulazioni si `e recentemente ampliato, ed `e tutt’ora 
+in espansione, grazie anche all’incremento della potenza computazione dei computer. In ambito 
+economico politico si ipotizzano complessi modelli econometrici e si generano pseudo-realizzazioni da questo; in ambito economico aziendale, si simulano ad esempio gli effetti di una campagna di 
+investimenti sulle vendite di una grande azienda in relazione ad un preciso modello. La simulazioni 
+sono spesso richieste per validare un nuovo modello e sono riportate in molti articoli scientifici.
+
+Lo sviluppo delle simulazioni in ambito statistico, cos`ı come in altri campi, `e strettamente 
+legato all’avanzamento tecnologico e informatico. Le prime simulazioni stocastiche condotte al 
+calcolatore datano intorno al 1944. Tuttavia, degli esempi di simulazioni si incontrano in svariate occasioni anche nella storia meno recente. Fra queste possiamo ricordare il procedimento noto come 
+Ago di Buffon risalente alla seconda met`a del XVIII secolo ad opera di G.L. Lecrerc Comte de Buffon (1707-1788). L’esperimento originale, avente come obiettivo l’approssimazione decimale del numero irrazionale $\pi$, non impiegava, naturalmente, il calcolatore ma un ago lanciato un gran numero
+di volte su un piano dotato di riferimento cartesiano. Piu` tardi, nel 1899, Lord Rayleigh propose l’impiego di un particolare processo stocastico, noto come random walk (che verr`a 
+trattato nel corso di inferenza Bayesiana) per fornire una soluzione approssimata di una equazione differenziale parabolica.
+
+Nel 1931 Kolmogorov, a cui si deve la moderna impostazione assiomatica del calcolo delle 
+probabilit`a, dimostr`o le connessioni tra il processo denominato catene di Markov, un altro tipo di processo stocastico (che verr`a trattato durante il corso di inferenza Bayesiana) e particolari 
+equazioni differenziali mediante una simulazione stocastica. Nel 1908 Student, pseudonimo di W.S.
+Gosset, impieg`o una simulazione stocastica, ovvero esperimenti di campionamento artificialmente 
+condotti, per sviluppare la sua famosa distribuzione detta T di Student. E molti altri ancora sono 
+gli esempi che possono essere citati quali precursori delle moderne simulazioni stocastiche al 
+calcolatore.
+
+Le simulazioni in ambito statistico sono essenzialmente simulazioni stocastiche in cui i modelli 
+sono variabili casuali o processi stocastici con una data legge di probabilit`a. Le fondamenta per costruire una simulazione stocastica sono dunque rappresentate dall’abilit`a di produrre 
+artificialmente – si dice generare al calcolatore – determinazioni da certe variabili casuali.
+La generazione di determinazioni da variabili casuali al calcolatore, utilizza i cos`ı detti numeri pseudo-casuali.
+
+## 1.2. Numeri pseudo-casuali:
+
+La simulazine stocastica prevede l'esecuzione dei seguenti passi:
+1. la generazione di numeri casuali;
+2. la generazione di determinazioni d particolari variabili casuali con prreassegnata legge di 
+probabilita;
+3. l'tuilizzo dei valori generati per la soluzione di rpblemi statistici mediante simulazioni 
+stocastiche.
+
+Nel corso degli anni, con lo sviluppo delle tecnologie informatiche, sono mutati i metodi di 
+generazione dei numeri casuali. Nelle simulazioni stocastiche si utilizzano insiemi numerosi di 
+numeri casuali. Si parla allora di serie di numeri casuali la cui definizione (moderna) `e riportata 
+di seguito.
+
+Definizione 1.2. Una serie di numeri casuali `e un insieme di numeri reali compresi tra 0 e 1 che rappresentano un campione Bernoulliano di determinazioni da una variabile casuale Uniforme 
+(continua) sull’intervallo (0,1). 
+
+Per tale motivo si parla pi`u precisamente, di numeri casuali uniformi. I moderni generatori di 
+numeri casuali sono basati su dispositivi algebricoricorsivi implementati sul calcolatore, cio`e le 
+serie di numeri sono prodotte mediante un algoritmo. Cos`ı, se da un lato si ottiene il vantaggio di superare i principali inconvenienti dei generatori meccanici e fisici/naturali, dall’altro si 
+introduce l’evidente svantaggio dovuto alla perdita della casualit`a nel processo di generazione e, conseguentemente, nei numeri generati.
+
+Infatti, i numeri prodotti al calcolatore da generatori algebrico-ricorsivi sono il risultato di una 
+serie ordinata e finita di operazioni logico-matematiche – l’algoritmo appunto1 – in cui nulla `e 
+casuale e tutto `e deterministico. Inoltre, la ricorsivit`a del generatore, che impiega un numero 
+generato in precedenza per produrre il numero successivo, contrasta con la richiesta d’indipendenza
+fra i numeri della serie, inducendo un’evidente correlazione.
+
+Di fronte ad una serie di numeri generata da un algoritmo implementato al calcolatore, la domanda 
+che non ha senso porsi `e “questa sequenza `e casuale?”, poich´e la risposta `e certamente no, 
+ma “questa sequenza si comporter`a come se fosse casuale una volta applicata al problema 
+d’interesse?”. Per tale motivo, si parla pi`u precisamente di numeri pseudo-casuali. In una
+serie pseudo-casuale, i numeri hanno l’apparenza della casualit`a cio`e sembrano indipendenti ed equiprobabili ovvero appaiono come determinazioni della variabile casuale Uniforme sull’intervallo 
+(0,1).
+
+In altri termini, per perseguire i vantaggi offerti dalla generazione al calcolatore gi`a ricordati, 
+si rinuncia alla casualit`a della serie per accontentarsi della pseudo-casualit`a.
+
+```
+** 1.La parola “algoritmo” affonda le sue radici nella latinizzazione del nome del
+matematico persiano Muhammad ibn Musa al-Khwarizmi
+```
+In sintesi, le propriet`a di un buon generatore algebrico-ricorsivo sono le seguenti:
+1. produce serie di numeri che appaiono uniformemente distribuiti sull’intervallo (0,1) e che non 
+mostrano correlazione o altro tipo di struttura di dipendenza;
+2. `e sufficientemente veloce per i fini simulativi ed ha esigenze di memoria sostenibili;
+3. garantisce la riproducibilit`a di qualunque serie prodotta: ci`o consente, ad esempio, la 
+validazione dei risultati della simulazione ed i confronti della medesima simulazione condotta su modelli/sistemi diversi, tenendo sotto controllo le variazioni.
+
+La bont`a del generatore, influisce sui risultati simulativi determinandone la qualit`a e la 
+validit`a. Esiste in tale ambito una vastissima letteratura che coinvolge svariate discipline e competenze: algebra astratta, teoria dei numeri, informatica, ingegneria dell’hardware e statistica.
+
+In particolare si rende necessario un momento di verifica della pseudo-casualit`a della serie 
+utilizzata, ovvero della bont`a del generatore impiegato. Questi test prendono il nome di Test di Casualit`a (Random Tests). Entrare nel dettaglio dei generatori algebrico-ricorsivi va al di l`a 
+degli scopi di questo corso. Pertanto, nel seguito si introduce in modo semplice il principale 
+generatore lineare per individuarne le caratteristiche salienti.
+
+## 1.2.1 Metodi congruenziali
+
+I metodi attualmente utilizzati, che meglio rispondono alle propriet`a richieste ad un buon 
+generatore algebrico-ricorsivo, sono noti come metodi lineari congruenziali perch´e si basano su una relazione congruenziale lineare dovuta all’operazione di modulo di un intero m:
+
+Definizione 1.3. Divisione modulo
+
+Il numero *x* modulo $m \in N$ e'
+
+$$x mod m = x - [\frac{x}{m}]m$$
+
+dove $[x]$ indica la parte intera di x (cio e' il grande intero minore o uguale a x)
+
+Esempio:
+
+Siano x = 1, 2, . . . e m = 4. Il calcolo della divisione in modulo x mod m per numeri successivi 
+`e il seguente:
+$$1 mod 4= 1- [\frac{1}{4}]4= 1-  0.4 = 1$$
+$$2 mod 4= 1- [\frac{2}{4}]4= 2-  0.4 = 2$$
+$$3 mod 4= 1- [\frac{3}{4}]4= 3-  0.4 = 3$$
+$$4 mod 4= 1- [\frac{4}{4}]4= 4-  0.4 = 0$$
+$$5 mod 4= 1- [\frac{5}{4}]4= 5-  0.4 = 1$$
+$$6 mod 4= 1- [\frac{6}{4}]4= 6-  0.4 = 2$$
+$$7 mod 4= 1- [\frac{7}{4}]4= 7-  0.4 = 3$$
+$$8 mod 4= 1- [\frac{8}{4}]4= 8-  0.4 = 0$$
+$$.......................................$$
+
+
+COme si avince dal rededente esempio il risultato e' costituito soltanto da numeri interi: gli interi 0,1,...., m-1.
+
+I moderni generatori algebrico-ricorsivi che impiegano metodi lineari congruenziali, si basano 
+pertanto sull’idea che il resto della divisione – il modulo appunto – sia sufficientemente 
+irregolare da simulare la casualit`a.
+
+## Metodo congruenziale misto:
+E il pi`u generale fra i metodi congruenziali lineari, introdotti da Lehmer nel `
+1951.
+
+Se $x_i$ e' l'i-esimo numero generato , allora il successivo $(i+1)$-esimo e' dato dalla realazione (congruenziale lineare) seguente
+
+$x_{i+1}= (a.x_i + c)$ mod $m$
+
+dove a, c, m sono interi non negativi rispettivamente detti moltiplicatore, incremento e modulo.
+
+
+Il valore iniziale $x_0$ `e detto seme del generatore e rappresenta il dispositivo di 
+riproducibilit`a della serie generata. Infatti, poich´e la serie di numeri `e prodotta deterministicamente, lo stesso valore $x_0$ produce sempre la medesima serie.
+
+In genere, e con l’obiettivo di produrre serie differenti, il seme x0 `e assegnato in base 
+all’ultimo valore dell’ultima serie generata ovvero in base al clock (l’orologio interno) della 
+macchina su cui `e implementato il generatore. Poich´e xi `e il risultato di un’operazione di modulo 
+e assume i valori 0, 1, 2...m−1, allora un numero pseudo-casuale secondo la definizione moderna 
+indicato con $u_i$ si ottiene come rapporto: $u_i= x_i/m$
+
+Esempio: 1.2
+
+Con le scelte $a=c=x_0=3$ e $m=5$, dall'equazione (1.1.) si produce la seguiente serie:
+
+$$x_0=3$$
+$$x_1= (3x3+3)mod5= 12-[12/5]=2$$
+$$x_2= (3x2+3)mod5= 9-[9/5]=4$$
+$$x_1= (3x4+3)mod5= 15-[15/5]=0$$
+$$x_1= (3x0+3)mod5= 3-[3/5]=3$$
+
+Avendo ottenuto il valore di paretenza , e' evidente che $x_i=x_{i-4}$ per $i=5,6...$
+
+Ancora per il fatto che $0=< x_i < m$, e immediato individuare un ulteriore inconveniente dei 
+generatori algebrico ricorsivi basati su metodi congruenziali lineari, vale a dire la loro 
+periodicit`a. Infatti, i valori generati diversi fra loro sono al pi`u m e, dopo un certo numero di iterazioni, i numeri cominceranno a ripetersi, cio`e a presentare una sistematicit`a perdendo conseguentemente la richiesta di apperente casualit`a.
+
+La periodicit`a, l’uniformit`a e la densit`a in (0,1) dei valori generati, vengono a dipendere dai parametri del generatore: il seme, il moltiplicatore, l’incremento e il modulo; pertanto possono 
+essere controllati mediante opportune scelte di tali costanti.
+
+Si richiede che il generatore abbia periodo sufficientemente lungo e che i valori generati siano sufficientemente densi in (0,1) per l’uniformit`a.
+
+Marsaglia (1968) ha verificato che con la seguente equazione
+$$x_{j+1}= 65539(x_j)mod2^31$$
+
+vengono generati dei numeri che per ogni sequenza lineare hanno un andamento non casuale. Esiste una 
+vasta letteratura tecnica a tal proposito per cui oggi disponiamo di teoremi che indicano le scelte 
+pi`u opportune per perseguire gli obiettivi su elencati. Alcune indicazioni sono le seguenti:
+- $m$ e' un numero primo piutosto grande
+- $c$ e' un intero primo relativamente a $m$ (e ed m non hanno divisori comuni tranne l'1)
+- a e' della forma $2^r +1 $ con >=2;
+
+Le macchine IBM 360/370, che si utilizzavano negli anni ’80, erano dotate di un generatore con 
+parametri: $a=2^16+3,c =0, m=2^{31}-1$ che, oggi, `e noto per essere piuttosto scadente sotto il 
+profilo della pseudo-casualit`a, della periodicit`a e dell’uniformit`a. Per altre proposte si veda anche https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill.
+
+Attualmente, sono considerate accettabili le scelte: $m=2^{35}, a=2^7+1, c=1$  ed esistono 
+tantissimi tipi di test per valutare la casualit`a della serie generata, si veda per esempio su 
+Wikipedia i randomness test http: //en.wikipedia.org/wiki/randomness_test.
+
+Il metodo congruenziale moltiplicativo deriva dal metodo misto ponendo l’incremento c uguale a zero 
+da cui il nome:
+$x_{i+1} a.x_i$ mod $m$
+
+Analogamente al metodo misto, un numero casuale uniforme si ottiene dal rapporto: $u_i=x_i/m$
+
+Esempio: 1.3.
+
+Ponendo$a=x_0=7,m=11$ l'equazione (1.2) genera la seguente serie:
+
+$$x_0=7$$
+$$x_1=7x7 mod 11= 49-[49/11]11=5$$
+$$x_2=5x7 mod 11= 35-[35/11]11=2$$
+$$x_3=2x7 mod 11= 14-[14/11]11=3$$
+e cosi via...
+
+## 1.2.2 Variabile casuale Uniforme continua:
+
+E' detta o rrettangolare una variabile casuale continua con la seguente funzione di densita:
+
+$$
+
+\begin{equation}
+
+ x+y = 
+\begin{cases}
+
+\frac{1}{b-a}  &  a =< x =< b \\ 
+0             & \mbox{otherwise} 
+
+\end{cases}
+\end{equation}
+
+$$
+
+con $-\infty < a< b< \infty$
+
+E’ una funzione simmetrica con centro in $x=(a+b)/2$ che risulta il punto centrale dell’intervallo 
+chiuso [a, b]. La funzione di densit`a `e nulla per valori esterni all’intervallo. I momenti che definiscono il valore atteso e la varianza sono i seguenti
+
+$$E[X]= \frac{a+b}{2}$$
+
+$$Var[X]= \frac{(b-a)^2}{12}$$
+
+graphic - fig -1
+
+1.2.3. Variabile casuale Chi-QUadrato
+
+La distribuzione chi-quadrato con r gradi di liberta e' definita come $\ci_r^2$. La forma della distribuzione di densita della variabile casuale con r=1...5 gradi di liberta e' quella riportata in fig.1.2. Un'approssimazione regionevole alla distribuzione Normale si ha per r almeno pari a 30. Se 
+$Y\sim \chi_r^2$ si ha:
+
+$$E[Y]= r$$
+$$Var[Y]= 2r$$
+
+Graficamente il punto di cut-off al livello del 5% per una distribuzione con 5 gradi di libert`a `e visualizzabile nella Figura 1.3.
+
+1.3. Test di casualita:
+
+1.3 Test di casualit`a
+Qualunque generatore iterativo implementato al calcolatore produce serie di numeri completamente deterministiche e serialmente dipendenti. Occorre verificare la pseudo-casualit`a della serie 
+generata cio`e che:
+- la serie abbia l’apparenza di serie casuale (uniforme);
+- i numeri della serie si comportino come stocasticamente indipendenti.
+Quando ci`o si realizza, la serie prodotta al calcolatore pu`o essere utilizzata come serie di 
+numeri casuali essendo assimilabile ad un insieme di determinazioni indipendenti da una variabile 
+casuale Uniforme in (0,1).
+
+1.3.1. Test empirici:
+
+I test empirici si utilizzano per valutare la pseudo-casualit`a di una serie di numeri prodotta al calcolatore da un generatore iterativo. Se, ad esempio, si utilizza un generatore di numeri casuali 
+per simulare la distribuzione di uno stimatore che `e noto essere non distorto, i risultati della simulazione devono essere compatibili con tale nozione; in altri termini la distribuzione simulata 
+deve avere media sufficientemente vicina al valore atteso del parametro oggetto di stima.
+
+Un secondo metodo, semplice e naturale, classificabile come test empirico, `e la valutazione grafica dell’apparente equiprobabilit`a e indipendenza dei numeri generati. Per una serie di n numeri, ci`o 
+pu`o realizzarsi rispetto al piano cartesiano nel modo seguente.
+
+- Si rappresentano i numeri, nell’ordine in cui sono stati prodotti, come punti sul piano cartesiano. 
+Se i punti appaiono ben sparsi nel rettangolo (0,n)×(0,1) ci`o `e indice di (apparente) 
+equiprobabilit`a; devono presentarsi senza agglomerazioni o tendenze particolari quando ‘epresente
+(apparente) indipendenza.
+- Analogamente si pu`o utilizzare la rappresentazione con il diagramma a dispersione nel rettangolo 
+(o porzione di piano) (1, n − 1) × (2, n). In pratica si considera il valore corrente rispetto al precedente valore della serie. In questo modo si possono visualizzare eventuali correlazioni seriali.
+- Se n `e elevato, si costruisce un istogramma della distribuzione di densit`a di frequenza dei 
+punti in un insieme di sottointervalli arbitrari dell’intervallo (0,1). La distribuzione 
+rappresentata deve apparire sufficientemente uniforme ovvero deve avere forma sufficientemente 
+simile al rettangolo (0,1)×(0,1).
+
+1.3.2. Test statistici:
+
+Il modo a noi pi`u consono per valutare la qualit`a di un generatore, ovvero la pseudo-casualit`a 
+di una serie generata al calcolatore, `e l’esecuzione di test statistici. Tali test seguono la 
+logica secondo cui una serie di n numeri generata al calcolatore, `e vista alla stregua di un 
+campione Bernoulliano di ampiezza n dalla variabile casuale Y con funzione di ripartizione (f.r.)
+F (y). Si formula l’ipotesi che Y sia variabile casuale Uniforme in (0,1); formalmente:
+
+$$H_0: F(y)= F_0(y)=y$$
+- $0=< y=<1$
+
+Il problema `e dunque formulato come la verifica di ipotesi sulla forma funzionale della f.r. F (y) 
+ed i test statistici basati su tale logica sono detti test di Bont`a di Adattamento (Goodness of fit tests). Si osservi che l’ipotesi nulla H0 `e semplice poich´e F0 (y) non dipende da parametri ignoti ovvero `e completamente specificata.
+
+Nel seguito si considerano i test Kolmogorov-Smirnov ed il test Chi Quadrato che sono due test 
+statistici adattati come random tests per il contesto in esame. Il primo test `e basato sulla 
+nozione di Funzione di Ripartizione Empirica.
+
+#### Funzione di ripartizione empirica:
+
+Definizione 1.4. Dato un campione Bernoulliano di ampiezza n dalla variabile casuale X con f.r.F(x)
+e considerati oridinati gli n valori campionari $x_i =< x_{i+1}, i=1///n-1$  e' detta funzione di ripartizione empirica $Fde$ la funzione $\hat{F_n}$  a valori nell'intervallo [0,1] che assegna ad ogni x il suo peso campionario 1/n
+$$\hat{F_n}: R-> (0,1)$$
+
+tale che:
+
+$$
+\begin{equation}
+
+\hat{F_n}(x) = 
+
+\begin{cases}
+
+0  &  x =< x_1                                \\ 
+i/n & x_i=< x_{i+1}, \mbox{i=1...n-1} & x\in R \\
+1 & x>= x_n
+
+\end{cases}
+
+\end{equation}
+$$
+
+In situazione di totale assenza di informazioni circa la legge di probabilit`a F della variabile 
+casuale da cui `e estratto il campione, la Fde pu`o assumersi quale stima di F.
+
+
+Alcune ragioni teoriche che giustificano l’utilizzo delle funzione di ripartizione empirica sono le seguenti. Si osservi che, per $x\in R$ fissato, al variare del campione in X la Fde descrive una 
+variabile casuale interprete della frequenza (relativa) dell'evento ($X_i =< x$) che , a priori , ha probabilita F(x) di verificarsi, copstante ad ogni estrazione. Pertanto per l'indipendenza delle n estrazioni, tale variabile casuale assume i valori $i/n, i=1...n$ e ha distribuzione Binomiale di parametri n e F(x) e dunque ha media F(x) e varianza $F(x)[1-F(x)]/n$ Ne segue che per, ogni $x\in R$ 
+la Fde e' non distorta e consistente per l'ignota F.
+- $E[\hat{F_n}]= F(x)$- correttezza
+- $MSE- \frac{F_n(x)(1-F_n(x))}{n}-> 0$ = consistenza
+- la variabile casuale descrittiva da $\hat{F_n}$ converge in modeo uniforme alla vera Fde per il teorema di Glivenko-Cantelli -1933 $\\hat{F_n(x)}-> F(x)$
+
+Il test viene effettuato in modo empirico confrontando a livello grafico l’aderenza della funzione 
+di ripartizione empirica dei valori generati con quella teorica specificata dall’ipotesi nulla. 
+Si rimanda alle dispese delle applicazioni per altri dettagli.
+
+### Test di Kolmogorov-Smirnov
+
+Il test di Kolmogorov-Smirnov (K-S) sfrutta le propriet`a della f.d.r. e pu`o essere utilizzato per verificare la pseudo-casualit`a. Sia il vettore $y_1...y_n$ della serie di numeri di cui si vuole verificare la pseudo-casualit`a, vista come campione Bernoulliano dalla variabile casuale Y con f.r.
+F(y).
+
+Si considera la seguente ipotesi
+$$H_0: \hat{F_n}(y)= F_0(y)=y$$
+- $0=< y=< 1$
+
+Se $H_0$ e\ vera , alcrescere di n,la Fde risultara sempre piu prossima a $F_0(y)$
+
+Un metodo per stabilire la bont`a di adattamento di $F_0(y)$ ai dati - cioe alla serie di numeri sottoposta a verifica - e' allora quello di stabilire una qualche misura di distanza fra le due 
+funzioni $\hat{F_n}(y)$ e $F_0(y)$ e rifiutare $H_0$ qualora tale distanza risulti troppo elevata. 
+La distanza impiegata dal test K-S `e semplicemente la distanza verticale fra i valori assunti da 
+$\hat{F_n}(y)$ e da $F_0(y) in correspondenza di ciascuno degli n numeri $y_i$ a disposzione, il valore sperimentale del test e' lla poi grande fra tali distanze:
+
+$$d_n= sup_{y\in\{ y_1...u_n\}}|\hat{F_n}(y)- F_0(y)|= sup_{y\in\{ y_1...u_n\}}|\hat{F_n}(y)- y|$$
+
+
+Il test K-S consente di verificare l’adattamento alla distribuzione ipotizzata di ciascuno degli n 
+numeri della serie. L’equazione (1.3) tender`a a fornire valori prossimi allo zero se H0 `e vera e 
+valori positivi lontani da zero se $H_0$ per valori elevati di $d_n$ ovvero a concentrare la regione critica del test sulla coda di destra.
+
+Al variare del campione $d_n$ descrive la variabile casuale $D_n$  (statistica test) la cui 
+distribuzione esatta, sotto $H_0$, e' tabulata per valori piccoi di n. . In particolare, fissato il livello di significativit`a $(1-\alpha)$ le tavole forniscono il quantile di ordine $(1-\alpha)$ delle variabile casuale $D_n$ vale a dire il valore $d_{\alpha}$ soluzione dell'equazione $\alpha= P(rif.H_0|H_o)= P(D_n > d_{\alpha})$
+, che rappresenta il valore cvritico del test. Il testt statisctico e' ale cse si fifiuta $H_0$, a
+livello $(1-\alpha)*100$% , se $d_n >= d_{\alpha}$. Rifiutando $H_0$ si conclude che la serie
+di numeri generata al calcolatore non `e pseudo-casuale e, qualora a una tale conclusione si 
+pervenga per una elevata percentuale di differenti serie di numeri prodotte dal medesimo generatore iterativo, si `e portati a dubitare della qualit`a di quest’ultimo.
+
+Per valori elevati di n Kolmogorov ha dimostrato il seguente risultato asintotico:
+
+$$lim_{n->\infty} P(\sqrt{x}D_n =< x )= 1- 2\sum_{j=1}^{\infty}(-1)^{j-1} exp(-2j^2x^2)=$$
+
+$$\frac{\sqrt{2\pi}}{n} \sum_{j=1}^{\infty} exp(-(2j-1)^2 \frac{\pi^2}{8x^2})= H(x)$$
+- $x>0$
+
+
+Si osservi che H (x) non dipende in alcun modo dalla distribuzione della variabile casuale Y da cui proviene il campione; si dice, in tal caso, che `e libera dalla distribuzione di Y 
+(Distribution Free). Il calcolo del valore critico del test K-S coinvolge una somma infinita, 
+che tuttavia converge piuttosto velocemente al crescere di n. Marsaglia et al. (2003) hanno 
+sviluppato un algoritmo per il calcolo 
+
+#### Test Chi-Quadrato:
+
+Il test si basa sull’indice di connessio $\chi^2$ 
+2 di Pearson che confronta le frequenze osservate e le frequenze attese o teoriche. Lo stesso 
+Pearson, e pi`u tardi Cram´er (1946), Fisher e altri, hanno dimostrato che le statistiche, basate
+sul confronto fra frequenze osservate e frequenze attese, hanno distribuzione asintotica Chi 
+Quadrato con un certo numero di gradi di libert`a (gdl) quando l’ipotesi nulla H0 `e assunta vera.
+
+
+In particolare, nel caso del contesto in esame, si tratta di frequenze attese sotto l’ipotesi 
+secondo cui gli n valori campionari – cio`e la serie generata e sottoposta a verifica di 
+pseudo-casualit`a – provengano da una variabile casuale Uniforme in (0,1).
+
+Sia (y_1...y_i...y_n) la serie di n numeri prodotti al calcolatore e:
+$$H_0: F(y)= y$$  $0=< y=< 1$
+l'ipotesi nulla.
+
+
+L’intervallo [0, 1] viene suddiviso in k sottointervalli disgiunti $I_j, j=1...k$ con k intero 
+prefissato. . Dato che la variabile casuale Uniforme ha funzione di densit`a (f.d.) costante e pari 
+a 1 su tale intervallo, si definiscono le frequenze attese in base a H0 nel modo seguente:
+
+$$np_j^0= n.(ampiezza del sottointervallo I_j)$$
+
+Le frequenze osservate sono date da
+
+$$n_j = \# (y_i \in I_j; i=1...n)$$
+
+Dove il simbolo # e' "il numero di", cioe cio`e la frequenza assoluta dei numeri della serie che 
+rientrano nel j-esimo sottointervallo.
+
+Il valore sperimentale del test `e
+$$x^2 = \sum_{j=1}^k \frac{(n_j - np_j^0)^2}{np_j^0}$$
+
+
+Operativamente, si suddivide l’intervallo [0, 1] in sottointervalli di uguale
+ampiezza 1/k. In tal modo le frequenze attese risultano costanti e pari a $n.p_j^0=n/k, j-1...k$ e il valore sperimentale del test assume la seguente formulazione:
+
+$$x^2 = \frac{k}{n} \sum_{j=1}^k (n_j - \frac{n}{k})^2$$
+
+
+che tender`a a fornire valori prossimi allo zero se H0 `e vera e valori positivi lontani da zero 
+se H0 `e falsa. Conseguentemente, si `e portati a rifiutare H0 per valori grandi di $x^2$ ovvero a concentrare la regione critica del test sulla coda di destra. Al variare del campione $X^2$ descrive 
+la varaibil casuale $X^2$ (statistica test) con distribuzione asintotica, sotto $H_0$, Chi-Quadrato 
+con (k-1) gdl. Fissato il livello di significativita $(1-\alpha)$ per n sufficientemente
+grande, il valore critico del test `e il quantile di ordine ($1-\alpha$) della variabile casuale Chi-
+Quadrato conk-1 gdl. vale a dire il valore $\chi_{k-1; 1-\alpha}^2$ soluzione dell'equazione
+
+$$\alpha = P(rifiutare H_0|H_0) \sim P(X^2 >= \chi_{k-1;1-\alpha})
+$$
+
+Graficamente:
+
+fraf-2
+
+Si rifiuta H0, a livello $(1-\alpha)*199$ se $x^2 >= \chi_{k-1'1-\alpha}^2$. QUalora si rifiuti 
+$H_0$, si conclude che la serie di numeri generata al calcolatore  non `e pseudo-casuale. Se a una 
+tale conclusione si perviene per una elevata percentuale di differenti serie di numeri prodotte dal medesimo generatore algebrico-ricorsivo (o, anche, iterativo) si `e portati a dubitare della 
+qualit`a di quest’ultimo.
+
+
+Osserviamo che:
+- l'approssimazione di $X^2$ a $\chi_{k-1}^2$ e' asontptica , ovvero migliora al crescere di n.
+
+- Una regola empirica consiglia che sia $n_j >= 5, j=1...k$. E dunque ` conveniente scegliere k 
+in modo tale che sia rispettata tale condizione: quanto pi`u `e piccolo k tanto pi`u `e facile che 
+tale condizione sia soddisfatta. Va per`o tenuto presente che la scelta di k influisce sui gradi di
+libert`a e dunque sul valore critico del test.
+
+- Se l’approssimazione al Chi-Quadrato non `e buona perch´e n non `e sufficientemente elevato oppure 
+se non tutte le frequenze osservate sono almeno pari a 5, il rischio che si corre `e che il livello 
+di significativit`a effettivo del test sia lontano dal livello nominale prefissato ($1-\alpha$). QUesta e' una tipica situazione che puo essere indagata tramite simulazioni.
+
+#### Test assenza di autocorrelazione:
+
+La serie `e stata prodotta con un algoritmo ricorsivo pertanto le variabili di interesse sono 
+disposte in sequenza: il valore dipende da quello che lo precede. I dati denominati serie storica si considerano come un insieme di variabili casuali, $X_t$  indicizzate da t, dove t indica il tempo ed 
+`e tipicamente discreto e varia tra gli interi. Una serie temporale discreta `e definita processo stocastico, e si tratta di una sequenza di variabili casuali, $X_t$ indicizzate dal tempo. Una caratteristica importante dell’analisi delle serie temporali `e legata alle correlazioni tra le 
+coppie di termini della serie, ad esempio tra $X_t$ e il valore ritardato $X_{t-h}$.  Il test basato 
+sulla funzione di autocorrelazione consente di verificare l’ipotesi circa l’indipendenza stocastica 
+delle determinazioni. L’autocovarianza misura la dipendenza lineare tra due punti della stessa serie
+osservati in tempi diversi. Sia $\{ X_t\}_{t=1}^n$ una sequenza di variabili casuali si definisce 
+funzione di autocovarianza al ritardo k il seguente valore atteso:
+
+$$\gamma(t, t+k) = E[(X_t - \mu_t)(X_{t+k} - \mu_{t+k})]$$
+
+- dove $\mu_t$ e' il valore medio calcolato rispetto a t e $\mu_{t+k}$ e' quello calcolato per la serie al ritardo k.
+
+Se il processo generatore dei dati `e stazionario, cio`e se ogni h-upla $(X_{t1}... X_{t_h})$ ha la medesima distribuzione di $(X_{t_1 + k}... X_{t_h +k})$, allora medie , varianze e autocovarianze 
+delle $X_y$ sono indipendenti da k e la funzione di autocovarianza dipende solo da k e non da t si 
+denota con $\gamma(k)$
+
+La funzine di autocorrelazione al ritardo k e' data da 
+
+$$\rho(k) = Corr(X_t, X_{t+k})= \frac{\gamma(k)}{\gamma(0)}$$
+
+e per la disuguaglianza di Cauchy-Schwarz2 `e compresa tra -1 e 1 e dipende
+dalla lunghezza del ritardo k ma `e costante nel tempo.
+
+Si noti che sotto l’ipotesi che il generatore di numeri pseudo-casuali produca osservazioni 
+assimilabili a delle realizzazioni indipendenti da variabili identicamente distribuite,  il processo generatore dei dati `e stazionario. Un modo per verificare l’assenza di correlazione seriale di una sequenza di osservazioni `e testare l’ipotesi di assenza di autocorrelazione tale che:
+
+$$H_0: \rho(k) = 0$$
+
+L’autocovarianza viene stimata con lo stimatore plug-in seguente
+
+$$\hat{\gamma(k)} = \frac{1}{n} \sum_{t=1}^{n-k}[(X_t - \bar{X})(X_{t+k} - \bar{X})]$$
+
+Sotto l'ipotesi $H_0$ vale il risultato asintotico:
+
+$\sqrt{n}\hat{\rho_n}(k) \sim N(0,1)$
+
+per cui, per n grande, approssimativamente, $\rho_n}(k) \sim N(0,1)$
+
+L’analisi grafica della funzione di autocorrelazione campionaria permette di
+
+```
+$Cov(X,Y) =< \sqrt{Var(X)Var(Y)}$
+```
+
+verificare se circa $(1-\alpha)*100$% delle autocorrelazioni sono, in valore assoluto minori di $z_{1-\alpha/2} / \sqrt{n}$ (con $z_{1-\alpha}$ percentile della normale standard)
+
+
+
+
+
+# Demonstration:
+
+Nel seguito si mostra un esempio che implementa un algoritmo lineare di tipo congruenziale misto per 
+la generazione di numeri pseudo-casuali. Si riporta anche la funzione di R nel seguito chiamata 
+runif.
+
+## Metodo congruenziale lineare:
+Si utilizza il metodo di generazione congruenziale misto in cui sono presenti le seguenti quantità. 
+Si genera una successione di valori in modo deterministico che appare causuale. Il generatore ha la seguente struttura:
+$x_{i+1} = (a.x_i + c)$ mod $m$
+
+Lo applichiamo specificando i seguenti valori:
+
+$x_{i+1} = [(2^16)+1]*47838 + 5$ mod $34359738368$
+
+Ovvero:
+- il multiplicatore e' $a=2^16 + 1 = 65537$
+- il valore iniziale o seme: $x_0 = 47838$
+- l'incremento: $c=5%
+- il modullo: $m = 34359738368$ e $2^{\beta}= 2^{35}$
+
+Risultato:
+1. Primo numero generato:
+```{r}
+a    <- 65537
+m    <-34359738368
+xini <- 47838
+c    <- 5
+(a*xini + c)%%m
+```
+
+Da cui il primo numero pseudo-casuale si ottiene dividendo per il modulo
+
+```{r}
+x1 <- (a*xini+c)%%m
+x1/m
+```
+
+Secondo numero: il valore successivo si ottiene da quello ottenuto in precedenza:
+```{r}
+(a*x1 + c)%%m
+x2 <- (a*x1+ c)%%m
+x2/m
+```
+
+Il seguente costrutto iterativo permette di generare una sequenza di 1857 numeri pseudo-casuali le 
+cui determinazioni vengono salvate nel vettore random.n
+
+```{r}
+n <- 1857
+random.n <- numeric(n)
+for(j in 1:n){
+x1 <- (a*x1+c)%%m
+random.n[j] <- x1/m
+}
+head(random.n)
+tail(random.n)
+```
+
+Si rimanda all’help Random per informazioni sul generatore di R. Il il metodo di default è
+“Mersenne-Twister”.
+
+La funzione set.seed richiede un intero per specificare il seme in R.
+
+## 2.Valutazione della pseudo-casualita della serie
+
+Statistiche descrittive:
+```{r}
+require(skimr)
+skim_without_charts(random.n)
+```
+
+
+```{r}
+var(random.n)
+```
+
+Gli indici di posizione sono in linea con quelli attesi rispetto alla distribuzione uniforme la
+cui variabile casuale ha un valore atteso è pari a 1/2. La varianza è conforme con quella teorica 
+1/12 = 0.08333.
+
+Test grafici
+
+a) Diagramma a dispersione
+
+Il primo test grafico è il diagramma a dispersione sul piano (1, 𝑛 − 1) ⋅ (2 ∶ 𝑛)
+
+```{r}
+plot(random.n[1:1856],
+random.n[2:1857],
+main="Grafico (1,n-1)*(2,n)",
+ylab = "valori generati con metodo congruenziale")
+```
+
+Si nota che i punti sono in sequenza e non sono sparsi nel piano in modo casuale come
+dovrebbero essere se fossero osservazioni indipendeti. Se ci fosse indipendenza ogni coppia
+di punti $(𝑢_, _{𝑖−1})$ dovrebbe essere disposta con uguale probabilità sul piano. Il grafico
+evidenzia che il generatore non è adeguato.
+
+Si verifichi che basta semplicemente aumentare il valore assegnato al termine 𝑐 (incremento),
+ad esempio ponendo 𝑐=235 perchè la serie non presenti più questo andamento nel grafico a
+dipesesione.
+
+c) Istogramma
+
+L’istogramma permette di valutare la densità di frequenza per ogni classe di valori.
+Nel seguito si disegna l’istogramma fissando 20 classi e si aggiunge il valore medio osservato
+oltre al testo nel grafico.
+
+```{r}
+hist(random.n, col = 'purple',
+  breaks = 20,
+  freq=FALSE,
+  ylim =c(0,1.5),
+  main='Istogramma',
+  xlab='numeri pseudo-casuali',
+  ylab='Densità di frequenza')
+  abline(v=mean(random.n),
+  col='purple',
+  lwd=2,lty=2)
+  text(0.7,1.3,
+  c("valore medio"),
+  col="blue")
+```
+
+Si nota che le densità di frequenza sono approssimativamente simili ed intorno al valore 1.
+Il grafico è simile a quello atteso sotto l’ipotesi di uniforme distribuzione [0, 1].
+
+
+c) Funzione di ripartizione empirica
+
+Il test grafico seguente permette di confrontare la funzione di ripartizione empirica e
+quella teorica ottenuta con la funzione nativa di R.
+
+Nel seguente chunk prima si disegna la distribuzione empirica e poi si aggiunge quella teorica
+ed infine si aggiunge la legenda al grafico.
+
+```{r}
+plot(ecdf(random.n),
+do.points=FALSE,
+main ='Funzione di ripartizione empirica vs teorica')
+curve(punif(x,0,1),
+lty='dashed',
+col='red',
+lwd='3',
+add=TRUE)
+legend(0.8,0.4,
+col=c("black","red"),
+c("f.r. empirica","f.r. teorica"),
+lty=c(1,2),
+cex=0.7)
+```
+
+Non si notano particolari differenze tra le due funzioni di ripartizione poste a confronto.
+
+Test di Kolmogorov-Smirnov
+
+Il test non parametrico che permette di confrontare la funzione di ripartizione empirica con
+quella teorica della distribuzione uniforme si effettua con la funzione ks.test.
+
+Dalle dispense della teoria ricordiamo che la statistica test si basa sulla massima differenza
+in modulo tra le due funzioni di ripartizione.
+
+Sotto l’ipotesi nulla che le due funzioni di ripartizione siano uguali si utilizza la distribuzione
+asintotica (n grande) della statistica test (Birnbaum & Tingey, 1951).
+
+```{r}
+ks.test(random.n, "punif")
+```
+
+Il valore osservato della statistica test è 0.009 e l’area definita è prossima a 1. Il livello
+di significatività osservato p-value è superiore a 0.1.,0.05, 0.01 pertanto il test induce ad
+accettare l’ipotesi nulla che i dati siano realizzazioni dalla variabile casuale uniforme in [0, 1].
+
+Test Chi Quadrato
+
+Per eseguire questo test si calcola la frequenza relativa dei valori osservati per ogniuno dei
+sottointervalli
+
+
+
+
+```{r}
+n <- length(random.n)
+int<-seq(0,1,by=0.1); int
+```
+```{r}
+foss<-table(cut(random.n, int))/n; foss
+```
+
+Le frequenze osservate vengono confrontate con quelle attese in base all’ipotesi che le determinazioni
+siano generate dalla distribuzione uniforme
+
+```{r}
+p1 <- rep(0.1, 10); p1
+```
+
+La funzione chisq.test permette di effettuare il test nel modo seguente
+
+```{r}
+chisq.test(foss,p=p1)
+```
+
+Il 𝑝 − 𝑣𝑎𝑙𝑢𝑒 è prossimo a 1.
+
+Il valore critico della statistica test se l’ipotesi nulla è vera si determina fissando un valore
+per l’errore di primo tipo ad esempio 𝛼 = 0.05 nel modo seguente
+
+```{r}
+qchisq(0.95,df=9)
+```
+Essendo il valore critico del test pari a 17 questo risulta molto maggiore del valore ossevato
+(0.0011) ed il test non permette di rifiutare l’ipotesi nulla per ogni livello di significatività.
+
+Pertanto anche in base a questo test le determinazioni sono assimilabili a quelle di una
+distribuzione uniforme in [0, 1].
+
+Occorre eseguire il test per altre (molte) serie di numeri generate con il generatore congruenziale
+precedente (cambiando il seme) per valutare accuratemente la qualità del generatore.
+
+Si noti che nelle situazioni reali in cui si considerano i dati campionari il test deve essere 
+svolto utilizzando le frequenze assolute e non le frequenze relative perchè altrimenti le 
+conclusioni possono essere errate dipendendo dalla numerosità campionaria.
+
+Nel presente contesto occorre simulare un’ampia serie di numeri pseudo casuali per cui è comunque possibile utilizzare le frequenze relative. Con le frequenze assolute il test è il seguente
+
+```{r}
+n <- length(random.n)
+int<-seq(0,1,by=0.1); int
+fossN<-table(cut(random.n, int)); fossN
+chisq.test(fossN)
+```
+
+Funzione di autocorrelazione empirica
+
+La rappresentazione grafica della funzione di autocorrelazione empirica viene chiamata
+correlogramma. In R si disegna con la funzione acf dove il ritardo di default è pari a 10 ⋅ log(𝑛)
+
+```{r}
+acf(random.n,
+main = " funzione di autocorrelazione")
+```
+
+Il grafico si utilizza per le serie storiche in quanto i dati sono generati a istanti successivi.
+Il grafico mostra il valore della correlazione determinato tra due valori della serie con 
+$𝑘 = 𝑙𝑎𝑔$: i valori sono correlati: serial dependence. Al crescere al crescere della lunghezza dell’intervallo ci si aspetta che la correlazione tra 𝑋𝑡 e 𝑋𝑡+ℎ diminuisca. Il modo in cui 
+la funzione di autocorrelazione tende a zero viene considerato come una misura di memoria del 
+processo
+
+Nel primo grafico si notano dei valori che si discostano da quelli attesi.
+
+```{r}
+n<-length(random.n)
+acf(random.n, main = " funzione di autocorrelazione", lag.max =n)
+```
+
+Anche nel grafico con ritardo pari a 1 le osservazioni sono dipendenti. Infatti a livello
+antitotico vale la seguente distribuzione
+
+$$\hat{p} \sim N(0,1/n)$$
+
+Si notano alcuni valori superiori ai valori soglia (linee tratteggiate) in base all’ipotesi di
+processo stazionario sottostante.
+Questo grafico suggerisce che le determinazioni non sono indipendenti come già notato nel
+grafico dei punti posti sul piano cartesiano.
+
+
+
+Funzione runif
+
+Nel seguito si utilizza il generatore di R che si richiama con la funzione runif e si ripetono i
+test effettuati in precedenza su questa nuova serie di realizzazioni di numeri pseudo-casuali.
+Si noti che la funzione set.seed definisce il valore iniziale e permette di poter generare
+sempre gli stessi valori.
+
+```{r}
+set.seed(3882)
+n <- 2000
+rand <- runif(n, min=0, max=1)
+head(rand)
+```
+a) diagramma a dispersione
+
+```{r}
+plot(rand[1:(n-1)],
+rand[2:n],
+main="Grafico (1,n-1)*(2:n)",
+ylab = "valori generati con funzione runif")
+
+```
+
+Si nota che i punti sono sparsi nel piano in modo casuale.
+
+b) Funzione di ripartizione empirica
+
+```{r}
+plot(ecdf(rand),
+do.points=FALSE,
+main ='funzione di ripartizione empirica vs teorica')
+curve(punif(x,0,1),
+lty='dashed',
+col='red',
+lwd='3',
+add=TRUE)
+legend(0.6,0.3,
+       col=c("black","red"),
+c("f.r. empirica","f.r. teorica"),
+lty=c(1,2),
+cex=0.6)
+```
+
+Non si notano particolari differenze tra le due funzioni di ripartizione.
+
+c) Istogramma
+
+```{r}
+hist(rand, col = 'yellow',
+breaks = 20,
+freq=FALSE,
+ylim =c(0,1.5),
+main='Istogramma',
+xlab='numeri pseudo-casuali (runif)',
+ylab='Densità di frequenza')
+abline(v=mean(random.n),
+col='purple',
+lwd=2,lty=2)
+text(0.7,1.3,
+c("valore medio"),
+col="blue")
+```
+
+
+La densità appare quasi uniforme.
+
+Rispetto ai grafici riferiti alla serie di numeri ottenuti con il metodo congruenziale questi
+ultimi conducono ad accettare l’ipotesi che le determinazioni provengano da una distribuzione
+uniforme.
+
+Anche i test statistici confermano quest’affermazione.
+
+Test statistici
+
+Kolmogorov-Smirnov
+```{r}
+ks.test(rand, "punif")
+```
+
+Chi Quadrato
+
+```{r}
+foss<-table(cut(rand, int))/n; foss
+```
+
+Autocorrelazione
+
+```{r}
+acf(rand,
+main = " funzione di autocorrelazione")
+
+acf(rand, lag.max = n,
+main = " funzione di autocorrelazione")
+```
