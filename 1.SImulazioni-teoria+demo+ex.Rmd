@@ -13,40 +13,39 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1.1. Introduction:
 
-Simulations are used for the purpose of imitating – simulating, precisely – operations in the most 
-varied application contexts. A general definition, which common to various contexts is the 
+Simulations are used for the purpose of **imitating** – simulating, precisely – operations in the 
+most  varied application contexts. A general definition, which common to various contexts is the 
 following:
 
-**Definition 1.1.** The term simulation refers to the fact that a real problem occurs
-reproduced in an artificially constructed context and therefore perfectly – or to a large extent – controllable.
+**Definition 1.1.** *The term* **simulation** *refers to the fact that a real problem occurs*
+**reproduced** *in an artificially constructed context and therefore perfectly – or to a large 
+extent* – **controllable**.
 
-This is a particular type of experimentation and in fact, an example of simulation are laboratory experiments. These can be seen as reduced-scale reproductions of a real problem which, in this way, 
-is rendered perfectly controllable by the experimenter.
+This is a particular type of **experimentation** and in fact, an example of simulation are 
+laboratory experiments. These can be seen as reduced-scale reproductions of a real problem which, in 
+this way, is rendered perfectly controllable by the experimenter.
 
-The model is an abstraction, theoretical or real, which summarizes everything that is known about 
-the system, reproducing its essential structural components, properties and relationships between 
-them components.
+*The* **model** *is an abstraction, theoretical or real, which summarizes everything that is known 
+about  the system, reproducing its essential structural components, properties and relationships 
+between them components.*
 
-Symbolic models are logical-formal translations of the system according to a mathematical scheme
+**Symbolic models** are logical-formal translations of the system according to a mathematical scheme
 abstract - for example a system of equations that define an economic model.
 
-Statistical science uses models as a theoretical simplification of reality, in general based on 
+**Statistical science** uses models as a theoretical simplification of reality, in general based on 
 hypotheses and assumptions regarding the functioning of the system itself. If the system is 
-stochastic, the model is consequently a stochastic (symbolic) model which can be thought of as a set 
+stochastic, the model is consequently a **stochastic(symbolic)** model which can be thought of as a set 
 of functions, more or less complex, of random variables.
 
 The functioning of a system is studied, through simulation, by simulating realizations from a 
-certain model with the aim of understanding, predicting and controlling the reactions of the real 
-system modeled to artificially determined variations.
+certain model with the aim of **understanding, predicting** and **controlling** the reactions of 
+the real  system modeled to artificially determined variations.
 
-The functioning of a system is studied, through simulation, by simulating realizations from a 
-certain model with the aim of understanding, predicting and controlling the reactions of the real 
-system modeled to artificially determined variations.
 
-Artificially producing data from observations – hereinafter referred to as pseudo-data – represents 
-a valid practice for formulating and testing hypotheses on the functioning of the system real. In 
-such contexts, therefore, simulating the system means sampling data from the model. In this context, probabilistic theories and statistics play an instrumental role for other details please refer to 
-(Mecatti et al., 2008).
+Artificially producing data from observations – hereinafter referred to as **pseudo-data** – 
+represents  a valid practice for formulating and testing hypotheses on the functioning of the system 
+real. In such contexts, therefore, simulating the system means sampling data from the model. In 
+this context, probabilistic theories and statistics play an instrumental role.
 
 The traditional scope of simulations has recently expanded, and still does expanding, thanks also to 
 the increase in the computing power of computers. Within political economic complex econometric 
@@ -56,21 +55,23 @@ company in relation to a specific model. The simulations they are often required
 model and are reported in many scientific articles.
 
 The development of simulations in statistics, as well as in other fields, is strictly linked to technological and IT advancement. The first stochastic simulations conducted at computer date back 
-to around 1944. However, examples of simulations are encountered on various occasions even in less 
+to around $1944$. However, examples of simulations are encountered on various occasions even in less 
 recent history. Among these we can remember the procedure known as Buffon needle dating back to the 
 second half of the 18th century by G.L. Lecrerc Comte de Buffon (1707-1788). The original experiment, which had as its objective the decimal approximation of the irrational number $\pi$, did not, 
-of course, use a calculator but a needle thrown at a large number of times on a plane with a 
+of course, use a calculator but a needle thrown at a **large number of times** on a plane with a 
 Cartesian reference. Later, in 1899, Lord Rayleigh proposed the use of a particular stochastic 
-process, known as random walk (which will be covered in the Bayesian inference course) to provide an approximate solution to a parabolic differential equation.
+process, known as **random walk**  to  provide an approximate solution to a parabolic differential equation.
 
-In 1931 Kolmogorov, to whom we owe the modern axiomatic approach to the calculus of probability, he demonstrated the connections between the process called Markov chains, another type of stochastic 
-process (which will be treated during the Bayesian inference course) and particular differential 
-equations using a stochastic simulation. In 1908 Student, pseudonym of W.S. Gosset, employed 
-stochastic simulation, or artificially sampling experiments conducted, to develop his famous 
-distribution called Student's T. And there are many more the examples that can be cited as 
-precursors of modern stochastic simulations al computer.
+In $1931$ Kolmogorov, to whom we owe the modern axiomatic approach to the calculus of probability, 
+he demonstrated the connections between the process called **Markov chains**, another type of 
+stochastic  process and particular differential  equations using a stochastic simulation. 
 
-Statistical simulations are essentially stochastic simulations in which models they are random 
+In **1908** Student, pseudonym of W.S. Gosset, employed stochastic simulation, or artificially 
+sampling experiments conducted, to develop his famous  distribution called **Student's T**. And 
+there are many more the examples that can be cited as  precursors of modern stochastic simulations 
+al computer.
+
+Statistical simulations are essentially **stochastic simulations** in which models they are random 
 variables or stochastic processes with a given probability law. The foundations for building a 
 stochastic simulation are therefore represented by the ability to produce artificially – it is said 
 to generate by computer – determinations from certain random variables.
@@ -81,182 +82,170 @@ The generation of determinations from random variables to the computer uses so-c
 
 The stochastic simulation involves the execution of the following steps:
 1. the generation of random numbers;
-2. the generation of determinations of particular random variables with a pre-assigned law of
+2. the generation of determinations of particular random variables with a pre-assigned law of 
 chance;
 3. the use of the values generated for the solution of statistical problems through simulations
 stochastic.
 
-Over the years, with the development of information technologies, the methods of generation of 
-random numbers. In stochastic simulations, large sets of are used random numbers. We then speak of a series of random numbers whose (modern) definition is reported right away.
+Over the years, with the development of information technologies, the **methods of generation** of 
+random numbers. In stochastic simulations, large sets of are used random numbers. We then speak of a series of random numbers whose definition is reported right away.
 
-Definition 1.2. A random number series is a set of real numbers between 0 and 1 that represent a 
+**Definition 1.2** *A random number series is a set of real numbers between 0 and 1 that represent a 
 Bernoulli sample of determinations from a Uniform random variable (continued) on the interval (0,1).
+*
 
-For this reason we speak more precisely of uniform random numbers. Modern generators random numbers 
-are based on algebraic-recursive devices implemented on the computer, i.e series of numbers are 
-produced using an algorithm. Thus, if on the one hand the advantage of overcoming the main drawbacks 
-of mechanical and physical/natural generators is obtained, on the other introduces the obvious disadvantage due to the loss of randomness in the generation process and, consequently, in the 
-numbers generated.
+For this reason we speak more precisely of **uniform random numbers**. Modern generators random 
+numbers  are based on algebraic-recursive devices implemented on the computer, i.e series of numbers 
+are  produced using an **algorithm** (The word "algorithm" has its roots in the Latinization of the 
+name of Persian mathematician  Muhammad ibn Musa al-Khwarizmi). Thus, if on the one hand the 
+advantage of overcoming the main drawbacks  of mechanical and physical/natural generators is 
+obtained, on the other introduces the  obvious disadvantage due to the loss of randomness in the generation process and, consequently, in  the  numbers generated.
 
-In fact, the numbers produced on the computer by algebraic-recursive generators are the result of a
-ordered and finite series of logical-mathematical operations – precisely the algorithm1 – in which 
-nothing is random and everything is deterministic. Furthermore, the recursion of the generator, 
-which uses a number generated previously to produce the next number, contrasts with the request for independence between the numbers of the series, inducing an evident correlation.
+In fact, the numbers produced on the computer by **algebraic-recursive generators** are the result 
+of a ordered and finite series of logical-mathematical operations – precisely the algorithm1 – in 
+which  nothing is random and everything is deterministic. Furthermore, the recursion of the 
+generator,  which uses a number generated previously to produce the next number, contrasts with the request for independence between the numbers of the series, inducing an evident correlation.
 
 Faced with a series of numbers generated by a computer-implemented algorithm, the question which 
-makes no sense to ask is "is this sequence random?", since the answer is certainly no, but 
-“this sequence will behave as if it were random once applied to the problem of interest?”. For this reason, we speak more precisely of pseudo-random numbers. In a pseudo-random series, the numbers 
-have the appearance of randomness, that is, they appear independent and equiprobable or appear as determinations of the random variable Uniform on the interval (0.1).
+makes no sense to ask is **"Is this sequence random?"**, since the answer is certainly no, but **"
+this sequence will behave as if it were random once applied to the problem of interest?"**. For this reason, we speak more precisely of pseudo-random numbers. In a pseudo-random series, the numbers 
+have the appearance of randomness, that is, they appear independent and equiprobable or appear as determinations of the random variable Uniform on the interval $(0.1)$.
 
 In other words, to pursue the advantages offered by computer generation already mentioned, we give 
 up the randomness of the series to settle for pseudo-randomness.
 
-
-
-** The word "algorithm" has its roots in the Latinization of the name of Persian mathematician 
-Muhammad ibn Musa al-Khwarizmi
-
-In summary, the properties of a good algebraic-recursive generator are the following:
-1. produces series of numbers that appear uniformly distributed on the interval (0,1) and which do 
-not show correlation or other type of dependency structure;
+In summary, the properties of a **good algebraic-recursive generator** are the following:
+1. produces series of numbers that **appear** uniformly distributed on the interval $(0,1)$ and 
+which do  not show correlation or other type of dependency structure;
 2. it is fast enough for simulation purposes and has sustainable memory needs;
-3. guarantees the reproducibility of any series produced: this allows, for example, the validation 
-of the simulation results and comparisons of the same simulation conducted on different 
+3. guarantees the **reproducibility** of any series produced: this allows, for example, the 
+validation  of the simulation results and comparisons of the same simulation conducted on different 
 models/systems, keeping variations under control.
 
+The **goodness** of the generator affects the simulation results, determining their quality and 
+reliability validity. There is a vast literature in this field that involves various disciplines and skills: abstract algebra, number theory, computer science, hardware engineering and statistics.
 
-The goodness of the generator affects the simulation results, determining their quality and reliability
-validity. There is a vast literature in this field that involves various disciplines and skills: abstract algebra, number theory, computer science, hardware engineering and statistics.
-
-
-The goodness of the generator affects the simulation results, determining their quality and reliability
-validity. There is a vast literature in this field that involves various disciplines and skills: abstract algebra, number theory, computer science, hardware engineering and statistics.
-
-
-In particular, a moment of verification of the pseudo-randomness of the series is necessary
-used, or the goodness of the generator used. These tests are called Random Tests. Going into detail about algebraic-recursive generators goes beyond that
-of the aims of this course. Therefore, in the following we introduce the main one in a simple way
-linear generator to identify its salient characteristics.
-
-
-
-
+In particular, a moment of **verification of the pseudo-randomness** of the series is necessary
+used, or the goodness of the generator used. These tests are called **Random Tests**. .Therefore, in 
+the following we introduce the main one in a simple way linear generator to identify its salient characteristics.
 
 ## 1.2.1 Congruential methods
 
-The methods currently used, which best respond to the properties required of a good
-algebraic-recursive generator, are known as linear congruential methods because they are based on a linear congruential relation due to the modulus operation of an integer m:
+The methods currently used, which best respond to the properties required of a good 
+algebraic-recursive generator, are known as **linear congruential methods** because they are based 
+on a linear congruential relation due to the modulus operation of an integer $m$:
 
-Definition 1.3. Module division
+**Definition 1.3: Module division**
 
-The number *x* modul $m \in N$ is
+The number $x \text{ mod } m$ where, $m \in N$ is
 
-$$x mod m = x - [\frac{x}{m}]m$$
+$$ x \text{ mod } m = x - [\frac{x}{m}]m $$
 
-where $[x]$ indicates the integer part of x (i.e. the large integer less than or equal to x)
+where $[x]$ indicates the integer part of $x$ (i.e. the large integer less than or equal to $x$)
 
-Example:
+#### Example 1.1:
 
-Let them be x = 1, 2, . . . e m = 4. The calculation of division in modulus x mod m by successive numbers
-is the following:
+Let them be $x = 1,2, . . .$ e $m = 4$. The calculation of division in modulus $x \text{ mod } m$ 
+by  successive numbers is the following:
 
-$$1 mod 4= 1- [\frac{1}{4}]4= 1-  0.4 = 1$$
-$$2 mod 4= 1- [\frac{2}{4}]4= 2-  0.4 = 2$$
-$$3 mod 4= 1- [\frac{3}{4}]4= 3-  0.4 = 3$$
-$$4 mod 4= 1- [\frac{4}{4}]4= 4-  0.4 = 0$$
-$$5 mod 4= 1- [\frac{5}{4}]4= 5-  0.4 = 1$$
-$$6 mod 4= 1- [\frac{6}{4}]4= 6-  0.4 = 2$$
-$$7 mod 4= 1- [\frac{7}{4}]4= 7-  0.4 = 3$$
-$$8 mod 4= 1- [\frac{8}{4}]4= 8-  0.4 = 0$$
+$$1 \text{ mod } 4= 1- [\frac{1}{4}]4= 1-  0.4 = 1$$
+$$2 \text{ mod } 4= 1- [\frac{2}{4}]4= 2-  0.4 = 2$$
+$$3 \text{ mod } 4= 1- [\frac{3}{4}]4= 3-  0.4 = 3$$
+$$4 \text{ mod } 4= 1- [\frac{4}{4}]4= 4-  0.4 = 0$$
+$$5 \text{ mod } 4= 1- [\frac{5}{4}]4= 5-  0.4 = 1$$
+$$6 \text{ mod } 4= 1- [\frac{6}{4}]4= 6-  0.4 = 2$$
+$$7 \text{ mod } 4= 1- [\frac{7}{4}]4= 7-  0.4 = 3$$
+$$8 \text{ mod } 4= 1- [\frac{8}{4}]4= 8-  0.4 = 0$$
 $$.......................................$$
 
 
-As can be seen from the inspiring example, the result consists only of integers: the integers 0,1,...., m-1.
+As can be seen from the inspiring example, the result consists only of integers: the integers 
+$0,1,..., m-1$.
 
-Modern algebraic-recursive generators employing linear congruent methods are based
-therefore on the idea that the rest of the division - the module precisely - is sufficient
-irregular to simulate randomness.
-
-## Mixed congruential method:
-
-It is the most general of the linear congruential methods, introduced by Lehmer in 1951.
-
-If $x_i$ is the i-th number generated, then the next $(i+1)$-th is given by the following (linear congruential) reaction.
-
-$x_{i+1}= (a.x_i + c)$ mod $m$
-
-where a, c, m are non-negative integers called multiplier, increment and modulus respectively.
+Modern algebraic-recursive generators employing linear congruent methods are based on the idea that 
+the rest of the division - the module precisely - is sufficient irregular to simulate randomness.
 
 
-The initial value $x_0$ is called the seed of the generator and represents the device of
-reproducibility of the generated series. In fact, since the series of numbers is produced deterministically, the same value $x_0$ always produces the same series.
+## 1.2.2 Mixed congruential method:
 
-Generally, and with the aim of producing different series, the seed x0 is assigned based
+It is the most general of the linear congruential methods, introduced by Lehmer in $1951$.
+
+If $x_i$ is the $i^{th}$ number generated, then the next $(i+1)^{th}$ is given by the following 
+(linear congruential) reaction.
+
+$$x_{i+1}= (a.x_i + c) \text{ mod } m$$
+
+where $a, c, m$ are non-negative integers called **multiplier, increment** and **modulus**
+respectively.
+
+
+The initial value $x_0$ is called the **seed** of the generator and represents the device of
+**reproducibility** of the generated series. In fact, since the series of numbers is produced deterministically, the same value $x_0$ always produces the same series.
+
+Generally, and with the aim of producing different series, the seed $x_0$ is assigned based
 to the last value of the last generated series or based on the clock (the internal clock) of the
-machine on which the generator is implemented. Since xi is the result of a module operation
-and takes the values 0, 1, 2...m−1, then a pseudo-random number according to the modern definition
-indicated with $u_i$ is obtained as a ratio: $u_i= x_i/m$
+machine on which the generator is implemented. Since $x_i$ is the result of a module operation
+and takes the values $0, 1, 2,...,m−1$, then a pseudo-random number according to the modern definition
+indicated with $u_i$ **is obtained as a ratio**: $u_i= \frac{x_i}{m}$
 
-Example: 1.2
+#### Example: 1.2
 
-With choices $a=c=x_0=3$ e $m=5$, from equation (1.1.) the following series is produced:
+With choices $a=c=x_0=3$ e $m=5$, from equation (1.1) the following series is produced:
 
 $$x_0=3$$
-$$x_1= (3x3+3)mod5= 12-[12/5]=2$$
-$$x_2= (3x2+3)mod5= 9-[9/5]=4$$
-$$x_1= (3x4+3)mod5= 15-[15/5]=0$$
-$$x_1= (3x0+3)mod5= 3-[3/5]=3$$
+$$x_1= (3x3+3)\text{ mod }5= 12-[12/5]=2$$
+$$x_2= (3x2+3)\text{ mod }5= 9-[9/5]=4$$
+$$x_1= (3x4+3)\text{ mod }5= 15-[15/5]=0$$
+$$x_1= (3x0+3)\text{ mod }5= 3-[3/5]=3$$
 
-Having obtained the starting value, it is evident that $x_i=x_{i-4}$ per $i=5,6...$
+Having obtained the starting value, it is evident that $x_i=x_{i-4}$ per $i=5,6,...$
 
-Again for the fact that $0=< x_i < m$, and immediately identify a further drawback of the
-Recursive algebraic generators based on linear congruential methods, i.e. their
-periodicity. In fact, the generated values that are different from each other are at most m and, after a certain number of iterations, the numbers will begin to repeat themselves, that is, to present a systematic nature, consequently losing the requirement of apparent randomness.
+Again for the fact that $0 \leq x_i \leq m$, and immediately identify a further drawback of the
+Recursive algebraic generators based on linear congruential methods, i.e. their periodicity. In 
+fact, the generated values that are different from each other are at most m and, after a certain 
+number of iterations, the numbers will begin to repeat themselves, that is, to present a systematic nature, consequently losing the requirement of apparent randomness.
 
+The periodicity, uniformity and density in $(0,1)$ of the generated values depend on the generator parameters: the seed, the multiplier, the increment and the modulus; therefore they can be 
+controlled by appropriate choices of these constants.
 
-The periodicity, uniformity and density in (0,1) of the generated values depend on the generator parameters: the seed, the multiplier, the increment and the modulus; therefore they can
-be controlled by appropriate choices of these constants.
-
-
-It is required that the generator has a sufficiently long period and that the generated values are sufficiently dense in (0,1) for uniformity.
-
+It is required that the generator has a sufficiently long period and that the generated values are sufficiently dense in $(0,1)$ for uniformity.
 
 Marsaglia (1968) verified that with the following equation
 
-$$x_{j+1}= 65539(x_j)mod2^31$$
+$$x_{j+1}= 65539(x_j)\text{ mod }2^{31}$$
 
-numbers are generated which for each linear sequence have a non-random trend. There is one
-vast technical literature on this subject, so today we have theorems that indicate the choices
-most appropriate to pursue the objectives listed above. Some indications are the following:
+numbers are generated which for each linear sequence have a non-random trend. There is one vast 
+technical literature on this subject, so today we have theorems that indicate the choices most 
+appropriate to pursue the objectives listed above. Some indications are the following:
 - $m$ is a rather large prime number
-- $c$ is a prime integer relative to $m$ (e and m have no common divisors except 1)
-- a is of the form $2^r +1 $ with >=2;
+- $c$ is a prime integer relative to $m$ ($c$ and $m$ have no common divisors except $1$)
+- $a$ is of the form $2^r +1 \text{ with } \geq 2$;
 
-The IBM 360/370 machines, which were used in the 1980s, were equipped with a generator with
-parameters: $a=2^16+3,c =0, m=2^{31}-1$ which, today, is known to be rather poor under the
-profile of pseudo-randomness, periodicity and uniformity. For other proposals see also https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill.
+The IBM 360/370 machines, which were used in the $1980$s, were equipped with a generator with
+parameters: $a=2^16+3,c =0, m=2^{31}-1$ which, today, is known to be rather poor under the profile 
+of pseudo-randomness, periodicity and uniformity. For other proposals see also *https://en.wikipedia.org/wiki/Wichmann%E2%80%93Hill*.
 
+Currently, the choices: $m=2^{35}, a=2^7+1, c=1$ are considered acceptable and exist many types of 
+tests to evaluate the randomness of the generated series, see for example above Wikipedia randomness 
+tests *http://en.wikipedia.org/wiki/randomness_test*.
 
-Currently, the choices: $m=2^{35}, a=2^7+1, c=1$ are considered acceptable and exist
-many types of tests to evaluate the randomness of the generated series, see for example above
-Wikipedia randomness tests http: //en.wikipedia.org/wiki/randomness_test.
+The **multiplicative congruential method** derives from the mixed method by setting the increment 
+$c$  equal to zero hence the name:
+$$x_{i+1}= a.x_i \text{ mod } m$$
 
-The multiplicative congruential method derives from the mixed method by setting the increment c equal to zero hence the name:
-$x_{i+1} a.x_i$ mod $m$
+Similar to the mixed method, a uniform random number is obtained from the ratio: $u_i=\frac{x_i}{m}$
 
-Similar to the mixed method, a uniform random number is obtained from the ratio: $u_i=x_i/m$
+#### Example: 1.3.
 
-Example: 1.3.
-
-Posing $a=x_0=7,m=11$ equation (1.2) generates the following series:
+Posing $a=x_0=7,m=11$ equation $x_{i+1}= a.x_i \text{ mod } m$ generates the following series:
 
 $$x_0=7$$
-$$x_1=7x7 mod 11= 49-[49/11]11=5$$
-$$x_2=5x7 mod 11= 35-[35/11]11=2$$
-$$x_3=2x7 mod 11= 14-[14/11]11=3$$
+$$x_1=7x7\text{ mod } 11= 49-[\frac{49}{11}]11=5$$
+$$x_2=5x7 \text{ mod } 11= 35-[\frac{35}{11}]11=2$$
+$$x_3=2x7 \text{ mod } 11= 14-[\frac{14}{11}]11=3$$
 and so on...
 
-## 1.2.2 Continuous Uniform Random Variable:
+### 1.2.2 Continuous Uniform Random Variable:
 
 A continuous random variable with the following density function is called rectangular:
 
@@ -277,84 +266,79 @@ $$
 
 con $-\infty < a< b< \infty$
 
-It is a symmetric function with center at $x=(a+b)/2$ which is the central point of the interval
-closed [a, b]. The density function is zero for values outside the interval. The moments that define the expected value and the variance are the following
+It is a symmetric function with center at $x=\frac{(a+b)}{2}$ which is the central point of the interval
+closed $[a, b]$. The density function is zero for values outside the interval. The moments that define the expected value and the variance are the following
 
 $$E[X]= \frac{a+b}{2}$$
 
 $$Var[X]= \frac{(b-a)^2}{12}$$
 
+### 1.2.3 Chi-Square random variable
 
-The chi-square distribution with r degrees of freedom is defined as $\ci_r^2$. The shape of the density distribution of the random variable with r=1...5 degrees of freedom is the one shown in fig.1.2. A reasonable approximation to the Normal distribution occurs for r at least equal to 30. If
-$Y\sim \chi_r^2$ we have:
+The **Chi-square distribution** with $r$ degrees of freedom is defined as $\chi_r^2$. A reasonable approximation to the Normal distribution occurs for $r$ at least equal to $30$. If $Y\sim \chi_r^2$ 
+we have:
 
 $$E[Y]= r$$
 $$Var[Y]= 2r$$
 
-Graphically the cut-off point at the 5% level for a distribution with 5 degrees of freedom can be seen in Figure 1.3.
+## 1.3. Randomness test:
 
-1.3. Randomness test:
-
-1.3 Randomness test
-Any iterative generator implemented on the computer produces completely deterministic and serially dependent series of numbers. It is necessary to verify the pseudo-randomness of the series
-generated that is:
+Any iterative generator implemented on the computer produces completely deterministic and serially dependent series of numbers. It is necessary to verify the pseudo-randomness of the series generated 
+that is:
 - the series has the appearance of a random (uniform) series;
 - the numbers in the series behave as stochastically independent.
-When this is achieved, the series produced by the computer can be used as a series of
-random numbers being similar to a set of determinations independent of a variable
-random Uniform at (0,1).
+When this is achieved, the series produced by the computer can be used as a series of random numbers 
+being similar to a set of determinations independent of a variable random Uniform at (0,1).
 
-1.3.1. Empirical tests:
+### 1.3.1. Empirical tests:
 
-Empirical tests are used to evaluate the pseudo-randomness of a series of numbers produced on the computer by an iterative generator. For example, if you use a random number generator
-to simulate the distribution of an estimator that is known to be unbiased, the simulation results must be compatible with this notion; in other words the simulated distribution
-must have an average sufficiently close to the expected value of the parameter being estimated.
+Empirical tests are used to evaluate the pseudo-randomness of a series of numbers produced on the 
+computer by an iterative generator. For example, if you use a random number generator to simulate 
+the distribution of an estimator that is known to be unbiased, the simulation results must be 
+compatible with this notion; in other words the simulated distribution must have an average 
+*sufficiently close* to the expected value of the parameter being estimated.
 
-A second method, simple and natural, classifiable as an empirical test, is the graphical evaluation of the apparent equiprobability and independence of the generated numbers. For a series of n numbers, that is
-can be realized with respect to the Cartesian plane in the following way.
-
-
-
-
-
-
-
-
-- The numbers are represented, in the order in which they were produced, as points on the Cartesian plane.
-If the points appear well spread out in the rectangle (0,n)×(0,1) this is an indication of (apparent)
-equiprobability; they must present themselves without clusters or particular tendencies when present
-(apparent) independence.
-- Similarly, the representation with the scatter diagram in the rectangle can be used
-(or portion of plane) (1, n − 1) × (2, n). In practice, the current value is considered compared to the previous value of the series. In this way any serial correlations can be visualized.
-- If n is large, a histogram of the frequency density distribution of i is constructed
-points in a set of arbitrary subintervals of the interval (0,1). The distribution
-represented must appear sufficiently uniform or must have a sufficient shape
-similar to the rectangle (0.1)×(0.1).
+A second method, simple and natural, classifiable as an empirical test, is the **graphical 
+evaluation**  of the apparent equiprobability and independence of the generated numbers. For a 
+series of $n$  numbers, that is can be realized with respect to the Cartesian plane in the following 
+way.
+- The numbers are represented, in the order in which they were produced, as points on the 
+**Cartesian  plane**. If the points appear well spread out in the rectangle $(0,n)×(0,1)$ this is an indication of (apparent) equiprobability; they must present themselves without clusters or 
+particular tendencies  when present (apparent) independence.
+- Similarly, the representation with the **scatter** diagram in the rectangle can be used (or 
+portion of plane) $(1, n − 1)*(2, n)$. In practice, the current value is considered compared to the previous  value of the series. In this way any serial correlations can be visualized.
+- If $n$ is large, a **histogram** of the frequency density distribution of the points is 
+constructed in  a set of arbitrary subintervals of the interval $(0.1)$. The distribution 
+represented must appear sufficiently uniform or must have a sufficient shape similar to the 
+rectangle $(0.1)×(0.1)$.
 
 
-1.3.2. Statistical tests:
-The most suitable way for us to evaluate the quality of a generator, i.e. pseudo-randomness
+### 1.3.2. Statistical tests:
+The **most suitable way** for us to evaluate the quality of a generator, i.e. pseudo-randomness
 of a computer-generated series, is the execution of statistical tests. These tests follow the
 logic according to which a computer-generated series of n numbers is seen as a
-Bernoulli sample of size n from the random variable Y with distribution function (f.r.)
-F (y). The hypothesis is formulated that Y is a Uniform random variable in (0,1); formally:
+Bernoulli sample of size n from the random variable Y with **Cumulative Distribution Function (cdf)
+$F(y)$. The hypothesis is formulated that $Y$ is a Uniform random variable in $(0,1)$, formally:
 
 
 $$H_0: F(y)= F_0(y)=y$$
 - $0=< y=<1$
 
 The problem is therefore formulated as the verification of hypotheses on the functional form of the 
-f.r. F (y) and the statistical tests based on this logic are called Goodness of fit tests. Note that the null hypothesis H0 is simple since F0 (y) does not depend on unknown parameters or is completely specified.
+cdf. $F(y)$ and the statistical tests based on this logic are called **Goodness of fit** tests. Note 
+that the null hypothesis $H_0$ is simple since $F_0(y)$ does not depend on unknown parameters or is completely specified.
 
-In the following we consider the Kolmogorov-Smirnov tests and the Chi Square test which are two tests
-statistics adapted as random tests for the context under consideration. The first test is based on
-notion of Empirical Distribution Function.
+In the following we consider the **Kolmogorov-Smirnov** tests and the **Chi-Square** test which are 
+two tests statistics adapted as random tests for the context under consideration. The first test is 
+based on notion of Cumulative Distribution Function.
 
-#### Empirical distribution function:
+### 1.3.2.1 Cumulative Distribution Function:
 
-Definition 1.4. Given a Bernoulli sample of size n from the random variable
-and considering the n sample values $x_i =< x_{i+1}, i=1///n-1$, the empirical distribution function $Fde$ is called the empirical distribution function $\hat{F_n}$ with values in 'interval [0,1] which assigns to each x its sampling weight 1/n
-$$\hat{F_n}: R-> (0,1)$$
+*Definition 1.4. Given a Bernoulli sample of size $n$ from the random variable and considering the 
+$n$ sample values $x_i \leq x_{i+1}$ $i=1,...,n-1$,  is called the Cumulative Distribution Function
+$cdf$ the function $\hat{F_n}$ with values in interval $[0,1]$ which assigns to each $x$ its 
+sampling weight $\frac{1}{n}$:
+$$\hat{F_n}: \mathcal{R}-> (0,1)$$
 
 such that:
 
@@ -362,175 +346,172 @@ $$
 \begin{equation}
 
 \hat{F_n}(x) = 
-
 \begin{cases}
 
-0  &  x =< x_1                                \\ 
-i/n & x_i=< x_{i+1}, \mbox{i=1...n-1} & x\in R \\
-1 & x>= x_n
+0  &  x \leq x_1                                \\ 
+i/n & x_i \leq x_{i+1} &  i=1,...,n-1 & x\in R \\
+1 & x \geq x_n
 
 \end{cases}
-
 \end{equation}
 $$
 
-In a situation of total absence of information about the probability law F of the variable
-random from which the sample is drawn, the Fde can be assumed as an estimate of F.
+In a situation of total absence of information about the probability law $F$ of the variable
+random from which the sample is drawn, the $cdf$ can be assumed as an estimate of $F$.
 
-
-Some theoretical reasons that justify the use of empirical distribution functions are the following. Observe that, for a fixed $x\in R$, as the sample in X varies the Fde describes a
-random variable interpreting the (relative) frequency of the event ($X_i =< x$) which, a priori, has probability F(x) of occurring, constant at each extraction. Therefore, due to the independence of the n extractions, this random variable takes on the values $i/n, i=1...n$ and has a Binomial distribution of parameters n and F(x) and therefore has a mean F(x) and variance $ F(x)[1-F(x)]/n$ It follows that for, every $x\in R$
-the Fde is undistorted and consistent for the unknown F.
+Some theoretical reasons that justify the use of empirical distribution functions are the following. Observe that, for a fixed $x\in \mathcal{R}$, as the sample in $X$ varies the $cdf$ describes a
+random variable interpreting the (relative) frequency of the event ($X_i =< x$) which, a priori, has probability $F(x)$ of occurring, constant at each extraction. Therefore, due to the independence of 
+the $n$ extractions, this random variable takes on the values $\frac{1}{n}, i=1...n$ and has a 
+Binomial distribution of parameters $n$ and $F(x)$ and therefore has a mean $F(x)$ and variance $ \frac{F(x)[1-F(x)]}{n}$. It follows that for, every $x\in \mathcal{R}$ the $cdf$ is undistorted and consistent for the unknown $F$.
 - $E[\hat{F_n}]= F(x)$- correctness
-- $MSE- \frac{F_n(x)(1-F_n(x))}{n}-> 0$ = consistency
-- la variabile casuale descrittiva da $\hat{F_n}$ converges uniformly to the true Faith by the Glivenko-Cantelli theorem -1933 $\\hat{F_n(x)}-> F(x)$
+- $MSE- \frac{F_n(x)(1-F_n(x))}{n}-> 0$ - consistency
+- the descriptive random variable from $\hat{F_n}$ converges uniformly to the true $cdf$ by the Glivenko-Cantelli theorem -1933 $\\hat{F_n(x)}-> F(x)$
 
 The test is carried out empirically by comparing the adherence of the function on a graphic level
 of empirical distribution of the values generated with the theoretical one specified by the null hypothesis.
-Please refer to the application fees for further details.
 
-### Kolmogorov-Smirnov test
 
-The Kolmogorov-Smirnov (K-S) test exploits the properties of the f.d.r. and can be used to test for pseudo-randomness. Let the vector $y_1...y_n$ be the series of numbers whose pseudo-randomness you want to verify, seen as a Bernoulli sample from the random variable Y with f.r.
-F(y).
+### 1.3.2.2 Kolmogorov-Smirnov test
+
+The **Kolmogorov-Smirnov(K-S)** test exploits the properties of the $cdf$ and can be used to test 
+for pseudo-randomness. Let the vector $y_1...y_n$ be the series of numbers whose pseudo-randomness 
+you want to verify, seen as a Bernoulli sample from the random variable $Y$ with $cdf = F(y)$.
 
 The following hypothesis is considered
 $$H_0: \hat{F_n}(y)= F_0(y)=y$$
 - $0=< y=< 1$
 
-If $H_0$ is true, as n increases, the Fde will be increasingly closer to $F_0(y)$
+If $H_0$ is true, as $n$ increases, the $cdf$ will be increasingly closer to $F_0(y)$
 
-A method to establish the goodness of fit of $F_0(y)$ to the data - that is to the series of numbers subjected to verification - is then to establish some measure of distance between the two
-functions $\hat{F_n}(y)$ and $F_0(y)$ and reject $H_0$ if this distance is too high.
+A method to establish the **goodness of fit** of $F_0(y)$ to the data - that is to the series of 
+numbers subjected to verification - is then to establish some measure of distance between the two
+functions $\hat{F_n}(y)$ and $F_0(y)$ and **reject** $H_0$ if this distance is too **high**.
 The distance used by the K-S test is simply the vertical distance between the values assumed by
-$\hat{F_n}(y)$ and from $F_0(y) corresponding to each of the n numbers $y_i$ available, the experimental value of the test is then the largest between these distances:
+$\hat{F_n}(y)$ and from $F_0(y)$ corresponding to each of the $n$ numbers $y_i$ available, the experimental value of the test is then the largest between these distances:
 
 $$d_n= sup_{y\in\{ y_1...u_n\}}|\hat{F_n}(y)- F_0(y)|= sup_{y\in\{ y_1...u_n\}}|\hat{F_n}(y)- y|$$
 
 
 The K-S test allows you to verify the adaptation to the hypothesized distribution of each of the n
-series numbers. Equation (1.3) will tend to provide values close to zero if H0 is true e
+series numbers. Equation above will tend to provide values close to zero if $H_0$ is true e
 positive values far from zero if $H_0$ for high values of $d_n$ or to concentrate the critical region of the test on the right tail.
 
 As the sample varies, $d_n$ describes the random variable $D_n$ (test statistic) whose
-exact distribution, under $H_0$, is tabulated for small values of n. . In particular, once the significance level $(1-\alpha)$ is fixed, the tables provide the order quantile $(1-\alpha)$ of the random variable $D_n$, i.e. the value $d_{\alpha} $ solution of the equation $\alpha= P(rif.H_0|H_o)= P(D_n > d_{\alpha})$
-, which represents the critical value of the test. The statistical test is if $H_0$ is rejected, a
-level $(1-\alpha)*100$% , if $d_n >= d_{\alpha}$. Rejecting $H_0$ we conclude that the series
-of numbers generated by the computer is not pseudo-random and, if this conclusion is reached, yes
-arrives for a high percentage of different series of numbers produced by the same iterative generator, one is led to doubt the quality of the latter.
+exact distribution, under $H_0$, is tabulated for small values of n. . In particular, once the significance level $(1-\alpha)$ is fixed, the tables provide the order quantile $(1-\alpha)$ of the
+random variable $D_n$, i.e. the value $d_{\alpha} $ solution of the equation $\alpha= P(rif.H_0|H_o)= P(D_n > d_{\alpha})$ , which represents the critical value of the test. The statistical test is if 
+$H_0$ is rejected, a level $(1-\alpha)*100$% , if $d_n >= d_{\alpha}$. Rejecting $H_0$ we conclude 
+that the series of numbers generated by the computer is not pseudo-random and, if this conclusion is reached, yes arrives for a high percentage of different series of numbers produced by the same 
+iterative generator, one is led to doubt the quality of the latter.
 
-For large values of n Kolmogorov proved the following asymptotic result:
+For large values of $n$ Kolmogorov proved the following asymptotic result:
 
-$$lim_{n->\infty} P(\sqrt{x}D_n =< x )= 1- 2\sum_{j=1}^{\infty}(-1)^{j-1} exp(-2j^2x^2)=$$
-
-$$\frac{\sqrt{2\pi}}{n} \sum_{j=1}^{\infty} exp(-(2j-1)^2 \frac{\pi^2}{8x^2})= H(x)$$
-- $x>0$
-
-Note that H (x) does not depend in any way on the distribution of the random variable Y from which the sample comes; in this case we say that it is free from the distribution of Y
-(Distribution Free). The calculation of the critical value of the K-S test involves an infinite sum,
-which however converges rather quickly as n increases. Marsaglia et al. (2003) have
-developed an algorithm for the calculation
-
-#### Chi-Square Test:
-
-The test is based on the connection index $\chi^2$
-2 which compares the observed frequencies and the expected or theoretical frequencies. The same
-Pearson, and later Cram´er (1946), Fisher and others, have shown that statistics, based
-on the comparison between observed frequencies and expected frequencies, they have asymptotic distribution Chi
-Square with a certain number of degrees of freedom (dof) when the null hypothesis H0 is assumed true.
+$$lim_{n->\infty} P(\sqrt{x}D_n =< x )=  1- 2\sum_{j=1}^{\infty}(-1)^{j-1} exp(-2j^2x^2)= \frac{\sqrt{2\pi}}{n} \sum_{j=1}^{\infty} exp(-(2j-1)^2 \frac{\pi^2}{8x^2})= H(x)$$
 
 
-In particular, in the case of the context under examination, these are frequencies expected under the hypothesis
-according to which the n sample values – i.e. the series generated and subjected to verification of
-pseudo-randomness – come from a Uniform random variable in (0,1).
+- where $x>0$
 
-Let (y_1...y_i...y_n) be the series of n numbers produced by the computer and:
+Note that $(x)$ does not depend in any way on the distribution of the random variable $Y$ from which 
+the sample comes; in this case we say that it is **free** from the distribution of $Y$
+(**Distribution Free**). The calculation of the critical value of the K-S test involves an infinite 
+sum, which however converges rather quickly as $n$ increases.
+
+### 1.3.2.3 Chi-Square Test:
+
+The test is based on the connection index $\chi^2$ which compares the observed frequencies and the expected or theoretical frequencies. Pearson himself, and later Cram´er (1946), Fisher and others, 
+have shown that statistics, based on the comparison between observed frequencies and expected 
+frequencies, they have distribution asymptotic Chi Square with a certain number of degrees of 
+freedom (df) when the null hypothesis $H_0$ is assumed to be true
+
+In particular, in the case of the context under examination, these are frequencies expected under 
+the hypothesis according to which the $n$ sample values – i.e. the series generated and subjected to verification of pseudo-randomness – come from a Uniform random variable in $(0,1)$.
+
+Let $(y_1...y_i...y_n)$ be the series of n numbers produced by the computer and:
 $$H_0: F(y)= y$$  $0=< y=< 1$
 the null hypothesis.
 
+The interval $[0, 1]$ is divided into $k$ disjoint subintervals $I_j, j=1...k$ with $k$ integer
+predetermined.  Since the Uniform random variable has a constant and even density function at 1 on 
+this interval, the expected frequencies based on $H_0$ are defined as follows:
 
-The interval [0, 1] is divided into k disjoint subintervals $I_j, j=1...k$ with k integer
-predetermined. . Since the Uniform random variable has a constant and even density function (f.d.).
-at 1 on this interval, the expected frequencies based on H0 are defined as follows:
+$$np_j^0= n.(\text{width of the subinterval } I_j)$$
 
-$$np_j^0= n.(ampiezza del sottointervallo I_j)$$
-
-The observed frequencies are given by
+The observed frequencies are given by:
 
 $$n_j = \# (y_i \in I_j; i=1...n)$$
 
-Where the symbol # is "the number of", that is, the absolute frequency of the numbers in the series that
-fall within the j-th subinterval.
+Where the symbol $# $is "the number of", that is, the absolute frequency of the numbers in the 
+series that fall within the $j^th$ subinterval.
 
-The experimental value of the test is
+The experimental value of the test: is
 $$x^2 = \sum_{j=1}^k \frac{(n_j - np_j^0)^2}{np_j^0}$$
 
 
-Operationally, the interval [0, 1] is divided into equal subintervals
-amplitude 1/k. In this way the expected frequencies are constant and equal to $n.p_j^0=n/k, j-1...k$ and the experimental value of the test takes on the following formulation:
+
+Operationally, the interval $[0, 1]$ is divided into equal subintervals amplitude $\frac{1}{k}. In 
+this way the expected frequencies are constant and equal to $n.p_j^0=n/k, j-1...k$ and the 
+experimental value of the test takes on the following formulation:
 
 $$x^2 = \frac{k}{n} \sum_{j=1}^k (n_j - \frac{n}{k})^2$$
 
 
-which will tend to provide values close to zero if H0 is true and positive values far from zero
-if H0 is false. Consequently, we are led to reject H0 for large values of $x^2$ or to concentrate the critical region of the test on the right tail. As the sample varies, $X^2$ describes
+which will tend to provide values close to zero if $H_0$ is true and positive values far from zero
+if $H_0$ is false. Consequently, we are led to reject $H_0$ for large values of $x^2$ or to 
+concentrate the critical region of the test on the right tail. As the sample varies, $X^2$ describes
 the random variable $X^2$ (test statistic) with asymptotic distribution, under $H_0$, Chi-Square
-with (k-1) dof. Set the significance level $(1-\alpha)$ for n sufficiently
+with $(k-1)$ $df$. Set the significance level $(1-\alpha)$ for $n$ sufficiently
 large, the critical value of the test is the order quantile ($1-\alpha$) of the random variable Chi-
-Square conk-1 dof. i.e. the value $\chi_{k-1; 1-\alpha}^2$ solution of the equation
+Square with $k-1 $ $df$. i.e. the value $\chi_{k-1; 1-\alpha}^2$ solution of the equation
 
-$$\alpha = P(rifiutare H_0|H_0) \sim P(X^2 >= \chi_{k-1;1-\alpha})
-$$
-
-Graficamente:
-
-fraf-2
+$$\alpha = P(reject: H_0|H_0) \sim P(X^2 \geq \chi_{k-1;1-\alpha})$$
 
 H0 is rejected, at level $(1-\alpha)*199$ if $x^2 >= \chi_{k-1'1-\alpha}^2$. If you refuse
-$H_0$, we conclude that the series of numbers generated by the computer is not pseudo-random. If at one
-this conclusion is reached for a high percentage of different series of numbers produced by the same algebraic-recursive (or, even, iterative) generator, one is led to doubt the
-quality of the latter.
+$H_0$, we conclude that the series of numbers generated by the computer is not pseudo-random. If at 
+one this conclusion is reached for a high percentage of different series of numbers produced by the 
+same algebraic-recursive generator, one is led to doubt the quality of the latter.
 
 
 We observe that:
-- the approximation of $X^2$ to $\chi_{k-1}^2$ is asontptic, i.e. it improves as n increases.
+- the approximation of $X^2$ to $\chi_{k-1}^2$ is asontptic, i.e. it improves as $n$ increases.
 
-- An empirical rule recommends that $n_j >= 5, j=1...k$. It is therefore convenient to choose k
-in such a way that this condition is respected: the smaller k is, the easier it is for
-this condition is satisfied. However, it should be kept in mind that the choice of k affects the degrees of
-freedom and therefore on the critical value of the test.
+- An empirical rule recommends that $n_j \geq 5, j=1...k$. It is therefore convenient to choose $k$
+in such a way that this condition is respected: the smaller $k$ is, the easier it is for
+this condition is satisfied. However, it should be kept in mind that the choice of $k$ affects the 
+degrees of freedom and therefore on the critical value of the test.
 
-- If the Chi-Square approximation is not good because n is not high enough or
-if not all the observed frequencies are at least equal to 5, the risk we run is that the level
-actual significance level of the test is far from the pre-established nominal level ($1-\alpha$). This is a typical situation that can be investigated through simulations.
+- If the Chi-Square approximation is not good because $n$ is not high enough or if not all the 
+observed frequencies are at least equal to $5$, the risk we run is that the level actual significance level of the test is far from the pre-established nominal level ($1-\alpha$). This is a typical 
+situation that can be investigated through simulations.
 
-#### Absence of autocorrelation test:
+### 1.3.2.4 Absence of autocorrelation test:
 
 The series was produced with a recursive algorithm therefore the variables of interest are
-arranged in sequence: the value depends on the one preceding it. The data called time series are considered as a set of random variables, $X_t$ indexed by t, where t indicates the time and
-it is typically discrete and varies among the integers. A discrete time series is called a stochastic process, and it is a sequence of random variables, $X_t$ indexed by time. An important feature of time series analysis is related to the correlations between them
-pairs of series terms, for example between $X_t$ and the lagged value $X_{t-h}$. The test based
-on the autocorrelation function allows us to verify the hypothesis regarding stochastic independence
-of determinations. Autocovariance measures the linear dependence between two points in the same series
-observed at different times. Let $\{
-autocovariance function at lag k the following expected value:
+arranged in sequence: the value depends on the one preceding it. The data called time series are considered as a set of random variables, $X_t$ indexed by $t$, where $t$ indicates the time and
+it is typically discrete and varies among the integers. A discrete time series is called a 
+stochastic process, and it is a sequence of random variables, $X_t$ indexed by time. An important 
+feature of time series analysis is related to the correlations between them pairs of series terms, 
+for example between $X_t$ and the lagged value $X_{t-h}$. The test based on the autocorrelation 
+function allows us to verify the hypothesis regarding stochastic independence of determinations.
 
+**Autocovariance** measures the linear dependence between two points in the same series observed at different times. Let $\{X_t \}_{t=1}^n$ a sequence of random variables yes defines the autocovariance function at lag $k$ the following expected value:
 $$\gamma(t, t+k) = E[(X_t - \mu_t)(X_{t+k} - \mu_{t+k})]$$
-- where $\mu_t$ is the average value calculated with respect to t and $\mu_{t+k}$ is the one calculated for the series at lag k.
+- where $\mu_t$ is the average value calculated with respect to $t$ and $\mu_{t+k}$ is the one 
+calculated for the series at lag $k$.
 
-If the process generating the data is stationary, that is, if each h-tuple $(X_{t1}... {t_h +k})$, then means, variances and autocovariances
-of $X_y$ are independent of k and the autocovariance function depends only on k and not on t si
-denote by $\gamma(k)$
+If the process generating the data is stationary, that is, if each $h-tuple$ $(X_{t1},... ,X_{t_h})$,
+has the same distribution as $(X_{t_1 + k}, .... X_{t_h + k})$ then means, variances and autocovariances
+of $X_t$ are independent of $k$ and the autocovariance function depends only on $k$ and not on $t$ noted   by $\gamma(k)$
 
-The autocorrelation function at lag k is given by
+The autocorrelation function at lag $k$ is given by
 
 $$\rho(k) = Corr(X_t, X_{t+k})= \frac{\gamma(k)}{\gamma(0)}$$
 
-and for the Cauchy-Schwarz2 inequality it is between -1 and 1 and depends
-by the delay length k but is constant over time.
+and for the Cauchy-Schwarz($Cov(X,Y) =< \sqrt{Var(X)Var(Y)}$) inequality it is between $-1$ and $1$ and depends by the delay length $k$
+but is constant over time.
 
 Note that under the assumption that the pseudo-random number generator produces observations
-similar to independent realizations from identically distributed variables, the data generating process is stationary. One way to verify the absence of serial correlation of a sequence of observations is to test the hypothesis of absence of autocorrelation such that:
+similar to independent realizations from identically distributed variables, the data generating 
+process is stationary. One way to verify the absence of serial correlation of a sequence of 
+observations is to test the hypothesis of absence of autocorrelation such that:
 
 $$H_0: \rho(k) = 0$$
 
@@ -542,28 +523,19 @@ Under the hypothesis $H_0$ the asymptotic result holds:
 
 $\sqrt{n}\hat{\rho_n}(k) \sim N(0,1)$
 
-so, for large n, approximately, $\rho_n}(k) \sim N(0,1)$
+so, for large $n$, approximately, $\rho_n}(k) \sim N(0,1)$
 
 The graphical analysis of the sample autocorrelation function allows you to
-
-```
-$Cov(X,Y) =< \sqrt{Var(X)Var(Y)}$
-```
-
 check whether approximately $(1-\alpha)*100$% of the autocorrelations are, in absolute value, less than $z_{1-\alpha/2} / \sqrt{n}$ (with $z_{1-\alpha} $percentile of standard normal)
 
 
 # Demonstration:
 
-Below we show an example that implements a mixed congruential linear algorithm for
-the generation of pseudo-random numbers. The function of R called below is also reported
-runif.
+Below we show an example that implements a mixed congruential linear algorithm for the generation of pseudo-random numbers. The function of R called below is also reported **runif**.
 
 ## Linear congruential method:
 The mixed congruential generation method is used in which the following quantities are present.
 A succession of values is generated in a deterministic way that appears causal. The generator has the following structure:
-
-
 
 $x_{i+1} = (a.x_i + c)$ mod $m$
 
@@ -572,13 +544,13 @@ We apply it by specifying the following values:
 $x_{i+1} = [(2^16)+1]*47838 + 5$ mod $34359738368$
 
 That is to say:
-- the multiplier is $a=2^16 + 1 = 65537$
+- the multiplier is $a=2^{16} + 1 = 65537$
 - the initial value or seed: $x_0 = 47838$
 - the increase: $c=5%
-- the model: $m = 34359738368$ e $2^{\beta}= 2^{35}$
+- the modul: $m = 34359738368$ is $2^{\beta}= 2^{35}$
 
 Result:
-1. First number generated:
+1. **First number** generated:
 ```{r}
 a    <- 65537
 m    <-34359738368
@@ -587,21 +559,20 @@ c    <- 5
 (a*xini + c)%%m
 ```
 
-
 From which the first pseudo-random number is obtained by dividing by the modulus
 ```{r}
 x1 <- (a*xini+c)%%m
 x1/m
 ```
 
-Second number: the next value is obtained from the one obtained previously:
+**Second number**: the next value is obtained from the one obtained previously:
 ```{r}
 (a*x1 + c)%%m
 x2 <- (a*x1+ c)%%m
 x2/m
 ```
 
-The following iterative construct allows you to generate a sequence of 1857 pseudo-random numbers le
+The following iterative construct allows you to generate a sequence of $1857$ pseudo-random numbers le
 whose determinations are saved in the random.n vector
 
 ```{r}
@@ -622,7 +593,7 @@ The set.seed function requires an integer to specify the seed in R.
 
 ## 2.Evaluation of the pseudo-randomness of the series
 
-Descriptive statistics:
+### Descriptive statistics:
 ```{r}
 require(skimr)
 skim_without_charts(random.n)
@@ -634,14 +605,14 @@ var(random.n)
 ```
 
 The position indices are in line with those expected with respect to the uniform distribution la
-whose random variable has an expected value of 1/2. The variance conforms to the theoretical one
-1/12 = 0.08333.
+whose random variable has an expected value of $1/2$. The variance conforms to the theoretical one
+$1/12 = 0.08333$.
 
-Graphic tests
+## Graphic tests
 
-a) Scatter diagram
+a. **Scatter plot**
 
-The first graphical test is the scatterplot on the plane (1, 𝑛 − 1) ⋅ (2 ∶ 𝑛)
+The first graphical test is the scatterplot on the plane $(1, 𝑛 − 1) ⋅ (2 ∶ 𝑛)$
 
 ```{r}
 plot(random.n[1:1856],
@@ -659,10 +630,10 @@ Verify that it is sufficient to simply increase the value assigned to the term �
 for example by setting 𝑐=235 so that the series no longer presents this trend in graph a
 dependency.
 
-c) Histogram
+b. **Histogram**:
 
 The histogram allows you to evaluate the frequency density for each class of values.
-Below, the histogram is drawn by fixing 20 classes and the average observed value is added
+Below, the histogram is drawn by fixing $20$ classes and the average observed value is added
 in addition to the text in the graph.
 
 ```{r}
@@ -681,17 +652,17 @@ hist(random.n, col = 'purple',
   col="blue")
 ```
 
-It is noted that the frequency densities are approximately similar and around the value 1.
-The graph is similar to that expected under the hypothesis of uniform distribution [0, 1].
+It is noted that the frequency densities are approximately similar and around the value $1$.
+The graph is similar to that expected under the hypothesis of uniform distribution $[0, 1]$.
 
 
-c) Empirical distribution function
+c. **Cumulative Density** function
 
 The following graphical test allows you to compare the empirical distribution function and
 the theoretical one obtained with the native function of R.
 
-In the following chunk, first the empirical distribution is drawn and then the theoretical one is added
-and finally the legend is added to the graph.
+In the following chunk, first the empirical distribution is drawn and then the theoretical one is 
+added and finally the legend is added to the graph.
 
 ```{r}
 plot(ecdf(random.n),
@@ -711,32 +682,29 @@ cex=0.7)
 
 There are no particular differences between the two distribution functions compared.
 
-Kolmogorov-Smirnov test
+### Kolmogorov-Smirnov test
 
-The non-parametric test that allows you to compare the empirical distribution function with
-the theoretical one of the uniform distribution is carried out with the ks.test function.
+The non-parametric test that allows you to compare the Cumulative Density function function with
+the theoretical one of the uniform distribution is carried out with the $ks.test$ function.
 
 From the theory notes we remember that the test statistic is based on the maximum difference
 in modulus between the two distribution functions.
 
 Under the null hypothesis that the two distribution functions are equal, the distribution is used
-asymptotic (large n) of the test statistic (Birnbaum & Tingey, 1951).
+asymptotic (large $n$) of the test statistic (Birnbaum & Tingey, 1951).
 
 ```{r}
 ks.test(random.n, "punif")
 ```
 
-The observed value of the test statistic is 0.009 and the defined area is close to 1. The level
-of significance observed p-value is greater than 0.1.,0.05, 0.01 therefore the test leads to
-accept the null hypothesis that the data are realizations of the uniform random variable in [0, 1].
+The observed value of the test statistic is $0.009$ and the defined area is close to $1$. The level
+of significance observed $p$-value is greater than $0.1.,0.05, 0.01$ therefore the test leads to
+accept the null hypothesis that the data are realizations of the uniform random variable in $[0, 1]$.
 
-Chi Square Test
+### Chi Square Test
 
-To perform this test, the relative frequency of the values observed for each of the values is calculated
-subintervals
-
-
-
+To perform this test, the relative frequency of the values observed for each of the values is 
+calculated subintervals
 
 ```{r}
 n <- length(random.n)
@@ -746,32 +714,32 @@ int<-seq(0,1,by=0.1); int
 foss<-table(cut(random.n, int))/n; foss
 ```
 
-The observed frequencies are compared with those expected based on the hypothesis that the determinations
-are generated by the uniform distribution
+The observed frequencies are compared with those expected based on the hypothesis that the 
+determinations are generated by the uniform distribution
 
 ```{r}
 p1 <- rep(0.1, 10); p1
 ```
 
-The chisq.test function allows you to perform the test in the following way
+The $chisq.test$ function allows you to perform the test in the following way
 
 ```{r}
 chisq.test(foss,p=p1)
 ```
 
-The 𝑝 − 𝑣𝑎𝑙𝑢𝑒 is close to 1.
+The $𝑝$−value is close to $1$.
 
 The critical value of the test statistic if the null hypothesis is true is determined by setting a value
-for the first type error for example 𝛼 = 0.05 as follows
+for the first type error for example $\alpha = 0.05$ as follows
 
 ```{r}
 qchisq(0.95,df=9)
 ```
-Since the critical value of the test is equal to 17, this is much greater than the observed value
-(0.0011) and the test does not allow rejecting the null hypothesis for every level of significance.
+Since the critical value of the test is equal to $17$, this is much greater than the observed value
+$(0.0011)$ and the test does not allow rejecting the null hypothesis for every level of significance.
 
 Therefore, also on the basis of this test, the determinations are similar to those of one
-uniform distribution in [0, 1].
+uniform distribution in $[0, 1]$.
 
 The test must be performed for other (many) series of numbers generated with the congruent generator
 previous (changing the seed) to accurately evaluate the quality of the generator.
@@ -780,7 +748,8 @@ Note that in real situations where sample data are considered the test must be
 carried out using absolute frequencies and not relative frequencies because otherwise the
 conclusions may be erroneous depending on the sample size.
 
-In the present context it is necessary to simulate a large series of pseudo-random numbers for which it is still possible to use relative frequencies. With absolute frequencies the test is as follows
+In the present context it is necessary to simulate a large series of pseudo-random numbers for which 
+it is still possible to use relative frequencies. With absolute frequencies the test is as follows
 
 ```{r}
 n <- length(random.n)
@@ -789,10 +758,10 @@ fossN<-table(cut(random.n, int)); fossN
 chisq.test(fossN)
 ```
 
-Empirical autocorrelation function
+### Empirical autocorrelation function
 
 The graphical representation of the empirical autocorrelation function is called
-correlogram. In R we draw with the acf function where the default delay is equal to 10 ⋅ log(𝑛)
+**correlogram**. In R we draw with the acf function where the default delay is equal to $10 ⋅ log(𝑛)$
 
 ```{r}
 acf(random.n,
@@ -801,9 +770,8 @@ main = " funzione di autocorrelazione")
 
 The graph is used for time series as the data is generated at successive moments.
 The graph shows the correlation value determined between two values of the series with
-$𝑘 = 𝑙𝑎𝑔$: values are correlated: serial dependence. As the length of the interval increases, the correlation between 𝑋𝑡 and 𝑋𝑡+ℎ is expected to decrease. The way in which
-the autocorrelation function tends to zero is considered as a measure of memory
-process
+$𝑘 = 𝑙𝑎𝑔$: values are correlated: serial dependence. As the length of the interval increases, the correlation between $X_t$ and $X_{t+h}$ is expected to decrease. The way in which
+the autocorrelation function tends to zero is considered as a measure of memory process
 
 In the first graph you can see some values that deviate from the expected ones.
 
@@ -812,7 +780,7 @@ n<-length(random.n)
 acf(random.n, main = " funzione di autocorrelazione", lag.max =n)
 ```
 
-Even in the graph with lag equal to 1 the observations are dependent. Indeed at the level
+Even in the graph with lag equal to $1$ the observations are dependent. Indeed at the level
 antitotic the following distribution holds
 
 $$\hat{p} \sim N(0,1/n)$$
@@ -824,7 +792,7 @@ graph of the points placed on the Cartesian plane.
 
 
 
-Runif function
+### Runif function
 
 In the following, we use the R generator which is called with the runif function and repeats i
 previously performed tests on this new set of pseudo-random number realizations.
@@ -838,7 +806,7 @@ rand <- runif(n, min=0, max=1)
 head(rand)
 ```
 
-a) scatter diagram
+a. Scatter plot
 ```{r}
 plot(rand[1:(n-1)],
 rand[2:n],
@@ -848,7 +816,7 @@ ylab = "valori generati con funzione runif")
 ```
 You can see that the points are randomly scattered across the plane.
 
-b) Empirical distribution function
+b. Cumulative Density function
 
 ```{r}
 plot(ecdf(rand),
@@ -868,7 +836,7 @@ cex=0.6)
 
 There are no particular differences between the two distribution functions.
 
-c) Histogram
+c. Histogram
 
 ```{r}
 hist(rand, col = 'yellow',
@@ -895,20 +863,20 @@ uniform.
 
 Statistical tests also confirm this statement.
 
-Statistical tests
+## Statistical tests
 
-Kolmogorov-Smirnov
+### Kolmogorov-Smirnov
 ```{r}
 ks.test(rand, "punif")
 ```
 
-Chi Square
+### Chi Square
 
 ```{r}
 foss<-table(cut(rand, int))/n; foss
 ```
 
-Autocorrelation
+### Autocorrelation
 
 ```{r}
 acf(rand,

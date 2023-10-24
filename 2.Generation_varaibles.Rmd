@@ -1,0 +1,1504 @@
+---
+title: "2.Genrazioni di realizzazioni di variabili casuali"
+author: "NikolayNikolaev"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+2. Generazioni di realizzazioni di variabili casuali
+
+Generare delle realizzazioni da variabili casuali signica produrre al calcolatore
+valori che provengono da una determinata distribuzione di probabilita
+(densita) di una variabile casuale discreta, continua, unidimensionale o multidimensionale.
+In pratica si simulano n-uple campionarie da popolazioni le
+cui variabile casuale sottostanti hanno un'assegnata distribuzione.
+
+La generazione di variabile casuale avviene in genere al calcolatore, mediante
+l'implementazione di algoritmi iterativi che impiegano una serie di numeri
+pseudo-casuali. Una volta ottenute le determinazioni si impiegano alcuni test
+empirici come ad esempio la valutazione della rappresentazione graca della
+distribuzione di frequenza simulata, ovvero il controllo dei momenti (media,
+varianza, ecc.) e degli altri valori caratteristici delle determinazioni simulate
+(mediana, curtosi ecc.) che devono risultare vicini ai momenti teorici e
+alle caratteristiche note della distribuzione della variabile casuale di riferimento.
+La letteratura sulla generazione di variabile casuale e molto vasta,
+essenzialmente di tipo informatico. I metodi di generazione si suddividono in
+metodi Metodi Generali Esatti che comprendono il metodo della Trasformata
+Inversa e il Metodo di Accettazione/Riuto ed Metodi ad hoc per speciche
+distribuzioni. Per alcuni dettagli si rimanda a Mecatti et al. (2008).
+L'algoritmo che si utilizza per produrre queste determinazioni in generale
+deve avere le seguenti caratteristiche:
+
+
+- Esattezza. Un algoritmo per generare una variabile casuale e detto esatto se produce valori che hanno esattamente la distribuzione di probabilit
+a pressata; altrimenti, si parla di algoritmi approssimati. In
+passato la ricerca si e concentrata sullo sviluppo di metodi approssimati
+che in genere risultano meno costosi a livello computazionale dei
+metodi esatti. Attualmente, al crescere della potenza computazionale,
+disponiamo di metodi esatti per generare dalle variabile casuale piu
+note. Tuttavia, nella pratica, puo comunque essere conveniente, per
+motivi di economicita, utilizzare un metodo approssimato in luogo di
+un metodo esatto.
+
+
+- Ecienza. Con riferimento ad un algoritmo, si parla di ecienza sia
+sotto il prolo dello spazio di memoria sia sotto quello dei tempi di esecuzione
+necessari per ottenere l'output. Tali considerazioni, di evidente
+portata pratica oltre che teorica, intervengono ad esempio nella scelta
+fra due algoritmi esatti per generare dalla medesima variabile casuale.
+
+Semplicita. Con riferimento ad un algoritmo, si parla di complessita
+sia sotto il prolo concettuale sia dal punto di vista dell'implementazione
+(codica, ricerca e correzione degli errori ecc.). Come in ogni
+attivita umana, la semplicita e, anche in questo ambito, un criterio
+di buon senso altamente apprezzabile. Occorre pertanto valutare se
+l'eventuale guadagno di ecienza e tale da compensare l'aumento di
+complessita dell'algoritmo e dunque il maggiore sforzo di comprensione
+e implementazione del metodo.
+
+Robustezza. Con riferimento ad un algoritmo, la robustezza e intesa
+come capacita di risolvere grandi classi di problemi piuttosto che casi
+particolari. Nell'ambito della generazione di variabile casuale esistono
+metodi generali, applicabili cioe a qualunque variabile casuale e dunque
+robusti, e metodi che viceversa risultano ecienti solo se applicati a
+particolari variabile casuale mentre falliscono per la generazione da altre
+variabile casuali.
+
+Sulla base di tali osservazioni e senza pretese di esaustivita su un argomento
+tutt'ora oggetto di ricerca e comunque ben oltre gli obiettivi di questo corso,
+saranno qui richiamate alcune note distribuzioni di densita e di probabilita
+le cui realizzazioni saranno ottenute con le funzioni native dell'ambiente R
+(R Core Team, 2020).
+
+
+
+### 1.4.1 Variabile casuale di Gauss
+
+Sia X la variabile casuale continua Normale (o di Gauss) nel seguito indicata
+con la seguente notazione compatta 
+$X \sim N(\mu, \sigma^2)$ e caratterizzata dai
+parametri $\mu \in \mathcal{R}$ e $\sigma \in \mathcal{R^+}$. Questa distribuzione e particolarmente utile dato che il teorema del limite centrale stabilisce, con relative non troppo
+stringenti assunzioni, che la somma (convoluzione) di molte variabili casuali
+indipendenti e identicamente distribuite, ha una distribuzione normale,
+indipendentemente della distribuzione delle singole variabili causali.
+La funzione di densita e la seguente:
+
+$$f(x)= \frac{1}{\sigma \sqrt{2.\pi}} exp[\\frac{1}{2 \sigma^2}(x-\mu)^2]$$
+- $-\infty < x < \infty$
+
+dove $\mu$ e $\sigma>0$ sono i parametri e $\pi$ e la costante matematica 3.1416.... . Ai fini della generazione da $X$ si sfruttano le seguenti osservazioni basate su
+altrettante proprieta della Normale:
+1. Sia $Z \sim N(0,1)$, si ha $Z.\sigma + \mu = X$
+2. Pertanto e' sufficiente avere un metodo che generi determinazioni da $\Z \sim N(0,1)$ 
+ovvero dalla distribuzione Normale Standard per ottenere,
+mediante semplice trasformazione lineare $Z.\sigma + \mu = X$, , determinazioni
+da una qualunque variabile casuale appartenente alla famiglia $N(\mu, \sigma^2)$
+
+3. Date n variabile casuali Normali indipendenti
+$$X_i \sim N(\mu_i, \sigma_i^2)$$
+
+con $i=1...n$ la variabile casuale:
+$$Y = \sum_{i=1}^n X_i$$
+
+ha la seguente distribuzione
+
+$Y \sim N(\sum_{i=1}^n  \mu_i; \sum_{i=1}^n \sigma_i^2)$
+
+Una variabile casaule continua Z assume una distribuzione normale standard
+se la funzione di densita e la seguente
+
+$f(z)= \frac{1}{\sqrt{2\pi}} exp(-\frac{1}{2}z^2)$
+
+e si scrive $Z \sim N(0,1)$. Si noti che la seguente costante $\frac{1}{\sqrt{2\pi}}$ e chiamata
+costante di normalizzazione ed e utile anche la funzione di densita integri
+a 1.
+
+La funzione di ripartizione della variabile casuale normale standard rappresenta
+l'area sottostante la funzione di densita ed ha la seguente espressione
+
+$$\Phi(z)= \int_{-\infty}^z \frac{1}{\sqrt{2\pi}}exp(-\frac{1}{2}t^2)dt$$
+
+Dalla distribuzione si deduce: 
+i. la simmetria della funzione di densita; 
+ii. la simmetria dell'area presente sulle code della distribuzione $\Phi(z)= 1-\Phi(-z)$
+iii. la simmetria di Z and - Z
+
+
+
+
+
+
+
+
+
+
+### 1.4.2 Variabile casuale Esponenziale
+La variabile casuale esponenziale ha una distribuzione 
+essibile e simmetrica
+rispetto ai valori positivi del supporto. Si utilizza per rappresentare dei
+fenomeni quali ad esempio il tempo di attesa di un evento. Sia X il tempo
+di attesa no al primo evento allora $X \sim Exp(\lambda)$ quando
+
+$$\begin{equation}
+
+f(x) = 
+\begin{cases}
+
+\lambda. exp(-\lambda x)   & x \geq 0  \\ 
+ 0 & otherwise
+
+\end{cases}
+\end{equation}$$
+
+con $x \geq 0$ and $\lambda > 0$, $\frac{1}{\lambda}$ rappresenta il tempo medio di attesa per l'evento
+(nell'unita di tempo). Nella formulazione presentata in precedenza viene
+
+anche chiamata distribuzione esponenziale negativa. Quanto piu elevato e il
+tasso di occorrenza  $\lambda$ dell'evento tanto minore sara il tempo di attesa.
+La funzione di ripartizione di X e la seguente:
+
+$P(X \leq x) = F_X(x)= \inf_{0}^x e^{-t}dt= -e^{-t}|_0^x= 1-e^{-x\lambda}$
+
+Il tempo medio di attesa per l'evento e' $\frac{1}{\lambda}$
+
+
+Questa variabile casuale ha la cosiddetta proprieta detta di assenza di memoria
+ovvero se ad esempio il tempo di attesa per uno sportello alle poste e
+esponenziale e una persona sta aspettando gia da t minuti, allora la probabilit
+a di aspettare ancora altri **s** minuti $P(t+s)= P(s)$ e uguale a quella
+di dover aspettare per s minuti complessivi. Se un evento non si e ancora
+vericato al tempo u, il tempo aggiuntivo necessario per osservare un evento
+e lo stesso che si avrebbe se si iniziasse ad osservare il processo al tempo
+0. Se il tempo di vita di una macchina ha una distribuzione esponenziale,
+allora non importa da quanto tempo la macchina e in funzione, a condizione
+che sia vissuta cos a lungo, la macchina e come nuova: non c'e un eetto di
+usura che renda la macchina piu probabile che si rompa presto. Pertanto se
+l'aspettativa di vita umana assumesse una distribuzione esponenziale, allora
+coloro che vivino no a 80 anni, avrebbero un aspettativa di vita uguale a
+quella di un neonato.
+
+Due altre importanti proprieta sono le seguenti:
+- la somma di n variabile casuali indipendenti con distribuzione esponenziale
+e tutte aventi lo stesso parametro $\lambda$ allora la variabile casuale
+$Y=X_1 + X_2 + ...+X_n$ ha una distribuzione Gamma di parametri $(n, \lambda)$.
+
+- La statistica d'ordine minimo di una serie di variabili casuali esponenziali
+indipendenti $X_{(1)}= min(X_1...X_n)$ con parametri $\lambda_1...\lambda_n$ ha ancora un distribuzione 
+esponenziale $X_{(1)} \sim Exp(\sum_i^n \lambda_i)$
+
+
+
+### 1.4.3 Variabile casuale Gamma
+
+La variabile casuale Gamma si puo considerare una generalizzazione della
+variabile casuale esponenziale. Sia X la variabile casuale Gamma caratterizzata
+dai parametri $\alpha>0$ (parametro di forma) e $\beta>0$ (con $1/\beta parametro di scala$)
+
+$$
+\begin{equation}
+
+f(x) = 
+\begin{cases}
+
+\frac{\beta^{\alpha}}{\Gamma(\alpha)}.x^{\alpha-1} exp^{-\beta.x}   & x > 0  \\ 
+ 0 & otherwise
+
+\end{cases}
+\end{equation}
+$$
+dove $\Gamma(\alpha)= \int_{0}^{+\infty} x^{\alpha-1} exp^{-z}dz$ 
+
+e un integrale implicito noto come funzione
+gamma. La distribuzione chi-quadrato e un caso speciale della Gamma.
+
+
+La variabile casuale Gamma riveste un ruolo di primo piano nelle applicazioni,
+prestandosi come modello per fenomeni continui e positivi (illimitati).
+Si utilizza, ad esempio, per l'ammontare di pioggia caduta in una certa citta
+o in genetica ma e stata anche utilizzata per il calcolo dei pesi dell'indice $R_t$
+(rapporto tra casi osservati al tempo t e somma pesata dei casi osservati
+in un intervallo di tempo precedente) della pandemia SARS-CoV2 (dove i
+parametri della Gamma sono determinati come media e deviazione standard
+del serial interval, ovvero dell'intervallo di tempo che intercorre tra la data
+di inizio dei sintomi di un caso e la data di inizio dei sintomi su un contatto).
+Risulta estremamente versatile e la sua funzione di densita puo assumere
+una varieta di forme come mostra la Figura 1.4.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 1.4.4 Variabile casuale Beta
+
+Sia X la variabile casuale Beta caratterizzata da parametri $\alpha>0, \beta$ e tale che la sua funzione di densita e' la seguente.
+
+$$
+\begin{equation}
+
+f(x) = 
+\begin{cases}
+
+\frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1}   & 0 <x <1  \\ 
+ 0 & otherwise
+
+\end{cases}
+\end{equation}
+$$
+dove:
+
+$B(\alpha, \beta)= \int_0^1 x^{\alpha -1} (1-x)^{\beta-1} = \frac{\Gamma(\alpha).\Gamma(\beta)}{\Gamma(\alpha + \beta)}$
+
+e un integrale implicito noto come funzione beta.
+
+La variabile casuale Beta si presta a modellizzare fenomeni continui che assumo
+valori in un intervallo limitato, riconducibile, mediante opportune trasformazioni,
+all'intervallo (0,1). E' stata utilizzata, ad esempio, per la distribuzione
+di frequenza della durata giornaliera delle masse nuvolose, oppure
+per la durata respiratoria.
+
+Analogamente alla variabile casuale Gamma, anche la variabile casuale Beta
+dipende da 2 parametri risultando cos estremamente versatile e la funzione
+di densita puo assumere una varieta di forme come mostrato in Figura 1.5.
+
+
+
+
+
+
+
+
+
+
+### 1.4.5 Variabile casuale di Bernoulli
+
+E
+la piu semplice fra le variabile casuale discrete e si presta ad interpretare
+fenomeni dicotomici cioe che si manifestano con due sole modalita, contrarie
+ed esaustive, molto frequenti nelle scienze sociali.
+
+La variabile casuale X di Bernoulli assume i valori 0 e 1, interpretabili come
+successo e insuccesso, ed e caratterizzata dal parametro $p \in (0,1)$. La funzione di probabilita e la seguente
+
+$$
+\begin{equation}
+
+f(x) = P(X=x)
+\begin{cases}
+
+p^x(1-p)^{1-x}   & x=0,1 \\ 
+0 & otherwise
+
+\end{cases}
+\end{equation}
+$$
+
+Indicata con U la variabile casuale Uniforme in (0,1), si ha: $P(0<U<p) = p=Pr(X=1)$ e $P(p<U<1)= 1-p=P(X=0)$
+
+
+
+
+
+
+
+
+### 1.4.6 Variabile casuale Binomiale
+La variabile casuale X Binomiale si presta a modellare il numero di successi
+su n prove indipendenti, ciascuna con probabilita di successo costantemente
+pari a p. Questa e dunque caratterizzata dalla coppia di parametri $n \in N$ e $p \in (0,1)$ e la 
+sua funzione di probabilita e' la seguente:
+
+
+$$
+\begin{equation}
+
+f(x) = P(X=x)
+\begin{cases}
+
+\binom{n}{x} p^x (1-p)^{n-x}   & x=0,1....n \\ 
+0 & otherwise
+
+\end{cases}
+\end{equation}
+$$
+Infatti con n prove indipendenti la probablita di una certa sequenza e l'intersezione
+di n eventi indipendenti e pertanto ad esempio la sequenza seguente
+$(1; 1; 0; 0; 0; ... ; 0)$ ha la seguente probabilit
+
+
+$P(X_1=1).P(X_2=1)P(X_3=0)....P(X_n=0)= p^2(1-p)^{n-2}$
+
+
+Si noti che la probabilita e la stessa indipendentemente dal momento in cui
+si vericano i due successi e pertanto si scrive
+
+$P(X=2)= \binom{n}{2}p^2(1-p)^{n-2}$
+
+
+Ad esempio, si utilizza per modellizzare la proporzione di soggetti con una
+certa malattia quando la numerosita della popolazione e ampia (N >5000).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 1.4.7 Variabile casuale di Poisson
+La variabile casuale X di Poisson e una distribuzione per una variabile
+casuale discreta, assume un'innita numerabile di valori. Viene utilizzata per
+modellizzare dei conteggi di occorrenze di eventi che avvengono casualmente
+nel tempo se:
+- i conteggi degli eventi che avvengono in periodi dierenti sono indipendenti;
+- risulta impossibile che due eventi si verichino simultaneamente;
+- il tasso di occorrenza degli eventi risulta costante.
+La distribuzione di probablita dipende da un singolo parametro $\lambda>0$ costante,
+in questo caso la distribuzione e detta omogenea. Si utilizza per
+rappresentare quei fenomeni che si presentano casualmente nello spazio o nel
+tempo sotto le seguenti condizioni: i conteggi degli eventi che avvengono
+in periodi disgiunti sono indipendenti, e impossibile che due o piu eventi si
+realizzino simultaneamente, e il tasso di occorrenza e costante.
+
+
+Questa distribuzione e legata alla cosiddetta legge degli eventi rari per alcune
+ragioni probabilistiche, e stata proposta dal matematico francese Poisson
+(1781-1840) come limite della distribuzione Binomiale in riferimento ai
+conteggi riguardanti il numero di sentenze giudiziarie errate (Poisson, 1837).
+La somma di variabili casuali esponenziali indipendenti con stesso tasso $\lambda$
+origina un processo Poisson di omogeneo a tasso $\lambda >0$. Se X rappresenta il
+numero di eventi che accadono in un intervallo di tempo oppure in una distanza
+unitaria sotto l'ipotesi che gli eventi siano indipendenti, la probabilita
+di osservare un certo numero di eventi nell'intervallo di tempo dipende solo
+dalla lunghezza dell'intervallo e non da dove inizia l'intervallo di tempo, e $\lambda$
+rappresenta il numero medio di eventi nell'intervallo di lunghezza unitaria.
+La variabile casuale X ha la seguente funzione di probabilita
+
+
+
+$$
+\begin{equation}
+
+f(x) = P(X=x)
+\begin{cases}
+
+\frac{\lambda^x}{x!}.exp(-\lambda)   & x=0,1.... \\ 
+0 & otherwise
+
+\end{cases}
+\end{equation}
+$$
+
+Si utilizza nelle applicazioni come modello ad esempio per il numero di particelle $\alpha$
+emesse da una sostanza radioattiva o il numero di nascite naturali
+che avvengono un grande ospedale. Si applica anche come approssimazione
+della distribuzione binomiale quando n e grande e p piuttosto piccolo, con $\mu=n.p$.
+
+Risulta che $E(X)= \lambda$ e $Var(X)=\lambda$ Pertanto al crescere della media cresce
+anche la variabilita della variabile casuale. Questo fatto e limitante in quanto
+i dati osservati spesso risultano avere una variabilita piu elevata rispetto al
+valore medio. Ad esempio nell'analisi di Y numero di deceduti al giorno in incidenti
+automobilistici in Italia, la probabilita p di questo evento in un giorno
+varia in base alle capacita delle persone che si mettono alla guida ed in base
+al numero di ore spese in automobile. Per cui la distribuzione eettiva della
+variabile casuale che costituisce il meccanismo generatore dei dati avra sicuramente
+maggiore variabilita della variabile casuale di Poisson. Questo fatto
+e detto overdispersion. La distribuzione introdotta nel seguito e chiamata
+Binomiale Negativa e una distribuzione alternativa per dati di conteggio che
+deriva da un insieme di distribuzioni di Poisson con diverse medie. Pertanto
+e costituita da due parametri e questo permette di modellizzare i conteggi
+che risultano avere variabilta superiore alla media.
+
+
+1.4.8 Variabile casuale Binomiale Negativa
+La distribuzione Binomiale Negativa (BN) e utilizzabile per una variabile Y
+che corrisponde al numero di insuccessi prima di arrivare ad un certo numero 
+di successi in una sequenza di prove Bernoulliane, cioe prove che hanno due
+possibili esiti, appunto successo o insuccesso. Nello specico la distribuzione
+e caratterizzata da due parametri: p che indica la probabilita di successo e k
+che indica il numero dei successi. La sua funzione di probabilita e data dalla
+seguente espressione:
+
+$$p(Y=y)= \frac{(k+y -1)!}{y!(k-1)!}.p^k.q^k$$
+con y = 0; 1; : : : e q = 1 􀀀 p che denota la probabilita di insuccesso. Questa
+distribuzione e stata formulata dal matematico Blaise Pascal (1623-1662) ed
+infatti una formulazione particolare di questo modello e nota anche come
+distribuzione di Pascal. Successivamente e stata formalizzata da vari matematici
+nel 1700 ed utilizzata anche da Greenwood and Yule (1920) per uno
+studio epidemiologico. Si noti che ha una portata piu generale della distribuzione
+di Poisson perche la moda della distribuzione di Poisson e pari a zero
+solo per valori del parametro inferiori a 1. Anche la distribuzione Binomiale
+Negativa e unimodale ma la moda puo essere pari a zero per qualsiasi valore
+del parametro. In realta infatti possono presentarsi vari eventi con moda zero
+ma media molto superiore, si pensi ad esempio al conteggio relativo all'anno
+precedente per una certa popolazione del numero di volte in cui ci e allenati
+in una palestra.
+
+In letteratura, e stato riconosciuto che la distribuzione Binomiale Negativa
+(opportunamente modicata per permettere valori di k non interi) generalizza
+la distribuzione di Poisson in modo che la varianza possa essere superiore
+al valore atteso, mentre nella Poisson queste due grandezze sono vincolate ad
+essere uguali (Cameron and Trivedi, 2013). Quindi tale distribuzione si applica
+per modellizzare i fenomeni in cui e presente overdispersion. Quest'ultima
+puo essere dovuta alla presenza di eterogeneita che non e adeguatamente
+descritta dalle covariate del modello.
+La distribuzione della variabile casuale Y ha
+
+$$E[Y]= \mu$$
+
+$$Var[Y]= \mu + var[\lambda]>\mu$$
+
+where $\lambda$ is the parameter of the Poisson distribution
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 1.5. Modelli lineari generalizzati per dati di conteggio
+
+Si consideri una variabile risposta Y e un insieme di variabili esplicative, il
+modello lineare generalizzato permette di assumere una distribuzione diversa
+dalla distribuzione normale per Y e di modellizzare funzioni non lineari per
+la media. Nel caso dei modelli lineari generalizzati per dati di conteggio, il
+modello assume per la variabile risposta una distribuzione di Poisson o una
+distribuzione Binomiale Negativa.
+Il modello presenta tre componenti:
+- la variabile risposta e le n osservazioni campionarie $y_1...y_n$ sono
+assunte come realizzazioni;
+- le variabili esplicative: sono le p covariate con le quali si intende spiegare
+la variabilita della risposta e si considera un predittore lineare del tipo
+$\beta+0 + \beta_1 . x_{i1}+ ...+\beta_p .x_{ip}$
+
+- la funzione legame (link): si tratta di una funzione g che viene applicata
+al valore atteso condizionato della risposta date le covariate:
+
+
+$g(m_i) = \beta_0 + \beta_1.x_{i1} + .... + \beta_p .x_{ip}$
+
+per i=1..n
+
+
+Nel caso in cui si intende modellizzare i conteggi la distribuzione di riferimento
+e quella di Poisson, e la funzione log e la funzione legame
+
+$$log(\mu_i)= \beta_0 + \beta_1x_{i1} + ...+ \beta_p.x_{ip}$$
+
+ed il modello lineare generalizzato e chiamato modello log-lineare di Poisson.
+Se invece della Poisson si assume la distribuzione Binomiale Negativa
+per permettere l'overdispersion il modello e detto modello log-lineare basato
+sulla distribuzione Binomiale Negativa. La selezione del modello ovvero
+la scelta del modello che comprende un insieme ottimale di variabili esplicative
+viene eettuata generalmente utilizzando i criteri d'informazione. Se
+la stima del modello avviene con il principio di massima verosimiglianza la
+log-verosimiglianza del modello cresce aumentando il numero dei parametri
+pertanto i criteri d'informazione penalizzano la log-verosimiglianza per il
+numero dei parametri. Con questi criteri il modello viene scelto in base al
+valore minimo dell'indice d'informazione quando si confrontano modelli con
+un numero di parametri diversi.
+
+
+
+
+Tra i criteri d'informazione l'indice di adattamento Bayesiano e denominato
+Bayesian Information Criterion (BIC) (Schwarz, 1978) ed e uno dei piu
+utilizzati. Questo comporta la scelta di un ordine del miscuglio in grado di
+fornire una buona stima della funzione di probabilita sottostante. Il criterio
+BIC e denito nel modo seguente
+
+$$BIC_k = -2.\hat{l_k}(\theta) + \# par_k log(n)$$
+
+where $\hat{l_k}$ indica il valore della log-verosimiglianza a convergenza dell'algoritmo
+di stima con un numero di parametri pari a k. La log-verosimiglianza
+viene pertanto penalizzata per il numero dei parametri del modello $(\# par_k)$ tenendo conto del logaritmo della numerosita (n) delle osservazioni.
+
+Il criterio di informazione di Akaike (Akaike, 1973) e denito nel modo
+seguente
+$$AIC_k = -2\hat{l_k}(\theta)  + 2\#par_k$$
+
+e rispetto al BIC non considera la numerosita complessiva.
+
+
+
+1.6. Modello di Poisson per dati di conteggio
+
+Alcune volte e opportuno ipotizzare che il tasso degli arrivi degli eventi che il
+processo di Poisson conta non sia costante nel tempo. Pertanto si considera
+un processo di Poisson con tasso non costante. Nell'ambito dell'epidemia
+SARS-CoV2 per modellizzare la serie del numero degli individui attualmente
+positivi riferito a un certo giorno t, dove t = 1; : : : ; T; con T che indica l'ultimo
+giorno di osservazione, e stato utilizzato un processo di Poisson con tasso
+non costante nel tempo (Bartolucci and Pennoni, 2020). I conteggi di questo
+tipo possono presentare delle irregolarita a causa di possibili ritardi nella
+registrazione e trasmissione dei dati che sono inevitabili in una particolare
+situazione d'emergenza come quella dovuta all'improvviso dilagare dell'epidemia.
+L'utilizzo del modelli di Poisson permette anche di tenere conto in
+modo adeguato di queste irregolarita creando una sorta di eetto smoothing
+o lisciamento nei dati.
+
+Un modello interessante e quello formulato assumendo che ogni variabile $Y_t$
+che rappresenta i conteggi giornalieri segua una distribuzione di Poisson con
+specico parametro e quindi valore atteso $\lambda_t$. Si assume che $\lambda_t$ soddis la
+seguente equazione basata sul logaritmo naturale
+
+$$log \lambda_t = \beta_0 + t\beta_1 + t^2\beta_2$$
+
+che corrisponde all'equazione di una parabola che avra una concavita rivolta
+verso il basso quando il coeciente $\beta_2$ e negativo. I parametri si possono
+interpretare considerando che
+
+$$ \lambda_t = exp(\beta_0) exp(t.\beta_1) exp(t^2\beta_2)$$
+
+Una formulazione che estende la precedente e quella che include anche una
+componente autoregressiva (Fokianos and Tjstheim, 2011). In pratica il
+modello assume che il valore atteso di ogni variabile $Y_t$ per $t=2...T$
+dipenda dal valore ritardato di questa variabile, ossia dal valore osservato di $Y_{(t-1)}$ che e' 
+denoto con $y_{(t-1)}$. Indicando con $\lambda(y_{(t-1)})$ il valore atteso di $Y_t$ condizionato a $y_{(t-1)}$ e utilizzando direttamente un polinomio nel tempo come covariata, si assume che
+
+$$log \lambda_t(y_{(t-1)}) = \beta_0 + t.\beta_1 + t^2\beta_2 + z_{t-1}\rho$$
+
+da cui
+
+$$\lambda_t (t_{(t-1)})= exp(\beta_0).exp(t.\beta_1) exp(t^2\beta_2)exp(z_{t-1}\rho)$$
+
+where $x_{(t-1)}$ e una opportuna trasformazione di $y_{(t-1)}$, come ad esempio $log(y_{t-1})$ oppre $log(1+ y_{t-1})$ quando vi sono dei precedenti conteggi con valori pari
+a 0, e $\rho$ e il coeciente autoregressivo. Se la variabile ritardata e riferita al
+periodo immediatamente precedente, come nelle equazioni precedenti, il modello
+e chiamato autoregressivo del primo ordine. Alcuni modelli di questo
+tipo con una struttura ancora piu generale sono stati utilizzati da Agosto et al. (2021) per le applicazioni riguardanti i conteggi dei pazienti aetti da
+COVID-19.
+I parametri dei modelli presentati in precedenza, vengono prevalentemente
+stimati con il metodo della massima verosimiglianza. Per il modello iniziale
+basato sul predittore lineare generale senza componente autoregressiva, la
+funzione di verosimiglianza puo essere formulata come segue
+
+$$\mathcal{l}(\theta) = \prod_{t=1}^T p(y_t; \lambda_t)$$
+
+dove $\theta$ rappresenta il vettore contenente tutti i parametri del modello e $p(y_t, \lambda_t)$
+e calcolata in base alla distribuzione di Poisson non omogenea con
+parametro $\lambda_t $ formulato come nell'equazione 1.6. Per la massimizzazione si
+utilizzano gli algoritmi iterativi descritti in McCullagh and Nelder (1989).
+Si utilizzano i criteri di selezione del modello, quali ad esempio il criterio di
+Akaike (1973), per la scelta appropriata dei termini da includere nel modello.
+Le misure di precisione che vengono associate alle stime dei parametri attraverso
+degli intervalli di condenza si ricavano con metodi asintotici oppure
+con il bootstrap parametrico (Davison and Hinkley, 1997). Inoltre e possibile
+prevedere l'andamento dei conteggi in base al modello stimato e quanticare
+l'incertezza della previsione tramite un intervallo predittivo.
+
+
+## 1.7. Modello basato sulla BN per dati di conteggio
+
+Il modello basato sulla BN considera l'aggiunta di un termine casuale rispetto
+alla precedente equazione 1.7 del modello di Poisson. Ovvero il modello
+diventa tale che include in modo moltiplicativo un termine casuale specico
+del tempo ed e il seguente:
+
+
+$$\lambda_t^` = \lambda_t.exp(\epsilon_t)$$
+
+with $\lambda_t^`$ che rappresenta il valore atteso condizionato del conteggio al tempo $t$, cioe $Y_t$.
+Il termine casuale rappresenta un possibile errore di specicazione
+del modello dovuto a variabili esplicative non osservate e pertanto omesse dal
+modello e permette, appunto, di tenere conto della eterogeneita non osserva-
+ta. Generalmente si assume che $v_t = exp(\epsilon_t)$ sia indipendente dalle covariate
+e abbia una particolare distribuzione con valore atteso pari a 1 e varianza costante $\sigma^2$
+
+, che ovviamente puo essere solo positiva. Di conseguenza, il valore
+atteso e la varianza di $Y_t$ (marginali rispetto al termine casuale) sono pari a
+
+$$\lambda_t \text{ e } \lambda(1+ \lambda_t \sigma^2)$$
+rispettivamente. Si noti che la varianza puo essere superiore al valore atteso
+(overdispersion). La stima dei parametri del modello viene eettuata attraverso
+il metodo della quasi massima verosimiglianza nell'ambito del quale il
+parametro di overdispersion viene stimato sulla base delle stime preliminari
+dei coecienti di regressione.
+
+
+
+
+
+# Demonstrtion:
+
+Le funzioni implementate in R utilizzano dei suffissi per definire le seguenti quantità:
+- d per calcolare la densità in un punto;
+- p per calcolare la funzione di ripartizione in un punto
+- q per calcolare un quantile
+- r per generare pseudo-determinazioni dalla distribuzione
+
+Le funzioni di :
+
+- Exponential: nome exp;
+- Gamma: nome gamma;
+- Student t: nome t
+- Normale: nome norm
+
+Per la distribuzione Normale standard nella libreria stats si ha:
+- dnorm
+- pnorm
+- qnorm
+- rnorm
+
+## Generazione di pseudo-derminazioni dalla v.c. di Gauss
+Si generano 10 realizzazioni dalla variabile casuale di Gauss con media zero e varianza 1
+```{r}
+rnorm(10,0,1)
+```
+
+Si generano 1000 realizzazioni e si disegna distribuzione empirica
+```{r}
+n <- 1000
+set.seed(27732)
+Z <- rnorm(1000)
+mean(Z); sd(Z)
+
+hist(Z,
+breaks = 30,
+freq=FALSE,
+main="Z = N(0,1)",
+col ="blue",
+ylab="Densità",
+ylim =c(0,0.6))
+```
+Per generare 10 realizzazioni da una distribuzione di Gauss tale che $𝑋 \sim 𝑁(4, 16)$ si può
+applicare la trasformazione $(𝑍⋅\sigma +\mu)$ dove 𝑍 rappresentano i generati dalla Normale standard
+oppure utilizzare la funzione specificando media e deviazione standard
+
+
+```{r}
+rnorm(10,mean = 4, sd = 4 )
+```
+
+
+
+### Generazione dalla variabile casuale Esponenziale
+Nel seguente chuck si crea una griglia di 101 valori e si calcola la densità della v.c. esponenziale
+con $\lambda = 1$ nei punti generati
+
+```{r}
+x<-seq(0,5,length=101)
+head(x)
+h<-dexp(x,rate = 1)
+head(h)
+```
+
+La media della v.c. è 1 e la varianza è 1.
+
+Nel seguente grafico si rappresenta la funzione di densità
+```{r}
+plot(x,h,
+type="l", col = "blue",
+lwd = 3, ylim = c(0,2),
+xlab = "Tempo di sopravvivenza", ylab = "Densità")
+
+```
+
+
+Si generano 1000 volte delle realizzazioni da v.c. esponenziali indipendenti con $\lambda=1$.
+Nel seguente si fissa una numerosità campionaria, si generano 3 realizzazioni dalla v.c. esponenziale
+di riferimento, si calcola la media aritmetica delle tre realizzazioni e si salvano nell’oggetto $m$
+
+```{r}
+n<-3
+m<-rep(0,1000)
+for(i in 1:1000){
+m[i]<-mean(rexp(n, rate=1))
+}
+head(m)
+```
+
+
+
+
+Si sovrappone l’istogramma dei valori generati alla curva disegnata in precedenza
+
+```{r}
+plot(x,h,
+type="l", col = "blue",
+lwd = 3, ylim = c(0,2),
+xlab = "Tempo di sopravvivenza", ylab = "Densità")
+hist(m, prob= T, add=T, col = rgb(0,0,1,1/4), breaks = 25)
+legend(3,1.5, c("teorica", "realizzazioni n = 3"),
+col = c("blue", "lightblue"),
+lty = c(1,1),
+lwd = c(2,1),
+cex = 0.6)
+```
+
+Per il teorema del limite centrale sappiamo che c’è la covergenza alla distribuzione
+Normale.
+
+### Generazione di pseudo-derminazioni dalla v.c. Beta
+La distribuzione $Beta(\alpha, \beta)$ è definita per valori di $0 < 𝑥 < 1$ e per $\beta, \beta > 0$.
+Si generano 1000 osservazioni dalla distribuzione beta standard con $\alpha= 1$ and $\beta = 1$. Si tratta
+della distribuzione uniforme in $U(0, 1)$
+
+```{r}
+n<-1000
+set.seed(27732)
+alpha <- 1
+beta<- 1
+B <- rbeta(n,alpha,beta)
+summary(B)
+
+```
+
+Si disegna l’istogramma
+```{r}
+hist(B,
+breaks = 50,
+freq=FALSE,
+main="Beta (1,1)",
+col ="grey",
+ylab="Densità"
+)
+curve(dbeta(x,1,1),
+col = "red",
+add = TRUE )
+```
+
+Si nota dalle statistiche descrittive che i numeri possono essere assunte come determinazioni
+pseudo-casuali.
+- Si ottengono ancora 1000 realizzazioni ponendo $\alpha = 0.5$ e $\beta = 0.7$ e si sovrappone la
+curva teorica generata attraverso la funzione dbeta.
+
+
+```{r}
+alpha <- 0.5
+beta <- 0.7
+B1 <- rbeta(n,alpha,beta)
+#
+hist(B1,
+breaks = 50,
+freq=FALSE,
+main="Beta (0.5,0.7)",
+col ="grey",
+ylab="Densità",
+ylim=c(0,6)
+)
+#
+curve(dbeta(x,alpha,beta),
+col = "red",
+add = TRUE, lwd=2 )
+legend(0.6,4, c("realizzazioni n = 1000",
+"distr. teorica"),
+col = c("grey", "red"),
+lty = c(1,1),
+lwd = c(1,2),
+cex = 0.4)
+
+```
+
+
+
+### Generazione di pseudo-derminazioni dalla v.c. Binomiale
+Si genera una sequenza di valori interi da 0 a 12 (𝑛 = 2), si fissa la probabilità di successo
+pari a 0.3 e si determinano le probabilità corrispondenti ai valori di x, si rappresentano
+graficamente
+```{r}
+y= seq(0, 12, 1); y
+dy <- dbinom(y,12,0.2); dy
+plot(y, dy, type="h")
+```
+Per generare dei numeri dalla distribuzione Binomiale si utilizza rbinom. Con il seguente
+codice si genera una realizzazione del risultato di un esperimento un cui la probabilità
+dell’evento successo è 0.2 e si ripete l’esperimento per 8 volte
+
+
+```{r}
+set.seed(123)
+rbinom(1, 8, 0.20)
+```
+
+ovvero su 8 prove si riscontra solo un successo.
+
+Il seguente codice permette di simulare 8 realizzazioni di un esperimento in cui la probabilità
+di successo è sempre 0.2
+```{r}
+rbinom(8, 1, 0.20)
+```
+
+il risultato è che si verifica un succeso alla terza, quarta e settima prova.
+### Generazione di pseudo-derminazioni dalla v.c. di Poisson
+Si genera una sequenza di valori tra 30 e 120 con incremento di 1.
+
+```{r}
+y = seq(30, 120, 3)
+plot(y, dpois(y, 80), type='h')
+```
+
+
+Si rappresenta la densità di Poisson fissando la media a 80
+Per generare 100 realizzazioni dalla distribuzione di Poisson con parametro $\lambda = 22$ si utilizza:
+
+
+```{r}
+
+set.seed(163)
+y <- rpois(100, 22); y
+mean(y)
+
+var(y)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###########################################################################
+
+# Modello lineare generalizzato per i conteggi basato sulla distribuzione Binomiale Negativa
+
+Si considerino i seguenti dati riguardanti dei grachi particolari ( per sapere cosa sono si
+rimanda al seguente video https://www.youtube.com/watch?v=6gydJh6rP50). Si tratta
+di 173 femmine di granchi. Durante la stagione della deposizione delle uova, una femmina
+migra verso la riva per riprodursi. Con un maschio attaccato alla sua spina dorsale posteriore,
+si scava nella sabbia e depone grappoli di uova. Le uova sono fecondate esternamente.
+Durante la deposizione delle uova, altri granchi maschi, chiamati satelliti, possono raggrupparsi
+intorno alla coppia e fecondare anche le uova. Per ogni granchio femmina si intende
+modellizzare il numero di satelliti (sat). Le variabili esplicative sono il colore del granchio
+femmina (color 1 = medio chiaro; 2 = medio; 3 = medio scuro; 4 = scuro), la condizione
+della spina dorsale (spine 1 = entrambe buone; 2 = una consumata o rotta; 3 = entrambe
+consumate o rotte), la larghezza del carapace (width in cm) e il peso (weightin kg). Il colore
+è un surrogato dell’età del granchio, poiché i granchi più vecchi tendono ad avere un colore
+più scuro.
+
+Si caricano i dati dal seguente sito
+
+
+```{r}
+Crabs <- read.table("http://stat4ds.rwth-aachen.de/data/Crabs.dat", header=TRUE)
+head(Crabs)
+```
+
+```{r}
+require(skimr)
+skimr::skim_without_charts(Crabs)
+```
+
+
+```{r}
+table(Crabs$sat)
+```
+
+
+Si nota che ben 62 femmine non hanno satelliti e che la media è 2.92 mentre la varianza è
+9.9 per cui molto superiore alla media. Poche (4) hanno un numero di satelliti superiore a
+10.
+
+La distribuzione empirica è la seguente
+
+```{r}
+hist(Crabs$sat, breaks=c(0:16)-0.5,
+ylim = c(0,70),
+col = "pink", ylab = "Frequenze",
+xlab = "Numero satelliti",
+main = " ")
+```
+
+Utilizzando la distribuzione BN si stima il seguente modello lineare generalizzato considerando
+come variabili esplicative il peso e il colore.
+
+```{r}
+library(MASS)
+stima <- glm.nb(sat ~ weight + factor(color), link=log, data=Crabs)
+summary(stima)
+
+```
+
+
+
+e si nota che il colore non risulta significativo ma solo peso è rilevante. La stima parametro
+di dispersione (forma della distribuzione) è 0.9596 e pertanto l’overdispersion è
+
+```{r}
+1/0.9596
+```
+
+
+
+# Analisi della serie storica dei conteggi riferiti a COVID- 19
+## 1. Modello autoregressivo di Poisson non omogeneo
+
+Nel presente esempio (tratto da Bartolucci e Pennoni, 2020) si stima un modello di Poisson
+non omogeneo nel tempo considerando la serie dei conteggi dei casi di pazienti affetti da
+COVID-19.
+
+I dati sono quelli forniti giornalmente a livello ufficiale dal Dipartimento della Protezione
+Civile sull’andamento del COVID-19 in Italia.
+
+La serie inizia con i conteggi del giorno 24 Febbraio 2020 (primo giorno di rilevazione) e
+viene incrementata ogni giorno.
+
+Nel seguente esempio si considerano i dati riferiti al periodo temporale più recente dal 1
+Agosto fino al 20 Ottobre 2022.
+
+In particolare si seleziona la serie storica dei conteggi di interesse e si stima il modello di
+Poisson non omogeneo con un trend temporale lineare, quadratico e log lineare inserendo anche
+una componente autoregressiva del primo ordine (si vedano le dispense di teoria) espresso
+come segue:
+
+
+$$log(\lambda_t(y_{(t-1)})) = \beta_0 +t.\beta_1 + (t^2/100)\beta_2 + log(t)\beta_3 + z_{t-1}\rho$$
+where $\rwo $ è il coefficiente autoregressivo.
+
+I dati sono di libero accesso nella piattaforma GITHUB e con la seguente sintassi si importano
+nel workspace direttamente dal repository e si selezionano alcune delle categorie disponibili.
+Si noti che con il seguente chunck prima si importa il dataframe con i conteggi di tutte le
+date disponibili fino al giorno corrente e poi con la funzione subset si seleziona il perido di
+interesse
+
+```{r}
+repository       <- "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/"
+overall.dataset  <- "dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv"
+overall.filename <-paste(repository,overall.dataset,sep="")
+Italy<-read.csv(overall.filename)
+names(Italy)
+
+library(dplyr)
+dataItaly<- Italy %>%
+select(data,
+dimessi_guariti,
+isolamento_domiciliare,
+ricoverati_con_sintomi,
+terapia_intensiva,deceduti)
+mydate <- as.Date(as.POSIXct(dataItaly$data, format="%Y-%m-%dT %H:%M:%S"))
+df<-data.frame(mydate,dataItaly$isolamento_domiciliare)
+colnames(df)<-c("date", "Isolati")
+df1 <- subset(df, date >= as.Date('2022-08-01') & date <= as.Date('2022-10-20'))
+
+```
+Si nota che vi sono 24 campi disponibili per i dati nazionali.
+
+Il dataframe denominato df è stato creato considerando solo la data e la serie dei conteggi
+che si intende usare: ovvero ad esempio i pazienti posti in isolamento domiciliare.
+Si vede che i giorni di rilevazione vanno dal 24 febbraio al 20 ottobre 2020
+
+```{r}
+
+min(df$date)
+
+max(df$date)
+
+```
+Il data frame df1 invece considera l’ultimo periodo.
+
+L’utilizzo del modelli di Poisson permette anche di tenere conto in modo adeguato delle irregolarità
+presenti nei dati, e pertanto i valori interpolati creano una sorta di effetto smoothing
+o lisciamento ai dati osservati.
+
+```{r}
+require(skimr)
+skimr::skim_without_charts(df1$Isolati)
+
+```
+Si rappresenta graficamente la serie osservata
+
+```{r}
+n<-length(df1$Isolati)
+ma<-max(df1$Isolati)
+mi<-min(df1$Isolati)
+ytick<-c(mi,409247,ma)
+xtick<-c(1,11, 21, 31, 41, 51, 61, 71, 81)
+plot(df1$Isolati,
+ylab=expression("Isolamento ("*italic(y[t])*")"),
+xlab=expression("Giorni ("*italic(t)*")"),
+yaxt="n",
+xaxt="n",
+xlim =c(1,n+5),ylim = c(0,ma+10),
+lwd = 0.5,
+lty = 1,col ="black" )
+axis(side=2, at=ytick, labels = FALSE,
+cex.lab = 0.5, padj = 2,tck=-0.009)
+text(par("usr")[1],
+ytick,
+labels = ytick, srt = 45,
+pos = 2, xpd = TRUE, cex.lab = 0.1)
+axis(side=1, at=xtick,
+labels = FALSE, cex=0.1,tck=-0.009)
+text(x=xtick,
+par("usr")[3],
+labels = xtick,
+cex.lab = 0.5,
+pos = 1, xpd = TRUE)
+
+```
+
+Il modello di Poisson non omogeneo si stima definendo le covariate riferite al tempo e
+menzionate in precedenza: il trend lineare, quadratico e log-lineare nel modo seguente
+
+```{r}
+regressors1Italy <- cbind(linearTrend=seq(along=df1$Isolati),
+quadTrend = seq(along=df1$Isolati)^2/100,
+linlogTrend = log(seq(along=df1$Isolati)))
+head(regressors1Italy)
+
+```
+
+
+Per stimare il modello con il metodo della massima versosimiglianza si utilizza la funzione
+tscount::tsglm della libreria (da installare, tscount proposta da Liboschik et al., 2020)
+(Analysis of Count Time Series)
+
+Si noti che la prima opzione del chunk seguente serve per rimuovere la notazione scientifica
+che alcune volte può essere stampata in output.
+
+```{r}
+options(scipen = 100)
+require(tscount)
+M3Italy <- tsglm(ts=df1$Isolati,
+link = "log",
+model=list(past_obs=1),
+xreg=regressors1Italy,
+distr = "poisson")
+```
+
+Come già sperimentato per la funzione glm occorre fornire:
+- i dati osservati come serie univariata dei conteggi,
+- la funzione link per il modello log-lineare per 𝜆𝑡,
+- definire l’ordine del ritardi con past_obs,
+- la matrice delle covariate temporali xreg e la distribuzione di riferimento.
+
+```{r}
+summary(M3Italy)
+```
+
+Viene fornito in output il valore massimo della funzione di log-verosimiglianza a convergenza,
+il numero dei parametri stimati con il modello, ed i valori degli indici di selezione BIC (criterio
+d’informazione Bayesiano), AIC (criterio di Akaike) e una sua versione aggiustata definita
+QIC (quasi information criterion).
+
+Dalla sintesi dei risultati delle stime del modello notiamo che l’intercetta del modello ha un
+valore positivo e corrisponde al valore del logaritmo di lambda quando tutte le covariate
+hanno valore 0.
+
+Le stime dei coefficienti di regressione sono fornite insieme all’intervallo di confidenza
+calcolato al livello del 95% utilizzando il metodo asintotico (basato sull’approssimazione
+dello stimatore alla distribuzione Normale).
+
+Si noti che tutti i coefficienti sono positivi tranne i due coefficienti riferito al trend quadratico
+e al trend log-lineare nel tempo.
+
+Si noti che è di particolare interesse confrontare i valori osservati con i valori interpolati.
+E’ inoltre di interesse fare delle previsioni: calcolare i conteggi attesi in base al modello
+stimato per gli isolati di oggi (20 ottobre 2022) e per quelli dei prossimi 4/5 giorni.
+
+Come per la funzione glm i valori previsti si ottengono con la funzione predict.
+
+Si noti che la funzione tsglm::predict implementa il method="bootstrap" ovvero la distribuzione
+dei valori previsti è approssimata con il bootstrap parametrico basato di default
+su B = 1000 traiettorie simulate dal modello stimato. Si noti che in questo modo si associa
+alla stima puntuale della previsione un intervallo definito intervallo predittivo calcolato con
+una confidenza di 0.95.
+
+```{r}
+go <- 5
+TT <- length(df1$date)
+P3Italy <-predict(M3Italy,
+newxreg = data.frame(linearTrend = ((TT+1):(TT+go)),
+quadTrend = ((TT+1):(TT+go))^2/100,
+linlogTrend = log((TT+1):(TT+go))),
+n.ahead=go,
+method="bootstrap" )
+```
+
+
+La seguente tabella riporta i valori previsti degli isolati, insieme ai limiti dell’intervallo
+predittivo al 95%, per oggi e per i prossimi 4 giorni
+
+```{r}
+pred<-data.frame(cbind(P3Italy$pred,P3Italy$interval))
+colnames(pred)<-c("previsti", "PIinf", "PIsup")
+pred
+```
+
+
+Si nota che il numero degli isolati atteso per domani è di 514103 ed il trend è quello che iil
+numero decresca nei giorni successivi.
+
+Si nota che le ampiezze degli intervalli sono modeste e che queste crescono al crescere del
+giorno previsto. Ciò denota, come ci si aspetta, un aumento dell’incertezza delle previsioni
+via via che ci si allontana dall’ultima data di osservazione.
+
+Le seguente figura mostra i conteggi osservati dei pazienti isolati per tutto il periodo considerato
+insieme ai valori interpolati con il modello stimato a cui vengono aggiunti i valori
+previsti per il periodo temporale riportato che sono visualizzati dopo la retta grigia che
+indica il giorno di ieri
+
+```{r}
+ytick<-c(mi,409247,ma)
+xtick<-c(1,11, 21, 31, 41, 51, 61, 71, 81)
+plot(df1$Isolati,
+ylab=expression("Isolamento ("*italic(y[t])*")"),
+xlab=expression("Giorni ("*italic(t)*")"),
+yaxt="n",
+xaxt="n",
+xlim =c(1,n+5),
+ylim = c(0,ma),
+lwd = 0.5,
+lty = 1,col ="black" )
+abline(v=240, col = "gray")
+axis(side=2, at=ytick, labels = FALSE,
+cex.lab = 0.5, padj = 2,tck=-0.009)
+text(par("usr")[1],
+ytick,
+labels = ytick, srt = 45,
+pos = 2, xpd = TRUE, cex.lab = 0.1)
+axis(side=1, at=xtick,
+labels = FALSE, cex=0.1,tck=-0.009)
+text(x=xtick,
+par("usr")[3],
+labels = xtick,
+cex.lab = 0.5,
+pos = 1, xpd = TRUE)
+lines(c(M3Italy$fitted.values,
+pred$previsti),
+lwd=3, col = 3, lty = 4)
+legend("bottomleft",
+       pch = c(20,NA,NA,NA,NA),
+lty = c(NA,2),
+legend = c("osservati", "interpolati e previsti"),
+col = c("black", "green"),
+bty = "n",
+x.intersp = 0.1,
+cex= 0.6, pt.cex = .5,
+xpd = TRUE,
+text.width = 0.0001)
+
+```
+
+
+## Modello autoregressivo con distribuzione Binomiale Negativa
+
+Nel presente esempio si consida un modello basato sulla distribuzione Binomiale Negativa
+per la serie dei conteggi dei casi di pazienti affetti da COVID-19.
+Nell’ applicazione precedente la stima del parametro autoregressivo è diversa da zero
+$\hat{\rho}=0.99$ ($\beta_1$)
+
+Il modello basato sulla distribuzione Binomiale Negativa include il parametro di overdispersion
+in modo che la il valore atteso dei conteggi è 𝜆̂𝑡 mentre la varianza è diversa dal valore
+atteso e risulta $\hat{\lambda}(1+\hat{\lambda}.\hat{\sigma^2})$
+
+```{r}
+options(scipen = 100)
+require(tscount)
+M4Italy <- tsglm(ts=df1$Isolati,
+link = "log",
+model=list(past_obs=1),
+xreg=regressors1Italy,
+distr = "nbinom")
+
+```
+
+ovvero specificando la distribuzione Binomiale Negativa con distr = "nbinom".
+In questo caso il modello presenta un parametro aggiuntivo riferito a $\sigma^2$
+
+```{r}
+summary(M4Italy)
+```
+
+
+Dalla sintesi dei risultati del modello notiamo che la stima del parametro 𝜎2 è 0.00375 che
+risulta pertanto postiva indicando overdispersion.
+
+Per calcolare l’errore standard occorre applicare il bootstrap che verrà introdotto nei giorni
+seguenti.
+
+I valori previsti per i cinque giorni successivi (dal 19 al 23 ottobre) con questo modello si
+ottengono con la funzione predict ed in modo analogo a quanto mostrato per il modello
+stimato con la distribuzione di Poisson possiamo calcolarle dopo aver specificato le covariate
+temporali.
+
+
+```{r}
+go <- 5
+TT <- length(df1$date)
+P4Italy <-predict(M4Italy,
+newxreg = data.frame(linearTrend = ((TT+1):(TT+go)),
+quadTrend = ((TT+1):(TT+go))^2/100,
+linlogTrend = log((TT+1):(TT+go))),
+n.ahead=go,
+method="bootstrap" )
+pred<-cbind(P4Italy$pred,P4Italy$interval)
+colnames(pred)<-c("previsti", "PIinf", "PIsup")
+pred
+```
+
+
+E’ interessante notare che il valore puntuale del conteggio previsto è simile a quello ottenuto
+con il modello di Poisson tuttavia in base all’overdispersion l’itervallo predittivo calcolato
+con una fiducia di 0.95 ha maggiore ampiezza.
+
+I conteggi osservati dei pazienti isolati per tutto il periodo considerato insieme ai valori
+interpolati con il modello stimato e i valori previsti possono essere rappresentati graficamente
+
+
+```{r}
+plot(df1$Isolati, lwd = 0.5,
+lty = 1,col ="black",
+xlab = "Giorni",
+ylab= "Conteggio Isolati",
+ylim = c(mi,ma+2), xlim = c(0,n+5))
+abline(v=81, col = "gray")
+lines(c(M4Italy$fitted.values,P4Italy$pred),
+lwd=2, col = 2, lty = 2)
+legend("bottomleft",
+lty = c(1,2),
+legend = c("osservati", "interpolati e previsti"),
+col = c("black", "red"),
+bty = "n",
+x.intersp = 0.1,
+cex= 0.6, pt.cex = .5,
+xpd = TRUE,
+text.width = 0.0001)
+
+```
+
+
+# Valutazione della prevalenza nel tempo
+Considerando la popolazione complessiva è possibile stimare in base al modello la prevalenza
+che misura la proporzione dell’evento (Isolamento nel presente caso) in una popolazione in
+un dato momento.
+
+Per l’Italia la numerorità della popolazione totale è reperibile dal sito dell’Istituto Nazionale
+di Statistica che riporta che popolazione residente al 1 Gennario 2020 è di 60317000 unità
+https://www.istat.it/it/archivio/238447
+
+Utilizzando quest’informazione è possibile calcolare la prevalenza dividendo i valori per
+questo numero (e moltiplicando per mille)
+
+
+```{r}
+
+prev<-c(M4Italy$fitted.values,P4Italy$pred)/60317000
+prev<-prev*1000
+```
+
+E verificare in base al modello stimato come questa si è modificata nel tempo ad esempio
+con il seguente grafico
+
+```{r}
+plot(prev, type = "l",
+xlab = "Giorni",
+ylim = c(0,20),
+lwd=2,
+col = "blue", ylab = "(prevalenza isolati)*1000")
+```
+
+
+
+che permette di evidenziare la prevalenza di casi ogni 1000 abitanti. In questo modo è
+possibile anche fare confronti tra diversi paesi.
+
+
+
+# Generazione di realizzazioni da variabili casuali
+
+## Esercizio 14
+Si generino 1000 pseudo-realizzazioni dalla variabile casuale Esponenziale con parametro
+𝜆 = 0.4.
+1. Si descrivano le osservazioni ottenute.
+2. Si disegni la distribuzione empirica e si sovrapponga la linea della distribuzione
+teorica.
+3. Si generino altre 1000 pseudo-determinazioni con 𝜆 = 0.25 e si confrontino in
+un’unica finestra grafica i due grafici ottenuti come specificato nel punto 2.
+4. Si disegnino nello stesso grafico le due funzioni di ripartizione e si inserisca la
+legenda. Si commenti.
+
+
+## Esercizio 15
+1. Si ottengano 1000 pseudo-determinazioni dalla variable casuale di Gauss con media
+175.6 e deviazione standard 7.1 fissando il seme al valore 1734. Si descrivano
+i dati ottenuti e si commenti.
+2. Si disegni l’istogramma della distribuzione e si aggiunga al grafico la funzione di
+densità teorica corrispondente ai valori dei parametri.
+3. Si disegni la funzione di ripartizione empirica.
+
+## Esercizio 16
+1. Si rappresenti graficamente la densità della variabile casuale Gamma(𝛼, 𝛽) considerando
+i seguenti valori dei parametri (𝛼 = 4, 𝛽 = 0.7) e (𝛼 = 2, 𝛽 = 1). Si
+modifichi il titolo del grafico, l’etichetta dell’asse y e si inserisca la legenda.
+2. Si ottengano 1000 realizzazioni da questa variabile casuale con i seguenti valori
+dei parametri: 𝛼 = 4 e 𝛽 = 0.7. Si riportino delle statistiche descrittive e si
+commentino.
+3. Si disegni l’istogramma dei valori generati e si descriva una tipologia di evento
+osservato in medicina o biologia la cui distribuzione di riferimento potrebbe essere
+una Gamma.
+
+
+
+## Esercizio 16.1
+Si disegni in un unica finestra grafica la densità della distribuzione Gamma fissando
+la il parametro di forma al valore 3 e facendo variare il parametro di scala ai seguenti
+valori 0.5, 1, 2, 3, 4, e 5. Si descriva la figura evidenziando l’effetto dell’incremento
+del valore del parametro di scala.
+
+
+## Esercizio 16.2
+Si consideri la distribuzione Beta e si disegnino in un unica finestra grafica le forme
+della densità quando 𝛼 = 𝛽 = 0.5, 1.0, 100. Si disegni anche la distribuzione
+inventando alcuni valori per i parametri tali che risulti 𝛼 > 𝛽. Si descrivano le figure.
+
+
+## Esercizio 17
+1. Si ottengano 1000 pseudo-determinazioni dalla variable casuale Binomiale. Si
+scelgano i valori dei parametri considerando 31 successi in 41 prove. Si producano
+le statistiche descrittive dei dati e si commentino i risultati.
+2. Si disegni la funzione di ripartizione empirica.
+
+
+## Esercizio 17.1
+Un quiz è costituito da 10 domande a risposta multipla con 5 categorie di risposta
+ciascuna. Si supponga poi che uno studente sia completamente impreparato e tiri ad
+indovinare la risposta di ciascuna domanda. Sia 𝑌 il numero di risposte corrette.
+1. Si determini la probabilità che lo studente riesca ad indovinare la risposta corretta
+per tutte le domande, ricevendo un punteggio pari a 10, e la probabilità che
+viceversa sbagli tutti le risposte, ricevendo così un punteggio pari a zero.
+2. Si determini la media e la deviazione standard di 𝑌 .
+
+
+
+## Esercizio 17.2
+Si consideri la variabile casuale di Poisson. Si descriva la distribuzione elencando
+alcune tipologie di eventi la cui variabile casuale di riferimento potrebbe essere una
+Poisson.
+1. Si generino 1000 pseudo-determinazioni dalla variabile casuale considerando i
+seguenti valori del parametro: 𝜆 ∈ 5, 10, 20, 30. Si descrivano i valori ottenuti.
+2. Si disegnino le funzioni di ripartizione empiriche dei valori generati in un’unica
+finestra grafica inserendo la legenda e commentando la figura ottenuta.
+3. Si calcoli probabilità 𝑃 (𝑋 = 20|𝜆) per ognuna delle 4 distribuzioni e la si
+confronti con il valore empirico dei valori ottenuti al punto 1. Si commenti il
+risultato.
+
+
+
+
+## Esercizio 18
+Si leggano in R i seguenti dati http://stat4ds.rwth-aachen.de/data/Afterlife.dat
+che riguardano un’indagine (General Social Survey) condotta nel 2018 e riportano le
+risposte alle seguenti domande: credenza nel dopo vita (1 = sì, 2 = no), religione (1
+= protestante, 2 = cattolica, 3 = ebraica). Si determini la tabella di contingenza, e
+si illustrino le distribuzioni congiunta campionaria, marginale e condizionata del post
+vita in base alla religione dichiarata.
+
+
+# Modelli di Poisson e Binomiale Negativa per dati di coteggio
+
+
+
+
+## Esercizio 19
+Si considerino i dati riferiti ai conteggi dei pazienti affetti da COVID-19 rilasciati
+dalla Protezione Civile Italiana.
+1. Si selezioni la serie dei conteggi dei pazienti in terapia intensiva (osservata dal
+primo all’ultimo giorno disponibile). Si rappresentino graficamente le osservazioni
+e si commenti il grafico.
+2. Si stimi un modello di Poisson non omogeneo dove il logaritmo naturale del
+parametro 𝜆𝑡 è in funzione di un trend temporale lineare, quadratico e log-lineare
+e comprende una componente autoregressiva del primo ordine. Si riportino e si
+descrivano i valori dei coefficienti stimati.
+3. Si forniscano le stime puntuali riferite alle previsioni dei conteggi dei pazienti
+in terapia intensiva ottenute in base al modello per i prossimi 5 giorni. Utilizzando
+il metodo bootstrap si fornisca un’intervallo predittivo per ciascun valore
+dterminato al punto precedente. Si commentino i risultati.
+4. Si disegni il grafico dei valori osservati, interpolati e previsti inserendo la legenda.
+
+
+## Esercizio 20
+Si svolgano i punti dell’esercizio precedente cosiderando la serie dei conteggi dei
+pazienti affetti da COVID-19 che risultano ricoverati con sintomi.
+
+
+
+## Esercizio 21
+Si consideri la serie dei conteggi utilizzata nell’Esercizio 19.
+
+1. Si stimi il modello per dati di conteggio con le stesse covariate riferite al tempo
+utilizzate nell’Esercizio 19, e assumendo come distribuzione marginale la
+Binomiale Negativa. Si riporti e si commenti la stima del parametro riferito
+all’overdispersion.
+2. Si riporti il grafico di prevalenza dei pazienti [come nelle dispense delle applicazioni]
+e si commenti.
+
+
+## Esercizio 22
+Si consideri la serie dei conteggi utilizzata nell’Esercizio 20.
+1. Si stimi il modello per dati di conteggio con le stesse covariate riferite al tempo
+utilizzate nell’Esercizio 20, e assumendo come distribuzione marginale la
+Binomiale Negativa. Si riporti e si commenti la stima del parametro riferito
+all’overdispersion.
+2. [DA SVOLGERE IN SEGUITO] Si effettui il ricampionamento bootstrap e si
+fornisca un invervallo di confidenza per 𝜎2 al livello 0.95 utilizzando il metodo
+del percentile. Si considerino 100 replicazioni bootstrap (si fissi il seme al valore
+1772). Si commenti l’intervallo ottenuto.
+
+
+
+
+# Domande di teoria
+- Quali sono le caratteristiche del modello di Poisson non omogeneo per serie di
+conteggi? Come viene modellizzato il valore atteso dei conteggi in funzione del
+tempo?
+- Qual’è la caratteristica dei modelli di Poisson autoregressivi?
+- Che caratteristiche ha la distribuzione Binomiale Negativa? Perchè viene utilizzata
+al posto della distribuzione di Poisson?
+- Che cosa si intende quando si parla di metodi di ricampionamento per valutare
+l’accuratezza di una stima?
+- Si descriva il procedimento bootstrap descrivendone le caratteristiche e spiegando
+perchè il metodo è considerato affidabile.
+- Quanti campioni bootstrap è possibile ottenere partendo da un campione con 𝑛
+osservazioni?
+- Come si sceglie il numero ottimale 𝐵 di replicazioni bootstrap?
+- Come si possono calcolare gli intervalli di confidenza bootstrap? Che cos’è un
+intervallo di confidenza?
+- Si descriva il metodo del percentile.
+- Si descriva il metodo del bias corrected accelerated bootstrap: perché si calcolano
+la due costanti e quali sono?
+- Che cos’è postula la proprietà di invarianza rispetto a trasformazioni di uno
+stimatore? Perchè si fa riferimento a questa proprietà?
+- Come viene effettuato il i ricamionamento Jacknife?
