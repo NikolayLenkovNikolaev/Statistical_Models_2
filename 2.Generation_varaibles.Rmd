@@ -1340,15 +1340,97 @@ possibile anche fare confronti tra diversi paesi.
 # Generazione di realizzazioni da variabili casuali
 
 ## Esercizio 14
-Si generino 1000 pseudo-realizzazioni dalla variabile casuale Esponenziale con parametro
-𝜆 = 0.4.
+Si generino 1000 pseudo-realizzazioni dalla variabile casuale Esponenziale con parametro $\lambda$ = 0.4.
 1. Si descrivano le osservazioni ottenute.
 2. Si disegni la distribuzione empirica e si sovrapponga la linea della distribuzione
 teorica.
-3. Si generino altre 1000 pseudo-determinazioni con 𝜆 = 0.25 e si confrontino in
+3. Si generino altre 1000 pseudo-determinazioni con $\lambda$ = 0.25 e si confrontino in
 un’unica finestra grafica i due grafici ottenuti come specificato nel punto 2.
 4. Si disegnino nello stesso grafico le due funzioni di ripartizione e si inserisca la
 legenda. Si commenti.
+
+14.1
+
+Si utilizza la funzione rexp() per generare le osservazioni richieste. La funzione richiede solo il
+numero di punti da generare e il valore di $\lambda$ (rate).
+```{r}
+x <- rexp(1000, rate = 0.4)
+```
+Per valutare le osservazioni generate calcoliamo i valori di media e varianza campionarie, confrontandole
+poi con i valori teorici noti per le variabile casuale esponenziale
+$E[X]= 1/\lambda = 2.5 ; V[X]= 1/\lambda^2 = 6.25$
+```{r}
+summary(x)
+```
+```{r}
+var(x)
+```
+Il valore della media campionaria è 2.75, molto vicino alla media teorica di 2.5 per una variabile
+Esponenziale con $\lambda$ = 0.4. Il valore campionario della varianza (6.91) si discosta invece leggermente
+da quello teorico (6.25): le osservazioni generate hanno una variabilità leggermente superiore
+all’atteso. Osserviamo poi che i valori sono tutti positivi (coerentemente con i risultati teorici noti),
+e che il massimo è superiore a 16 (lunga coda a destra).
+
+14.2
+Rappresentiamo la distribuzione empirica sotto forma di istogramma. Sovrapponiamo poi al grafico
+la curva della distribuzione teorica.
+```{r}
+hist(x, freq = FALSE,
+xlab = "", main = "Istogramma dei valori generati da Exp(0.4)",
+ylim = c(0, 0.3),
+col = "orange")
+curve(dexp(x, rate = 0.4),
+lty = 2, col = "blue", add = TRUE)
+```
+L’istogramma della distribuzione empirica aderisce alla curva della funzione di densità teorica.
+
+14.3
+Aggiungiamo ora al grafico precedente la rappresentazione delle nuove osservazioni generate da una
+variabile Esponenziale con $\lambda$ = 0.25.
+```{r}
+y <- rexp(1000, rate = 0.25)
+par(mfrow = c(1, 2))
+hist(x, freq = FALSE,
+col = "orange",
+ylim = c(0, 0.35),
+main = "Exp(0.4)")
+curve(dexp(x, rate = 0.4),
+col = "blue", lty = 2,
+add = TRUE)
+
+hist(y, freq = FALSE,
+col = "orange",
+ylim = c(0, 0.35),
+main = "Exp(0.25)")
+curve(dexp(x, rate = 0.25),
+col = "blue", lty = 2,
+add = TRUE)
+```
+Fissando il range dell’asse Y in modo da poter confrontare le due distribuzioni più facilmente,
+osserviamo che quella con parametro $\lambda$ = 0.25 ha una variabilità molto più elevata (la varianza è
+del resto inversamente proporzianale al valore di 𝑙𝑎𝑚𝑏𝑑𝑎). il campo di variazione della prima varia
+infatti approssimativamente tra 0 e 15, quello della seconda tra 0 e 30. Entrambe gli istogrammi
+aderiscono alle rispettive curve teoriche.
+
+14.4
+Infine rappresentiamo in un unico grafico le due funzioni di ripartizioni empiriche.
+```{r}
+plot(ecdf(x),
+col = "orange",
+do.points = FALSE,
+main = "Funzioni di ripartizione empiriche")
+plot(ecdf(y),
+col = "blue",
+do.points = FALSE, add = TRUE)
+legend("bottomright",
+c("Exp(0.4)", "Exp(0.25)"),
+col = c("orange", "blue"),
+lty = c(1, 1))
+abline(v = 5, col = "green", lty = "dotted")
+```
+Le due funzioni hanno lo stesso andamento; quella relativa alla variabile aleatoria Exp(0.4) presenta
+probabilità più elevate a parità del valore di 𝑥. Per esempio 𝑃 (𝐸𝑥𝑝(0.4) ≤ 5) ≊ 0.8, mentre
+𝑃 (𝐸𝑥𝑝(0.25) ≤ 5) ≊ 0.7.
 
 
 ## Esercizio 15

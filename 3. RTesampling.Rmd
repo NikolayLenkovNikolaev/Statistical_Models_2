@@ -1,0 +1,2263 @@
+---
+title: "3.Bootstrap"
+author: "NikolayNikolaev"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# 2. Metodidi ricampionamento
+
+## 2.1. Introduzione:
+
+Classical inference was developed in the parametric context, when resources computational resources 
+were absent or limited, and is based on mathematical analysis (exact). The term resampling refers to production and use of randomized versions of the available sample { indicated below with the term 
+sample { obtained by re-extracting the values from the original sample. Resampling methods have been relatively developed recent as a result of the advancement of information technologies and the 
+increase of computational power.
+
+The inference is called parametric if it is based on the assumption that the v.c. $X$ from from 
+which the sample comes has a probability law of $F(x)$ or a density function a note, i.e. the 
+functional form or family is specified parametric to which it belongs.
+
+In the context of non-parametric inference, a functional form is not assumed note for $F(x)$ because 
+it is risky or unrealistic due to the lack of there is insufficient a priori information, or the 
+estimator has a complex structure to prevent the use of exact analytical methods to derive the law 
+of density or probability. Traditional inference offers, what solution to problems illustrated 
+previously problems, the asymptotic tool or analytical results that are valid for infinite sample 
+size. 
+
+The methods resampling methods are mainly used in the non-parametric context, where this and 
+the methods of traditional inference cannot be correctly applied. 
+
+This in practice - where the samples are obviously finite - translates into approximate solutions 
+whose precision is arbitrary because it depends on a sort of empirical hypothesis, i.e. $n$ 
+sufficiently large. 
+
+Resampling methods  represent a valid alternative to use of asymptotic approximations. 
+
+They can be used if available of adequate computational power, and for this reason they are called
+computer based methods. They provide approximate solutions because they are based on (stochastic) simulations.
+
+## 2.2. Resampling
+
+In the non-parametric contexts described above, the only known information is represented by the 
+sample and all that can be done is, so to speak, "to let the data speak as much as possible", 
+extrapolating from them and only from them , all information about the parameter $\nu$.
+
+In particular, resampling methods are based on the following logic: in the absence of a priori 
+information that allow us to formulate hypotheses about $F(x)$, are exploited intensively
+data through iterated sample reuse.
+
+All methods are also classified under the term resampling methods modern methods aimed at evaluating 
+and/or improving the accuracy of an estimator, typically complex. For example, statistics are often 
+used complex for which it is not possible to obtain the analytical form for the error standard.
+
+The dispersion of the sampling distribution called the standard error and described by the standard deviation. The standard error of $\bar{X}$ describes how much $\bar{x}$ is variable from sample to 
+sample of the same size $n$. TThe term standard error distinguishes this measurement from the standard deviation $\sigma$ referring instead to the population. 
+
+Resampling typically occurs to the computer and can be understood as the simulation of the sample 
+space through the computer production of a subset, precisely the one allowed by the original sample.
+
+
+The evaluation of accuracy is a fundamental phase of the inference process: once you get the $\nu$ 
+estimate for the $\nu$ parameter through the data samples in accordance with statistical principles 
+and it is necessary to establish their accuracy through the evaluation of some characteristic of the correspondent estimator $\hat{\Theta}$ . Among these, the evaluation of the distortion:
+
+$$Dixtr(\hat{\Theta})= E(\hat{\Theta}) - \nu$$
+
+with the aim of correcting it, and the estimate of the dispersion of the estimator around to the 
+object of the estimate, that is, its mean squared error error, MSE):
+
+$$MSE(\hat{\Theta})= E[\hat{\Theta} - \nu]^2 = V[\hat{\Theta}] + Dist(\hat{\theta})^2$$
+or, in the case of an unbiased estimator, its variance:
+
+$Var[\hat{\Theta}]= E[\hat{|theta} - E(\hat{\Theta})]^2$
+
+This allows us to proceed with the inference with the construction of intervals
+of con dence and the testing of hypotheses on the parameter $\nu$
+
+## 2.3. The Bootstrap
+
+The bootstrap represents a computational resampling method that treats the sample distribution as if 
+it were the true distribution of population and approximates the characteristics of the sampling distribution unknown by simulation. It is the best known of the modern methods computer based 
+statistics created by Brad Efron in 1977. Efron in 2018 and was awarded the International Prize in Statistics1. The motivation uttered by Sir David Cox and the following: *Because the bootstrap
+is easy for a computer to calculate and is applicable in an exceptionally wide range of situations, 
+the method has found use in many fields of science, technology, medicine and public a airs*. 
+
+On that occasion Prof. Efron also told the following anecdote: *I remember when going into stati-
+stics that the rst year I thought that this will be pretty easy since I've dealt with it
+with math and that's supposed to be hard. But statistics was much harder
+for me at the beginning than any other age. It took years before I felt really
+Comfortable.*
+
+Davison and Hinkley (1997) published the first article by Efron on the bootstrap method (which was initially rejected by the magazine) It was one of the central events for statistics, both because it synthesized some of the original ideas about sampling was because it laid the foundation for a new 
+area of simulation-based statistical analysis.
+
+The name bootstrap, assigned to the method by Efron himself and inspired by character Baron 
+Munchausen from a popular story that this young man had fallen into a lake and, not knowing how to 
+swim, he was trying to get out from the water *by clinging to the laces of their boots*.
+
+This method developed due to its simplicity combined with availability a of growing computing power 
+that is increasingly less expensive. In the lasts years, has experienced rapid and extensive 
+development, so much so that today it and applied in the most varied areas of statistics: as well as 
+in inference in general, also in regression models, in time series analysis, in sample theory, 
+biometric applications and much more.
+
+We will see here the fundamentals of the Bootstrap method as it originally existed proposed. We 
+therefore place ourselves in the usual inferential context nonparametric, and the following notation 
+is used:
+
+- $X$ - the random variable interpreter of the character on which one intends to make an inference,
+- $F(x)$ - his *cdf*, completely unknown,
+- $\nu$ - the object of the estimate,
+- it is assumed that $\nu$ can be expressed as a function of the unknown $F$ equals a to say 
+$\nu=\nu(F)$
+
+Example: 
+- $\nu = Median(X)= x_{0.5}$ is a function of F according to the relation 
+$x_{0.5} = F^{-1}(0.5) = inf[x|F(x) \geq 0.5]; \nu=E(X)$ is a dunction of $F$ according to
+relation $E(X) = \int_{\mathcal{R}} x.\varphi(x)dx = \int_{\mathcal{R} xfF(x)}$
+
+- where $\varphi(x)$ os cdf or (!!! - f.p) of $X$ and so on.
+
+
+The logic on which Boostrap is based is the fusion of two techniques:
+- the plug-in principle, known also as the substitution principle,
+- the Monte Carlo approximation, which determines the use of simulations
+to the calculator.
+
+
+At the basis of the plug-in principle is the notion of an empirical distribution function
+$\hat{F_n}$, already referred to in the previous chapter during the introduction of the 
+Kolmogorov-Smirnov test. According to the plug-in principle the estimate for
+$\nu=\nu(F)$ is constructed by substituting (plugging in) the distribution function for the unknown 
+$F$ empirical that is: $\hat{\nu}=\nu(\hat{F_})$.
+
+The sample mean, of which they are known the many formal properties which estimate for $\mu=E[X]$
+and a simple example of application of the plug-in principle, having 
+$\mu = \nu(F) = \int_{\mathcal{R}} xdF $ and $\nu(\hat{F_n}) = \int_{\mathcal{R}} xd\hat{F_n}(x) = \sum_{i=1}^n \frac{x_i}{n} = \bar{x}$
+
+As mentioned, the bootstrap was also born as an application of the principle plugin when for or the objective and evaluation of the accuracy of an estimator $\hat{\Theta}$ for $\nu$, 
+for example the estimate of its variance $Var (\hat{\Theta})$, which comes to
+depend on the unknown $F$; to highlight such a fact we will use the notation:
+$V_F(\hat{\Theta})$. 
+
+ne way to apply the plug-in principle, in the context under consideration,
+consists in arti cially creating the variability of $\hat{\Theta}$ with respect to $\hat{F_n}$.
+
+In particular, since the variability with respect to $F$ originates from the sample extraction
+original, it follows naturally that variability with respect to $\hat{F_n}$ can arise
+extracting a new sample from the original sample, i.e. resampling.
+
+It is this is the idea behind the Bootstrap ed method also the reason why the bootstrap is generally classified among the so-called resampling methods. The resampling procedure provided by
+Bootstrap is identical to the one provided by the original sample, i.e. mima the original sampling. 
+In summary:
+
+Let $x1;...; x_n$ a Bernoulli sample, of predetermined size $n$, from $X$ on the basis of which one 
+wants to make an inference on $\nu$
+- Let $x_1^*///x_n^*$ the result of Bootstrap resampling, i.e
+a sample having the same nature as the original sample Bernoulli and of amplitude $n$ ,except that 
+it is extracted from the sample native to $x_1...x_n$ This sample $x1;...; x_n$  takes its name of Bootstrap sample and looks like a randomized version of the original sample, possibly a permutation thereof
+- Let $\hat{\nu^*}$ be an estimate identical to $\hat{\nu}$ that is, having the same functional form
+-except for the fact that it is calculated on the Bootstrap sample. $\hatr{\nu^*}$ it is said
+Bootstrap replication of $\hat{\nu}$ or, more simply, replication.
+
+
+Note that the notation chosen, which uses the asterisk to highlight elements and Bootstrap-type 
+quantity, and widely used in the literature on the topic.
+
+As the Bootstrap sample varies in the original sample - i.e. below $\hat{F_n}$ replication describes 
+a v.c. $\hat{\Theta}^*$ in particular a statistic, whose variance $Var_{\hat{f_n}} (\hat{\theta^*})$
+it is a plug-in estimate and is identical to the bootstrap estimate for $V_F(\hat(\Theta))$.
+
+For this reason, the standard deviation of the replication values bootstrap that we form the 
+distribution bootstrap estimates the standard error for the point estimate $\hat{\theta}$ from the observed data.
+
+
+Let $\nu = \mu = E[X]$ be the object of the estimate and $\bar{X}$the chosen estimator. Extract
+a Bootstrap sample $x_1^*...x_n^*$ the replication of the sample mean and $\bar{x^*}= \frac{1}{n} \sum_{i=1}^n x_i^*$
+
+As the bootstrap sample varies, in the original sample,
+x describes the v.c. $\bar{X^*}= \frac{1}{n} \sum_{i=1}^n X_+i^*$. Note that the behavior is 
+probabilistic of each v.c. $X_i^*$ and described by the empirical distribution function $\hat{F_n}$ 
+as a consequence of bootstrap resampling mimicking the original sampling, providing in turn a 
+Bernoulli sample e of width $n$. These, in fact, can take on the values $x_1...x_n$ each with 
+probability $1/n$, having:
+
+$$E_{\hat{F_n}} (X_i^*) = \int_{\mathcal{R}} x_i d \hat{F_n} (x) = \frac{1}{n} \sum_{i=1}^n x_i = \bar{x}$$
+
+and 
+
+$$Var_{\hat{F_n}} (X_i^*) = \int_{\mathcal{R}} (x_i - \bar{x})^2 d\hat{F_n} (x)= \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x})^2 = s^2$$
+From these results and the independence of the Bootstrap extractions it then follows
+
+$V_{\hat{F_n}}(\bar{X}^*) = Var_{\hat{F_n}} (\frac{1}{n} \sum_{i=1}^n X_i^*)= \frac{1}{n^2} \sum_{i=1}^n s^2 = (\frac{n-1}{n}).\frac{\bar{s^2}}{n}$
+
+where $\bar{x^2}$ indicates the corrected sample variance. The last equation identifies the estimate
+Bootstrap for variance $Var_F[\bar{X}]$ and, up to the coe cient $(n - 1)/n$ which
+tends to $1$ as $n$ tends to infinity, coincides with the usual estimate $\bar{x^2}/n$ not
+distorted for $Var_F(\bar{X})$.
+
+
+Note that in the last equation, depending only on sample data, does not actually require
+neither resampling nor simulation. This is due to the simplicity of the structure
+of the $\bar{X}$ estimator , as it is not generally possible to take the whole into account
+Bootstrap sample space and calculate analytically and explicitly
+$Var_{\hat{F_n}}[\hat{\Theta}]$. Therefore, the plug-in estimate $Var_{\hat{F_n}}$ and Bootstrap 
+estimate only theoretical or, following Efron, ideal.
+
+In more general contexts, with different and more complex estimators than the average sample, it is 
+not possible to take into account all possible bootstrap samples, not even by physically building 
+them. In fact, the number of possible samples Bootstraps extractable from the original sample is $n^n$. Not considering the permutations, the number of bootstrap samples, extractable from the original sample that differ from each other in at least one element
+
+$$\binom{}2n-1{n}$$
+These numbers explode quickly and are therefore unmanageable even from
+computer; for example, with $n = 10, 10^10$ and a $10$-digit number e
+$$\binom{19}{10}= 92378$$
+
+con $n=50$ has this
+
+$$\binom{99}{50} = 5.04457x10^{28}$$
+
+Not being able to take into account all the possible Bootstrap samples, this cannot be done
+take some of these into account. This idea is the same on which the method is based
+Monte Carlo - and then used to approximate the Bootstrap estimate ideal $Var_{\hat{F_n}}(\hat{\Theta^*})$, extracting from the original sample -i.e. resampling-  a number B of bootstrap samples, predetermined is sufficiently high.
+
+The Bootstrap procedure for estimating $Var_{\hat{F_n}}(\hat{\Theta})$ can be summarized as follows
+steps:
+
+
+1. fixed the original sample $x_1..x_n$ to its observed value and chosen a integer B sufficiently high.
+are extracted from the original sample, B Bernoulli samples and of amplitude n, independent of each other.
+This step of the Bootstrap algorithm represents resampling;
+2. on each of the Bootstrap samples produced in step 1, we calculate the
+replication $\hat{\nu^*}$ from $\hat{\nu}$, obtaining the set of B values $\hat{\nu_1^*}, \hat{\nu_2^*}...\hat{\nu_B^*}$
+
+3. the variance of the B values produced in step 2 is calculated, obtaining the
+quantity:
+$$\hat{\nu_{boot}} (\hat{\Theta})= \frac{1}{B-1} \sum_{b=1}^B (\hat{\nu_b^*} - \bar{\hat{\nu^*}})^2$$
+
+- where $\bar{\nu^*}= \sum_{b=1}^B \hat{\nu_b^*}/B$ indicates the arithmetic mean of the B replications.
+fromt the last equation defines the Bootstrap estimate for $Var_F[\hat{\Theta}]$. The error is calculated
+standard as
+
+$$\hat{se_{boot}}(\hat{\Theta})= \sqrt{\frac{1}{B-1} \sum_{b=1}^B (\hat{\nu_b^*} - \bar{\hat{\nu^*}})^2  } $$
+which is taken as an estimate of the variability associated with the quantity
+of interest calculated in the original sample.
+
+
+Observations
+- The Bootstrap algorithm is applicable whatever the functional form of $\hat{\Theta}$ The bootstrap estimate for $Var_F (\hat{\Theta})$ is always the same simple formula given with (2.2). This is an important feature of Bootstrap, which makes it a powerful tool in the context in which classical methods are not applicable.
+- Bootstrap is versatile and intuitive. The generality of application
+and simplicity are the main reasons for its proven success
+from the enormous research work that followed the original proposal.
+
+- Note that in (2.2) the Bootstrap estimate for $Var_F (\hat{\Theta})$ is divided by (B-1).
+Proceeding in this way $\hat{\nu_{boot} (\hat{\Theta})}$ has the form of a sample variance
+correct with respect to the space of all possible Bootstrap samples.
+
+So, since the object of the Bootstrap estimate is $Var_F (\hat{\Theta})$ and cannot be calculated
+the ideal Bootstrap estimate $Var_F (\hat{\Theta^*})$, the Bootstrap estimate $\hat{\nu_{boot}} (\hat{\Theta})$
+it presents itself as an undistorted, as well as consistent, estimate of the estimate
+Ideal bootstrap. We have this and:
+$$\hat{\nu_{boot,B}}(\hat{\Theta}) \overset{\mathcal{P}}{\to} V_{\hat{F_n}} (\hat{\Theta})$$
+with $B-> \infty$
+
+in turn estimate plug-ins for $Var_F(\hat{\Theta})$
+
+- Remember that an estimator of a parameter is said to be consistent if
+its sampling distribution, as the total number of increases
+n observations, tends to focus more and more on the actual value of
+parameter. This is a property that occurs within the limit of n
+clear verse.
+
+- The number of bootstrap samples B must be chosen su ciently
+high.
+
+Today we have a general theory - of which a theory is also part
+asymptotic i.e. for $n-> \infty$ - which essentially refers to consistency
+of Bootstrap estimators, that is, it concerns the convergence of $\hat{\nu_{\boot}} (\hat{\Theta})$ to 
+$Var_F(\hat{\Theta})$.
+
+For our purposes it is sufficient to know that there are theorems that ensure
+the consistency of the bootstrap estimators for classes of estimators sufficiently
+broad to include those in most common use. It has also been proven
+that the convergence speed underlying said consistency is of the order
+$O(n^{-1})$. It is therefore said that the bootstrap is a second order method
+correct.
+
+For n nite { or, as they say, for small samples - the properties of the estimators
+bootstrap can only be investigated empirically that is, in general,
+through simulation. Numerous studies have already appeared in the literature
+in this sense.
+
+
+## 2.4 Bootstrap Condence Intervals
+
+The best-known inferential development of the bootstrap method concerns construction
+of Condence Intervals (CI) which provide an interval estimate
+rather than punctual of the parameter. 
+
+The purpose of estimating confidence intervals is to find a range of plausible values for the unknown parameter based on the sample information.
+
+The point estimate of the parameter
+it is a single plausible value for the parameter in the reference population
+
+However, every precise estimate includes a necessary margin of error
+how many dear.
+
+This happens with the confidence interval it represents
+a set of values within which the value of the parameter is expected
+
+The probability is that the con dence interval will produce an interval that is truly inclusive
+the value of the parameter $\theta$ is called the confidence level.
+
+This is a number chosen to be close to 1, such as 0.95 or 0.99.
+
+Generally, a pivotal quantity is used to calculate the interval $[T_L, T_U]$ 
+
+it is called the confidence interval and is defined as
+
+$$P[T_L(Y) \leq \theta \leq T_U(Y)]= 1-\alpha$$
+- for all possible values of $\theta$
+- $1-\alpha$ - is the probability that the interval $[T_1; T_2]$ include $\theta$
+
+Once observed i given $Y = y$, the con dence interval for the parameter is calculated at level $100(1-\alpha)$.
+
+The extremes of the interval $T_L$ and $T_U$] are defined as the lower and upper bounds, respectively.
+
+### 2.4.1 Percentile method
+Since it is the bootstrap distribution of an estimator $\hat{\Theta}$  it's a simulation, through
+resampling, of the real distribution of $\hat{\Theta}$ the bootstrap histogram can be considered a Monte Carlo approximation of the latter.
+The graphical representation of the bootstrap distribution across
+the histogram considers the estimates obtained from the B replications with respect to
+a number of classes of arbitrary size. Interpolating on the histogram
+bootstrap the quantiles of the interpretable bootstrap distribution are determined
+as Monte Carolo approximations of the exact quantiles of the real
+distribution.
+
+The percentile method was proposed by Efron in 1985 (Efron and Tibshirani,
+1994), is the simplest of the methods for building based ICs
+on the bootstrap histogram.
+
+Let $x_1..x_n$ the original sample, $\hat{\nu}$ the estimate
+choice for the unknown $\nu$ and $x_{1b}^8 ...x_{nb}^*$ the generic bth bootstrap sample $b=1...B$
+- the B replications are calculated
+ $\hat{\nu_b^*}$ of $\hat{\nu}$for each bootstrap sample;
+
+- draw the bootstrap histogram using the bootstrap distribution $[\hat{\nu_1^*}, ... , \hat{\nu_B^*}]$ for $\hat{\Theta}$
+
+A level of significance is then set $(1-\alpha)$ 
+they are $\hat{\nu_{1-\alpha /2}^*}$ and $\hat{\nu_{\alpha /2}^*}$ the quantiles
+of order, respectively, $1-\alpha/2$ and $alpha/2$ of the bootstrap distribution
+- possibly interpolated on the bootstrap histogram, interpretable as
+Monte Carolo approximations of the corresponding exact quantiles of the real
+distribution of $\hat{\Theta}$
+
+The interval de ned by the following bootstrap quantiles:
+
+$$[\hat{\nu}_{\alpha /2}^*; \hat{\nu}_{1-\alpha /2}^*]$$
+and percentile bootstrap CI for $\nu$, at confidence level (approximately)
+equal to the pressed $1-\alpha$. For example a con dence interval al
+95% obtained with 1000 bootstrap samples is the interval between the 25th and
+975th value of the ordered distribution of bootstrap estimates.
+
+The percentile bootstrap CI is correct when the estimator satisfies the
+following important property known as Invariance Property under Transformations
+Monotone (ITP, Invariance Transformation Property).
+
+
+### 2.4.2 Invariance Transformation Property
+
+It is
+based on the following theorem known as Percentile Interval Lemma:
+
+Lemma 2.1. If there exists a monotone transformation f of the estimator $\hat{\Theta}$
+such that $f( \hat{\Theta})\sim  N(f(\nu); c^2)$ with $c^2$ known constant, that is, if there exists some
+transformation capable of normalizing the distribution of the estimator $\hat{\Theta}$
+At that time:
+
+$$[\hat{\nu}_{\alpha /2}^*; \hat{\nu}_{1-\alpha /2}^*] \equiv [f^{-1}(f(\hat{\nu})-z_{1-\alpha/2}.c); f^{-1}(f(\hat{\nu})+z_{1-\alpha/2}.c)]$$
+
+
+that is, the two methods { bootstrap and exact standard { lead to the same result
+to and therefore have the same coverage coinciding with the level of con dence
+nominal $1-\alpha$
+
+Note that the lemma is proved by assuming only the existence of the transformation
+which brings the distribution of the estimator closer to normality while
+the exact IC, on the right-hand side of (2.4), can only be constructed by knowing this
+transformation as well as its inverse.
+
+To clarify, let's focus on the exact standard IC
+
+If you know $f$ such that $f(\hat{\Theta}) \sim N(f(\nu), c^2)$ then the CI for $\nu $ can be built
+according to the standard method as follows:
+- the IC is built for $f(\nu)$ using the normality of $f(\hat{\Theta})$ Meaning what:
+$$[f(\hat{\nu}) - z_{1-\alpha/2}.c; f(\hat{\nu}) + z_{1-\alpha/2}.c]$$
+
+whose extremes are a function of the quantiles of the v.c. transformed $f(\hat{\Theta})$
+
+- the inverse is applied obtaining:
+
+$$[f^{-1}(f(\hat{\nu}) - z_{1-\alpha/2}.c); f^{-1}(f(\hat{\nu}) + z_{1-\alpha/2}.c)]$$
+
+whose extremes are a function of the quantiles of the v.c. inverse transform $f^{-1}[f(\hat{\Theta})]= \hat{\Theta}$
+
+
+
+Due to the monotonicity of $f$, (2.5) represents an exact IC for $\nu$ col
+prefixed confidence level $(1 -\alpha)$.
+
+
+This property guarantees that, if such a transformation exists, the IC bootstraps
+of the percentile automatically coincides with the exact CI. It is enough that such
+transformation also exists - even if unknown in its functional form
+the percentile bootstrap method, so to speak, notices this and uses it
+to provide an IC matching the exact one. Therefore it is said that if it
+estimator has the property of invariance the percentile bootstrap method is
+correct.
+
+
+2.4.3 The Bias Corrected Accelerated Bootstrap method
+
+
+The BCA method, acronym for Bias Corrected Accelerated, was proposed by
+Efron in 1985 and gradually studied and developed in the following years. As
+the percentile method is based on the quantiles of the bootstrap distribution but
+represents an improvement because alongside the correctness property
+when the estimator respects the invariance property, the objective is achieved
+to correct any distortion of the estimator $\hat{\Theta}$.
+
+Non e` raro nella pratica moderna il caso in cui non si disponga di uno stimatore
+corretto per $\nu$ e si renda necessario l'impiego di stimatori distorti. Ad
+esempio, e` noto che la stima di massima verosimiglianza non garantisce la
+non distorsione degli stimatori prodotti. Emblematico e` il caso della stima
+di massima verosimiglianza per la varianza di una v.c. Normale. Un altro
+esempio riguarda stimatori aventi struttura di rapporto quale ad esempio lo
+stimatore rapporto fra medie campionarie per il rapporto fra le medie marginali
+di una v.c. bidimensionale che e` noto essere distorto ma ugualmente
+ampiamente utilizzato nelle applicazioni.
+
+
+For such cases where the estimator $\hat{\Theta}$, on the basis of which the CI is constructed,
+is distorted the Bca method provides automatically corrected ICs with respect to the
+distortion without prejudice to correctness if the estimator has the property of
+invariance.
+
+
+Next to the quantiles of the bootstrap distribution, the extremes of the bootstrap CI
+Bca depend on two constants named as follows: $a$ said
+acceleration constant and $z_0$ called distortion correction constant.
+
+Let $\hat{\nu_1}^*,... , \hat{\nu_n}^*$ the bootstrap distribution from $\hat{\Theta}$ through which yes
+constructs the bootstrap histogram. Confidence level set $1=\alpha$, the following probabilities are calculated:
+$$\beta  = P(Z \leq z_0 + \frac{z+0 + z_{\alpha/2}}{1- a(z_0 + z_{\alpha/2})})$$
+
+$$\gamma = P(Z \leq z_0 + \frac{z_0 + z_{1-\alpha/2}}{1- a(z_0 + z_{1 - \alpha / 2} )}  $$
+
+where $X \sim N(0,1)$ while $z_{\alpha/2}$ and $z_{1-\alpha /2}$ they are symmetric quantiles of the same
+(ex: $z_{0.05/2}=-1.96$)
+
+
+The equations in (2.6) therefore define two particular values of r.f. of a v.c. Standardized normal.
+The bounds of the bootstrap IC Bca are de ned by the order quantiles, respectively, $\beta$ and $\gamma$
+  of the bootstrap distribution, that is:
+  
+  $$[\hat{\nu_{\beta}^*}, \hat{\nu_{\gamma}^*}]$$
+
+At the current state of development and knowledge on bootstrap, the Bca
+represents the best method for building bootstrap ICs, i.e. IC
+based on resampling and alternatives to approximate standard CIs. It is
+It has in fact been demonstrated through elaborate analytical arguments that:
+
+- they are correct if the estimator has the invariance property,
+- they are n-correct or second order correct. Formally such
+property means that, as the sample size n increases,
+the order in which the actual coverage of the Bca bootstrap IC approximates
+the pre xed nominal con dency level is $0(n^{-1})$.
+
+The Bca method is the only method for building ICs that benefits simultaneously
+of both of the aforementioned properties. In fact, standard ICs,
+based on the normal approximation, and the percentile bootstrap CIs are
+only first order corrected, i.e. $\sqrt{n}$-corrected.
+
+
+In the face of these advantages, the Bca method presents a problem - hitherto ignored
+- the determination of the acceleration constants "a" and the correction for the distortion "z0" on which the probabilities and and defined with (2.6) and
+necessary to produce the IC (2.7).
+
+Various methods have been proposed for estimating these values, each supported
+from analytical-probabilistic results. Among these, the simplest method,
+both from a theoretical and an operational perspective, it is the following
+
+- with regard to the distortion correction constant $z_0$, let $\delta = \#(\hat{\nu_b}^* < \hat{\nu})/B$=
+i.e. the relative frequency of the values of the distribution
+bootstraps lower than the estimate for $\nu$ calculated on the original sample.
+The quantity $z_0$ in (2.6) is replaced by the quantile $z_{\delta}$, of order $\delta$, of
+v.c. Standardized normal.
+
+
+Heuristically, such a way of proceeding is justified by observing that
+the bootstrap distribution - or the bootstrap histogram - simulating
+the real unknown distribution of $\hat{\Theta}$ also simulates the possible distortion
+resulting more or less symmetrical with respect to the value of the estimate
+$\hat{\nu}$ which, in turn, represents the mean of the bootstrap distribution.
+
+It is known that, in case of symmetry, the mean and median coincide
+so that the distance between the mean and median values measures the degree
+of asymmetry. Thus, by setting $z_0 = z$, the correction constant is estimated
+for the distortion based on the distance between the mean and median
+of the bootstrap distribution. In fact, if the estimator $\hat{\Theta}$ is not
+distorted, the bootstrap distribution is symmetrical or almost symmetrical.
+Consequently: $\delta = \#(\hat{\nu_b}^* < \hat{\nu})/B \sim 1/2$ hence $z_{\delta} = z_{0:5} \sim 0$
+i.e. $x_0 \sim 0$ i.e. there is no correction for distortion.
+
+
+- with regard to the acceleration constant a, the easiest way of
+to proceed is to resort to the jackknife. In particular, indicated with $\hat{\theta_{(i)}}$ the generic
+i-th pseudo-value of $\hat{\nu}$ calculated on the i-th jackknife sample,
+$i = (1 ... n)$, and with ^#( ) the arithmetic mean of the "n" pseudo-values,
+the quantity a in (2.6) is replaced by the following:
+
+
+$$\frac{\sum_{i=1}^n (\hat{\nu}_{.} - \hat{\nu}_{(i)})^3}{6[\sum_{i=1}^n] [\hat{\nu}_{.} - \hat{\nu}]^2]^{3/2}}$$
+
+There is an elaborate theory that justifies the role of the constant di
+acceleration is its jackknife estimate de nita with (2.8). It's not
+It is possible to go into the detail of this theory here which goes beyond the scope
+of our course. Suffice it to note that the constant a refers to the concept
+stabilization of the variance of the estimator $\Var(\hat{\Theta})$ The latter,
+in fact, generally depending on the unknown value of $\delta$ is not constant
+variable $\text{for all }\nu$ in the corresponding parameter space but it is, precisely,
+unstable.
+
+Standard ICs based on the Normal approximation assume that
+$Var(\hat{\Theta})$ is constant $\text{for all }\nu$ which is, in general and as just observed,
+unrealistic, making some stabilization expedient necessary.
+For the Bca method this expedient is precisely represented
+from the acceleration constant.
+
+
+Finally, it should be noted that the Bca method can be seen as a generalization
+of the percentile method. In fact, it has been demonstrated that if the estimator
+$\hat{\Theta}$
+is unbiased and with stable variance, i.e. constant 8# variable
+in the corresponding parameter space, it results: $z_0 = a = 0$ and therefore the two
+methods, Bca and percentile, lead to the same results.
+
+
+## 2.5. The Jackknife:
+
+The history of resampling methods begins in 1949 with the first
+Jackknife proposal, by M. H. Quenouille (Quenouille et al., 1949),
+for the purpose of evaluating the accuracy of a complex estimator in a non-field context
+parametric. Despite being based on samples extracted from the original sample
+{ resampling in fact { in its first version, given that still
+modern digital calculators were not available, the Jackknife required a
+content set of elaborations.
+
+Let $x_1... x_n$ a Bernoulli sample of pressed amplitude n from the v.c.
+X with f.r. $F(x; \nu)$ completely unknown. Let $\hat{\nu}$ be the estimate chosen for $\nu$.
+
+In this context, the corresponding estimator $\hat{\Theta}$ has, in turn, f.r. unknown.
+
+
+We are interested in evaluating the accuracy of $\hat{\Theta}$ through the estimate, and the consequent
+correction of its distortion: $Dist(\hat{\Theta}) = E[\hat{\Theta}] - \nu$.
+
+In its original version, the Jackknife provides the following resampling scheme.
+Consider the n possible sub-samples of amplitude
+(n-1) which are obtained from the original sample by deleting (cutting) of
+each time the i-th observation $xi, i = 1...n$. And therefore to this guy
+of resampling that the Jackknife owes its name, which in English indicates
+the jackknife.
+
+
+These sub-samples are called Jackknife samples and the generic
+i-th and of the type:
+$$x_1...x_{i-1}, x_{i+1}..x_n$$
+
+The Jackknife method (algorithm) consists of the following steps. On the generic i-
+th Jackknife sample we re-calculate the quantity $\hat{\nu_{(i)}}$ identical to the estimate
+$\hat{\nu}$ except that it is calculated on a Jackknife amplitude sample
+(n - 1) instead of on the original sample of width n. This quantiti $\hat{\nu}_{(i)}$ is called pseudo-value of $\hat{\nu}$ come conseguenza del fatto che mima,
+sul campione jackknife, la stima originaria $\hat{\nu}$
+
+La procedura viene iterata n volte su ciascuno degli n campioni jackknife
+disponibili, pervenendo a n pseudo-valori $\hat{\nu}_{(i)}, i=1...n$
+
+The set of n pseudo-values can be interpreted as a simulation of the
+distribution of $\hat{\Theta}$ so that the arithmetic mean:
+
+$$\hat{\nu}_{(.)} = \frac{1}{n} \sum_{i=1}^n \hat{\nu}_{(i)}$$
+
+the result is a simulation - called Jackknife estimate - of the expected value $E[\hat{\Theta}]$.
+
+With the aim of evaluating, and possibly improving, the distortion of $\hat{\Theta}$ , the following quantity is constructed:
+$$\hat{Dist}_{jack} = (n-1)[\hat{\nu}_{.} - \hat{\nu}]$$
+which constitutes the Jackknife estimate of the bias of $\hat{\Theta}$
+
+
+With regard to the guarantees offered by (2.9), it should be noted that for procedures based on simulations, therefore numerical and not exact, the justifications do not
+they can, in general, be of an analytical type as vice versa happens for procedures
+as exact as the best-known classical inferential results. If, for example,
+the estimator is constructed with the (parametric, analytical, exact) method of
+maximum likelihood, through exact analytical methods can be derived
+its properties and it will be equally possible to analytically correct them
+any distortion. This or not is in general possible for numerical methods
+based, as in the case of the Jackknife, on simulations. For this type of procedure
+literature and practice suggest the following two criteria:
+
+- the method must be reasonable, at least heuristically.
+- the method must have good behavior in those cases where they exist
+exact analytical results or must provide results compatible with
+this last.
+
+
+
+
+
+Experimentation is then added to these criteria, which allows evaluation
+empirically, generally through simulation, the results provided by the method.
+From the perspective described above, to the jackknife procedure just exposed, you can
+give the following supporting justifications. 
+
+The quantity is $\hat{\nu}_{.}$ supplied with
+(2.9), and can be interpreted as an estimate for $E[\hat{\Theta}]$ based on resampling,
+while $\hat{\nu}$ is an estimate for $\nu$ based on the original sample.
+
+The latter and all
+there or available, i.e. all known information about $\nu$ is summarized
+in $\hat{\nu}$ and resampling occurs from the original sample.
+
+So, with regard to (2.10), the difference $[\hat{\nu}_{(.)} - \hat{\nu}]$ it is esteem for $Dist(\hat{\Theta})$ based
+on resampling while the coe cient (n Ӏ 1) plays the role of weight which
+takes into account the fact that resampling involves sample sizes
+lower than the original sample.
+
+
+
+# DEMO:
+##Resampling methods: the bootstrap
+## Nerve data
+In Cox, D. R., & Lewis, P. A. W. (1966). The statistical analysis of Series of
+Events, Methuen's Monographs on Applied Probability
+data from the series of 799 waiting times between successive pulses along the line are used
+nerve fiber, analyzed below.
+
+```{r}
+nervo<-read.table("data/nervo.dat", header = TRUE)
+head(nervo$A)
+require(skimr)
+skim_without_charts(nervo)
+```
+
+The times vary from 0.01 to 1.38 thousand seconds and the asymmetry of the distribution is noted in
+how much the mean is greater than the median.
+```{r}
+boxplot(nervo$A, xlab="Pulsazioni", horizontal=TRUE, col = "brown")
+```
+
+We note that the median of 0.15 is more represented in the data than the mean.
+
+
+```{r}
+hist(nervo$A,
+breaks = 50,
+ylim=c(0,5),
+main = "Pulsazioni fibra del nervo",
+ylab="Densità",
+freq =FALSE,
+col = "grey")
+```
+
+To verify, draw the exponential density curve with the average (1/rate) equal to that
+observed in the sample data and the empirical distribution is added, the rate is calculated
+
+```{r}
+rateA <- 1/mean(nervo$A); rateA
+
+x<-seq(0,1.4,length=799)
+h<-dexp(x,rate = rateA)
+plot(x,h,
+ylim=c(0,5),
+type="l", col = "blue",
+lwd = 3,
+xlab = "pulsazioni",
+ylab = "densità")
+hist(nervo$A,
+breaks = 50,
+col = rgb(0,0,1,1/4),
+freq =FALSE, add=T)
+legend(0.8,3, c("teorica", "campione"),
+col = c("blue", "lightblue"),
+lty = c(1,1),
+lwd = c(2,1),
+cex = 0.6)
+```
+Si disegna la funzione di ripartizione empirica che rappresenta lo stimatore di sostituzione
+plug-in della funzione di ripartizione teorica
+```{r}
+plot(ecdf(nervo$A),
+col="lightblue",
+main= "funz. di ripartizione emp. pulsazioni")
+```
+The theoretical function is added to the empirical function
+
+```{r}
+
+plot(ecdf(nervo$A),
+col="lightblue",
+main= "Funz. di ripartizione")
+#
+curve(pexp(x,rate=rateA),
+lty='dashed',
+col='red',
+lwd='3',
+add=TRUE)
+#
+legend(0.8,0.4, col=c("lightblue","red"),
+c("f.r. empirica","f.r. teorica"), lty=c(1,2),
+cex=0.7)
+```
+### symmetry index
+Considering that for a random variable 𝑋 with mean 𝜇 and variance 𝜎2 the asymmetry is:
+$$k = E[\frac{(X-\mu)^3}{\sigma^3}]= \frac{\int (x-\mu)^3 dF(x)}{(\int(x-\mu)^2 F(x))^{3/2}}$$
+and 𝜅 = 0 in the Normal distribution.
+
+The usual estimate of the asymmetry index is obtained with the substitution estimator o
+plugin which is as follows
+
+$$\hat{k}= T(\hat{F_n}) =\frac{\int (x-\mu)^3 d\hat{F_n}(x)}{\hat{\sigma^3}} = \frac{\frac{1}{n}\sum_i^n(X_i = \bar{X_n})^3}{\hat{\sigma^3}}$$
+
+The function that calculates this index is present in the e1071 library
+```{r}
+require(e1071)
+skewness(nervo$A)
+```
+### Bootstrap
+Since the estimator 𝜅 has no known distribution, it can be associated with the point estimate
+of the aximetry obtained with the substitution estimator a measure of its variability.
+At this point it is necessary to apply the bootstrap method through the following steps:
+1. It is determined: $X_1^* ...X_n^* \sim \hat{F_n}$
+2. The value of the statistic is calculated for each determination: $T_n^* = g(X_1^*...X_n^*)$
+
+3. repeat steps 1 and 2 𝐵 times and the values are obtained: $T_{n,1}^* ...T_{n,B}^*$
+
+4. The standard deviation is calculated:
+$$sd_{boot} = \sqrt{\frac{1}{B-1} \sum_{r=1}^B (T_{n,b}^* - \frac{1}{B} \sum_{r=1}^B (T_{n,r}^*})^2$$
+
+STEP 1: the first sample is obtained from the original sample with the function
+sample which allows you to obtain n replications with replacement by specifying '{replace=
+TRUE}
+```{r}
+n <- length(nervo$A)
+B1 <- sample(nervo$A, n, replace = TRUE)
+summary(B1)
+```
+- The second sample is obtained
+```{r}
+B2 <- sample(nervo$A, n, replace = TRUE)
+summary(B2)
+```
+
+The third sample is obtained
+```{r}
+B3 <- sample(nervo$A, n, replace = TRUE)
+summary(B3)
+```
+
+STEP 2: the value of the asymmetry index is calculated in each sample and the values obtained for each bootstrap replication are saved in the vector s
+
+```{r}
+s1<-skewness(B1)
+s2<-skewness(B2)
+s3<-skewness(B3)
+s <- c(s1,s2,s3); s
+```
+
+or with the apply function
+
+```{r}
+BB<-cbind(B1,B2,B3)
+apply(BB,2,skewness)
+```
+STEP 3: calculate the standard deviation of the bootstrap replications, this is the
+estimate for the standard error to be associated with the value of the asymmetry index calculated on
+sample of the original data through the plug-on estimator which is equal to 1.76.
+
+Using only 3 bootstrap replications gives a standard error of
+
+```{r}
+sd(s)
+```
+Obviously 𝐵 = 3 is not enough and the procedure must be repeated at least with 𝐵 = 200
+bootstrap samples.
+
+### Using the for loop
+In the following code we sample 1000 times from the nerve vector and save the realized value on
+each sample of the asymmetry index in Tboot. Then the standard deviation of is calculated
+these achievements
+```{r}
+B <- 1000
+n <- length(nervo$A)
+Tboot <- rep(0, B)
+set.seed(16253)
+for (i in 1:B) {
+Xstar <- sample(nervo$A,
+n,
+replace = TRUE)
+Tboot[i] <- e1071::skewness(Xstar)
+}
+head(Tboot)
+
+summary(Tboot)
+
+seTboot <- sd(Tboot); seTboot
+```
+
+The accuracy for the symmetry value calculated with the plug-in estimator on the original sample
+it is estimated with the bootstrap method based on 1000 replications of the original sample
+and is equal to 0.16 (as can be seen it is lower than that calculated with 𝐵 = 3).
+
+Obviously as with any other statistical procedure, it is essential that the data is
+sufficiently informative on the phenomenon of interest.
+
+## Bootstrap confidence intervals
+As in classical inference, in this context too it is preferable to report next to the
+point estimate for the parameter 𝜃 a confidence interval and the coverage probability
+called confidence level.
+### Percentile method
+The data of the pulse times and the estimate of the asymmetry index are considered
+```{r}
+nervo<-read.table("data/nervo.dat", header = TRUE)
+```
+We obtain the bootstrap distribution using 𝐵=1000 samples and add the value
+of the estimate calculated in the observed data
+
+```{r}
+B <- 1000
+n <- length(nervo$A)
+Tboot <- rep(0, B)
+for (i in 1:B) {
+Xstar <- sample(nervo$A,
+n,
+replace = TRUE)
+Tboot[i] <- e1071::skewness(Xstar)
+}
+```
+
+```{r}
+sk <- e1071::skewness(nervo$A)
+hist(Tboot,
+breaks=50,
+freq=FALSE,
+main = "Distribuzione con 1000 realizzazioni bootstrap",
+xlab = "Indice di asimmetria",
+ylim = c(0,4),
+col= "gray",
+ylab = "Densità",
+xlim = c(1,2.5))
+abline(v=sk, col="red")
+legend("topleft", 2,
+c("valore sul campione"),
+col = "red",
+lty= 1,
+cex = 0.8)
+```
+The bootstrap confidence interval obtained by the percentile method is calculated based on the
+empirical distribution of bootstrap replications.
+When using the percentile method, the extremes of the confidence interval are taken
+the quantiles of the distribution at a fixed confidence level, for example 0.95.
+
+Therefore this is a 95% confidence interval for the skewness index.
+
+We remember that:
+- The confidence interval is a range of values around the point estimate of
+parameter within which it is believed plausible that the true value of the
+parameter with a certain level of confidence.
+- The confidence level is a probability that must be referred to a confidence interval
+with random extremes in repeated sampling.
+- The value 0.95, however, is not the probability that $\theta$ belongs to the observed interval.
+- We have confidence that $\theta$ belongs to the observed interval because the procedure includes it
+in 95% of cases.
+
+The histogram of the bootstrap distribution can be completed with the average value obtained
+from bootstrap replications and with the limits of the confidence interval
+```{r}
+sB<- mean(Tboot)
+Q <- quantile(Tboot, c(0.025, 0.975))
+Q[1]; Q[2]
+#> 2.5%
+#> 1.42489
+#> 97.5%
+#> 2.062046
+#
+hist(Tboot,
+breaks = 60,
+freq=FALSE,
+main = "Distribuzione con 1000 realizzazioni bootstrap",
+xlab = "Indice di asimmetria",
+ylim = c(0,4),
+col = "gray",
+ylab = " Densità",
+xlim = c(1, 3))
+#
+abline( v = c(sk,sB,Q[1], Q[2]),
+col = c("red", "blue", "green", "green"))
+#
+legend(2.5,2.5,
+c("valore or", "media boot",
+"conf. int1", "conf. int2"),
+col = c("red", "blue", "green", "green"),
+lty = c(1,1,1,1),
+lwd = c(3,3,3,3),
+cex = 0.7)
+```
+
+
+## Bias Corrected Accelerated Bootstrap method
+The confidence interval is calculated with the Bias Corrected Accelerated bootstrap method
+with the bcanon function present in the bootstrap library which requires as input the
+data vector, the number of bootstrap replications and the function (theta) referred to the estimator
+
+```{r}
+n
+
+B<-1000
+theta<-e1071::skewness
+require(bootstrap)
+set.seed(1013)
+CIbca<-bcanon(nervo$A, B,
+theta,
+alpha = c(0.025, 0.975))
+CIbca$confpoints
+```
+It is noted that the lower and upper limits of the 95% confidence interval obtained with the
+bca method are 1.47 and 2.13, respectively. They differ from those calculated by the method
+of the percentile. In fact, the function also returns the estimated values of the two constants:
+
+
+- acceleration $a$ 
+- correction for distortion $z_0$ and these are non-zero
+
+```{r}
+CIbca$acc
+
+CIbca$z0
+```
+The range ends obtained with this method can be added to the graph as follows:
+
+```{r}
+hist(Tboot,
+breaks = 60,
+freq=FALSE,
+main = "Distribuzione bootstrap con 1000 realizzazioni bootstrap",
+xlab = "Indice di asimmetria",
+ylim = c(0,4),
+col = "gray",
+ylab = " Densità",
+xlim = c(1, 3))
+#
+abline( v = c(sk,
+sB,
+Q[1],
+Q[2],
+CIbca[["confpoints"]][3],
+CIbca[["confpoints"]][4]),
+col = c("red",
+"blue",
+"green",
+"green",
+"pink",
+"pink"))
+#
+legend(2.6,2.5,
+c("valore or",
+"media boot",
+"conf. int1",
+"conf. int2",
+"conf. abc1",
+"conf. abc2"),
+col = c("red",
+"blue",
+"green",
+"green",
+"pink",
+"pink"),
+lty = c(1,1,1,1,1,1),
+lwd = c(3,3,3,3,3,3),
+cex = 0.7)
+```
+
+
+The value of the asymmetry index for consecutive pulsations along the nerve fiber lies between these two extremes with a confidence of 0.95.
+
+
+
+
+## Relative risk estimator: bootstrap confidence interval
+
+The following contingency table reports the absolute frequencies (counts) for two characters
+binaries where 𝑌 is intended as the response variable and 𝑋 is intended as a covariate. For example 𝑌 is
+the random variable representing the heart attack event and 𝑋 the intake of placebo or aspirin
+in a random sample of people.
+I numeri $𝑁_{11}, 𝑁_{01}, 𝑁_{10}, 𝑁_{00}$ represent the joint frequencies of 
+$X_i = 𝑖, 𝑖 = 0, 1$ and $Y_i = j, 𝑗 = 0, 1$
+
+$
+|X|Y|Y||
+| |1|0||
+|---|---|---|---|
+|1|N_11|N_10|N_1|
+|0|N_01|N_00|N_0|
+||N_{.1}N_{.0}|N_{..}|
+
+$
+
+The outer (marginal) frequencies are the corresponding row and column sums.
+
+In cohort studies, individuals who have and do not have one are compared
+certain quality/pathology. In the context of prospective sampling (which differs from
+retrospective case-control sampling) are assumed as independent samples: the
+the first made up of exposed individuals and the second of non-exposed people. In this way
+the probability of the event can be estimated given the exposure.
+
+Relative Risk (RR, relative risk or risk ratio) is an often used measure of association
+in the medical field to compare, for example, a response compared to two treatments.
+
+It is calculated as the ratio between the frequency of those who present this characteristic
+(have had a heart attack) and have been exposed or have not been exposed (to aspirin). The measure
+is defined as the ratio between:
+
+- the proportion of those exposed: those who had a heart attack and took aspirin
+𝑁11 out of the total number of those who took aspirin 𝑁1.;
+- the proportion of those not exposed: i.e. those who have had a heart attack and have not
+took aspirin 𝑁01 out of the total of those who did not take aspirin 𝑁0.
+
+$$RR = \frac{\frac{N_{11}}{N_{.1}}}{\frac{N_{01}}{N_{0.}}}$$
+It is shown that 𝑅𝑅 = 1 is a sufficient and necessary condition for the independence between 𝑌 and 𝑋.
+The counts are considered v.c. having a Binomial distribution:
+
+- $N_{01} \sim Bin(N_{0.}, p_0)$
+- $N_{11} \sim Bin(N_{1.}.p_1)$
+
+- $p_0=P(Y=1|X=0)$
+- $p_1=P(Y=1)|X=1$
+
+The maximum likelihood estimators for these probabilities are obtained as
+
+$\hat{p_0} = \frac{N_{01}}{N_{0.}}$
+
+$\hat{p_1} = \frac{N_{11}}{N_{1.}}$
+
+and the maximum likelihood estimator for the relative risk (RR) is obtained
+$$ \hat{RR}= \frac{\hat{p_1}}{\hat{p_0}}$$
+In retrospective studies it is necessary to know the probability of exposure to estimate RR.
+If the latter is not known, the relative risk cannot be calculated and must be used
+the OR.
+
+Another measure of association is the difference in probabilities whose rough estimate
+verisimilitude is obtained as
+
+
+$$ \hat{D}= \hat{p_1} -\hat{p_0}$$
+
+It is shown that the two random variables are statistically independent if
+
+$𝑅𝑅 = 1; 𝐷 = 0; 𝑂𝑅 = 1.$
+The distribution of relative risk is not known and even asymptotically cannot be approximated
+to the Normal one. In the following, the value of the relative risk is calculated and the bootstrap is used
+to obtain an interval estimate.
+### Example
+It is assumed that there are 11034 people treated with placebo and 11037 treated with aspirin
+(independent samples) and that 104 patients had a heart attack among those treated with aspirin
+while 189 had a heart attack among those treated with placebo. They are considered the
+random variables 𝑋 and 𝑌 referring to the aspirin (X) and heart attack (Y) event.
+The maximum likelihood estimate of the relative risk RR for those treated with
+placebo it is
+
+$\hat{p_1}= 189/11034= 0.0171$
+
+while the other proportion for those treated with aspirin is $\hat{p_0}= 104/11037=0.009$
+
+Hence the relative risk:
+$$\hat{RR}= \frac{0.0171}{0.009}= 1.81$$
+is higher than 1: there is an association between the placebo and the heart attack, in fact based on this
+precise estimate, the probability of having a heart attack is approximately twice higher for the group of
+controls (i.e. patients treated with placebo) compared to the group treated (with aspirin).
+The following code creates the data set with the observations:
+
+```{r}
+X <- rep(c("aspirina","placebo"), c(11037,11034))
+head(X)
+table(X)
+```
+
+The table is obtained with the table function which returns the table with the absolute frequencies.
+
+```{r}
+Y = rep(c("NO", "YES", "YES", "NO"),
+c(11037-104, 104, 189,11034-189))
+head(Y)
+table(Y)
+```
+The dataframe is built
+```{r}
+dataR <- data.frame(X,Y)
+head(dataR)
+```
+
+
+```{r}
+table(dataR)
+```
+
+The estimates of the two propositions can be obtained through the contingency table in which the absolute frequencies are divided by the marginal value of row (1)
+
+```{r}
+CC <- prop.table(table(dataR),1); CC
+```
+The estimate of the relative risk is obtained as the ratio between the two corresponding relative frequencies
+
+```{r}
+RR <- CC[4]/CC[3]; RR
+```
+
+A measure of accuracy for this estimate is obtained with bootstrapping. It is necessary to sample
+from the starting data the same unit for both columns each time. Using the loop
+iterative for
+
+```{r}
+B <- 2000
+RRB <- rep(0,B)
+n <- dim(dataR)[1]
+set.seed(1023)
+for(i in 1:B){
+ind <-sample(1:n,
+size = n,
+replace = TRUE)
+datB <- dataR[ind,]
+CC <- prop.table(table(datB),1)
+RR <- CC[4]/CC[3]
+RRB[i]<-RR
+}
+head(RRB)
+```
+
+
+The RRB vector contains the realized values of the RR estimator for each of the 2000 replications
+bootstrap.
+Values are always greater than 1 and the minimum is 1.3. Note that in replications the value
+estimated assumes a maximum of approximately 2.8 and that the bootstrap distribution is slightly
+asymmetrical.
+
+```{r}
+summary(RRB)
+```
+
+The standard error associated with the estimate is 0.23.
+
+```{r}
+sd(RRB)
+```
+
+
+We draw the bootstrap distribution through the histogram
+
+```{r}
+
+sB<- mean(RRB)
+hist(RRB,
+breaks = 60,
+freq=FALSE,
+main = "Dist. boot. Rischio Relativo",
+xlab = "2000 realizzazioni bootstrap",
+ylim = c(0,2.5),
+col = "gray",
+ylab = " Densità",
+xlim = c(1, 3))
+````
+
+
+## Percentile method
+The 95% confidence interval is calculated using the percentile method.
+Using the percentile method the confidence interval is the central 95% of the distribution
+of bootstrap replications. That is, plausible estimates are those that fall
+between the 2.5th percentile and the 97.5th percentile of the bootstrap distribution.
+
+```{r}
+Q <- quantile(RRB, c(0.025,0.975)); Q
+```
+
+The distribution of the relative risk estimator obtained with the is represented graphically
+bootstrap
+
+```{r}
+Tm <- mean(RRB); Tm
+hist(RRB,
+main = "Distr. Boot. per il rischio Relativo",
+breaks=60,
+freq=FALSE,
+ylab="Densità",
+xlab="2000 Realizzazioni bootstrap")
+abline(v=c(RR, Tm, Q[1], Q[2]),
+       col=c("red","blue", "violet","violet"))
+legend(2.5, 1.5,
+c("mediaOR","mediaB", "conf.int1", "conf.int2"),
+col=c("red","blue", "violet", "violet"),
+lty=c(1,1,1,1),
+cex=0.7)
+       
+```
+
+Note the distortion in this case is given by the distance between the average of the replications
+bootstrap and the relative risk (RR) estimate calculated in the source data.
+### Bca method
+Since the distance between the average observed in the source data and that in the replications is large
+bootstrap and since there is asymmetry in the bootstrap distribution it is appropriate
+also consider the range obtained with the BCa method.
+To apply the bootstrap::bcanon function, you do not need to implement the thetaR function
+the relative risk calculation as follows
+
+```{r}
+thetaR <- function(ind){
+datB <- dataR[ind,]
+CC <- prop.table(table(datB),1)
+CC[4]/CC[3]
+}
+```
+To obtain an interval at confidence level $1-\alpha$ = 0.95 the bcanon function is applied
+```{r}
+require(bootstrap)
+set.seed(1023)
+CIBca <- bcanon(1:n,
+B,
+thetaR,
+alpha=c(0.025,0.975))
+CIBca$confpoints
+#> alpha bca point
+#> [1,] 0.025 1.411361
+#> [2,] 0.975 2.326449
+CIBca$acc
+#> [1] -0.00603286
+CIBca$z0
+```
+
+With a confidence of 0.95 we affirm that the probability of having a heart attack for those who do not
+were treated is higher by a value between 1.4 and 2.3 compared to that of those
+who have been treated with aspirin.
+Let's add the Bca extremes to the previous graph
+
+```{r}
+Tm <- mean(RRB); Tm
+#> [1] 1.835642
+hist(RRB,
+main = "Distr. Boot. per il Rischio Relativo",
+breaks=60,
+freq=FALSE,
+ylab="Densità",
+xlab="2000 Realizzazioni bootstrap")
+abline(v=c(RR, Tm, Q[1], Q[2],
+CIBca[["confpoints"]][3],
+CIBca[["confpoints"]][4]),
+col=c("red","blue", "violet","violet", "green", "green"))
+legend(2.5, 1.8,
+c("mediaOR",
+"mediaB",
+"c.i1 p.",
+"c.i2 p.",
+"c.i1 bca",
+"c.i2 bca"),
+col=c("red","blue", "violet", "violet", "green", "green"),
+lty=c(1,1,1,1),
+cex=0.5)
+```
+
+Note that the bca range is slightly shifted to the left compared to that obtained with the percentile method.
+
+
+# Excercise Bootstrap
+## Exercise 23
+The data present in the file called cranio1.Rdata concerns measurements at birth
+of the skull circumference (in cm) of 98 children born in the same month in one
+certain area (simulated data).
+1. Illustrate the data using descriptive statistics. Draw the function of
+empirical distribution by comparing it with a plausible theoretical distribution.
+2. Considering the average skull circumference, use the bootstrap
+to determine its accuracy measure using the function
+‘bootstrap::bootstrap‘. Report the result and comment.
+3. Draw and comment on the bootstrap distribution by entering the calculated mean
+on the sample and the average of the bootstrap replications.
+4. Draw the distribution of the estimation error and comment on it.
+
+23.1
+
+The data contained in the cranio1.RData file is loaded and the descriptive statistics are calculated.
+```{r}
+load("data/cranio1.Rdata")
+skimr::skim_without_charts(cranio1)
+```
+The dataset contains 98 observations for a single variable (the measurement of the skull circumference).
+The range of variation goes from a minimum of 23 cm to a maximum of 84 cm. The average circumference is
+of 37 cm, a value very close to that of the median. 75% of the newborns observed have a size of
+circumference less than 37cm. It is therefore observed that the maximum value (84 cm) is much higher
+to the remaining observations. The average variability around the mean is about 6 cm, a rather high value
+limited when compared to the average. To better evaluate the observed data, and in particular the value
+of the maximum compared to the rest of the observations, we represent them graphically.
+
+```{r}
+plot(cranio1, type = "p")
+hist(cranio1, breaks = 60)
+```
+
+A univariate Normal distribution is assumed for the V.C. the circumference measurement below
+of the skull; we then draw the empirical distribution function of the data together with that
+theory of a V.C. of Gauss, fixing the values of the parameters based on the sample statistics,
+that is, $𝑋 \sim 𝑁 (37, 36)$.
+
+```{r}
+ind <- which.max(cranio1)
+plot(ecdf(cranio1),
+do.points=FALSE,
+main ='Funzioni di ripartizione')
+curve(pnorm(x, 37, sd(cranio1)),
+lty = 'dashed',
+col = 'red',
+add = TRUE)
+legend(60, 0.4,
+c("Empirica", "Teorica N(37,36)"),
+col = c("black", "red"),
+lty = c(1, 3),
+lwd = c(2, 1),
+cex = 0.5)
+```
+
+23.2
+
+The estimate of the standard error (measure of accuracy) for the mean circumference is obtained with
+non-parametric bootstrap uses the bootstrap function of the package of the same name. This
+requires as input the name of the dataset, the number of replications, and the function you want to calculate on each replication. In this case, 2000 replications of the original dataset are considered.
+
+```{r}
+require(bootstrap)
+set.seed(153)
+b.boot <- bootstrap::bootstrap(cranio1, 2000, mean)
+summary(b.boot$thetastar)
+```
+
+The b.boot$thetastar object contains the results of the average calculated over each of the 2000 replications
+bootstrap. By viewing the descriptive statistics, we observe that the average values are
+all quite close to each other. The average (it is an average of averages) is equal to 39.96, approximately
+equal to that calculated on the original dataset. The range of variation is from a minimum of
+35.32 to a maximum of 39.60.
+
+```{r}
+sd(b.boot$thetastar)
+```
+
+The accuracy measure is calculated through the standard deviation of the 2000 averages obtained
+through bootstrap replications; this value is equal to 0.64 and is rather limited.
+
+
+23.3
+The bootstrap distribution for the mean is drawn through the histogram of the 2000 calculated means
+on bootstrap replications of the original dataset.
+```{r}
+temp <- range(b.boot$thetastar)
+hist(b.boot$thetasta,
+breaks = 50,
+freq = FALSE,
+main = "Distribuzione bootstrap per la media del cranio",
+xlab = "2000 realizzazioni bootstrap",
+# xlim = temp,
+# ylim = c(0,0.7),
+col = "gray",
+ylab = "Densità")
+abline(v = mean(cranio1), col = "red")
+abline(v = mean(b.boot$thetastar), col = "blue")
+legend("topright",
+c("Valore sul campione", "Valore bootstrap"),
+col = c("red", "blue"),
+lty = c(1, 1),
+cex = 0.5)
+```
+
+The bootstrap distribution for the means of skull choroconference measurements looks quite good
+symmetrical. The average calculated on the original sample and the average of the 2000 averages on the
+bootstrap replications are coincident (overlapping in the graph) and are located in the peak
+center of the histogram.
+
+
+23.4
+
+We graphically represent the distribution of the estimate error, calculated as the difference between the
+average calculated on the original sample and the average calculated on each bootstrap sample.
+
+```{r}
+dif <- b.boot$thetastar - mean(cranio1)
+hist(dif,
+breaks = 50,
+freq = FALSE,
+main = "Distribuzione bootstrap errore di stima",
+xlab = "2000 realizzazioni bootstrap",
+col = "orange",
+ylab = "Densità")
+```
+
+The distribution of the estimation error is approximately symmetric, centered around 0. The
+range of variation is rather limited, going from a minimum of -2 to a maximum slightly higher
+to 2. Furthermore, most of the observations are located in the central area, a sign of an error of
+particularly limited estimate.
+
+
+
+## EXERCISE 24
+Consider the weight of 3 mice measured in the laboratory: 80, 103 and 91 grams.
+1. Report the average weight.
+2. Report the possible number of bootrstrap samples.
+3. List all possible bootstrap samples.
+4. Report the means obtained for each of the bootstrap samples.
+5. Report the mean of the means obtained from the bootstrap samples and compare it
+with the average weight of the source sample.
+6. Determine the minimum and maximum values of each bootstrap sample.
+
+
+
+24.1
+Average weight value: 91.3 g.
+
+```{r}
+x <- c(80, 103, 91)
+mean(x)
+```
+
+24.2
+Number of possible bootstrap samples:$binom{5}{3}= 10$
+
+```{r}
+n <- length(x)
+choose(2*n-1, n)
+```
+24.3
+
+Possible Bootstrap samples: (80, 80, 80), (80, 80, 91), (80, 80, 103), (80, 91, 91), (80, 103, 103),
+(80, 91, 103), (91, 91, 91), (91, 91, 103), (91, 103, 103), (103, 103, 103).
+We collect them in the df dataframe; each column corresponds to a different replication.
+
+```{r}
+df <- data.frame(c(80, 80, 80), c(80, 80, 91), c(80, 80, 103), c(80, 91, 91), c(80, 103, 103),
+c(80, 91, 103), c(91, 91, 91), c(91, 91, 103), c(91, 103, 103),c(103, 103, 103))
+colnames(df) <- as.character(1:10)
+df
+```
+
+24.4
+
+Averages (in the same order as the samples written in the previous point): 80.0, 83.7, 87.7, 87.3, 95.3,
+91.3, 91.0, 95.0, 99.0, 103.0.
+
+```{r}
+medie_bootstrap <- round(apply(df, 2, mean), 1)
+```
+
+24.5
+
+Means of the means obtained from the bootstrap samples: 91.3 The value coincides with the determined one
+on the original sample in step 1.
+
+```{r}
+mean(medie_bootstrap)
+```
+24.6
+
+Minimum values:
+```{r}
+apply(df, 2, min)
+```
+Maximum values:
+```{r}
+apply(df, 2, max)
+```
+
+
+## Exercise 25
+The protein contents of wheat and camut were detected for different types of
+product. Consider the following values in grams:
+- Wheat: 176, 125, 152, 180, 159, 168, 160, 151;
+- Camut: 164, 121, 137, 169, 144, 145, 156, 139.
+1. Illustrate the data using descriptive statistics and graphical representations
+and calculate the averages of the measurements for the two cereals.
+2. Consider the difference between the arithmetic means. Apply the bootstrap method
+using the for loop with number of bootstrap replications equal to 1000 per
+obtain the standard error for this difference. Comment on the result.
+3. Draw the bootstrap distribution.
+4. Apply the bootstrap method as in point .2 instead considering the difference
+between the two medians. Comment on the result.
+
+25.1
+The data are collected in two vectors and the descriptive statistics and analyzes are carried out
+graphic representations.
+
+```{r}
+grano <- c(176, 125, 152, 180, 159, 168, 160, 151)
+camut <- c(164, 121, 137, 169, 144, 145, 156, 139)
+dat <- data.frame(grano, camut)
+summary(dat)
+```
+```{r}
+boxplot(dat, horizontal = T)
+```
+comment -->>???
+
+
+25.2
+The averages of the two data sets are 159 g (for wheat) and 147 (for camut), respectively. There
+difference is 12 g.
+In the following, at each iteration of the for loop, the following are selected randomly (and with repetitions)
+𝑛 rows of the original dataset; the averages of the two columns of the new dataset are calculated and the difference is calculated. Everything is repeated 2000 times (i.e. 2000 bootstrap repetitions are obtained) and the
+results are collected in the DDB vector.
+
+
+```{r}
+n <- dim(dat)[1]
+B <- 1000
+DDB <- rep(0, B)
+set.seed(123)
+for(i in 1:B){
+ind <- sample(1:n, size = n, replace = TRUE)
+Y <- dat[ind,"grano"]
+Z <- dat[ind,"camut"]
+CC <- mean(Y)-mean(Z)
+DDB[i] <- CC
+}
+summary(DDB)
+```
+
+Considering 1000 bootstrap repetitions the difference between the wheat and camut averages varies
+from a minimum of 4 to a maximum of almost 20. The average value of the difference is instead equal to 12,
+approximately equal to the median. The two indices coincide with the value of the difference between
+the averages calculated on the original sample.
+Try implementing the same request using the bootstrap::bootstrap function; Yes
+compare the results. (Hint: build a function that receives the corresponding rows as input
+to the bootstrap replication and calculate the difference of the means. Apply this function to the command
+bootstrap)
+
+NOTE: in carrying out this exercise each resampling is carried out jointly
+for the two surveys: an index 𝑖 ∈ {1, … , 𝑛} is extracted (randomly and with re-entry) and
+consider the 𝑖-th element of both the grain vector and the camut vector. In general it could also
+proceed independently: I extract two indices 𝑖, 𝑗 ∈ {1, … , 𝑛} and consider the 𝑖-th element
+of the grain vector and the 𝑗-th of the camut vector. The definition of the most appropriate method depends
+from individual applications. In our case the two original datasets seem to be considered jointly:
+it is sufficient to plot them in the Cartesian plane (plot(grain, camut)), or more simply
+calculate the correlation index to detect that they are strongly (and positively) linearly
+associated. In other applications it may be more appropriate to proceed instead by considering the two
+dataset independently.
+
+
+25.3
+
+The bootstrap distribution is represented graphically in the form of a histogram. They add
+then the lines corresponding to the difference calculated on the original dataset and the average of the differences
+calculated on bootstrap datasets.
+
+```{r}
+diff <- mean(grano)-mean(camut)
+B_diff <- mean(DDB)
+hist(DDB,
+main = "Distribuzione Bootstrap delle differenze",
+breaks = 60,
+freq = FALSE,
+ylab = "Densità",
+xlab = "Differenza tra le medie")
+abline(v = c(diff, B_diff),
+col = c("red", "blue"),
+lwd = c(3, 3))
+legend(15, 0.7,
+c("difOR", "difB"),
+col = c("red", "blue"),
+lty = c(1, 1),
+cex = 0.6)
+```
+The range of variation, as already described previously, varies approximately between 5 and 20. The distribution
+it is approximately symmetrical around the central peak, located around the value 12, and coincident
+both with the difference between the means calculated on the original data and with the average of the differences
+bootstrap.
+
+25.4
+
+We repeat what was implemented previously by replacing the difference of the medians with the difference
+of middle school.
+
+```{r}
+DDB <- rep(0,B)
+set.seed(123)
+for(i in 1:B){
+ind <-sample(1:n, size = n, replace = TRUE)
+Y <- dat[ind,"grano"]
+Z <- dat[ind,"camut"]
+CC<- median(Y)-median(Z)
+DDB[i] <- CC
+}
+hist(DDB,
+main = "Dist. Boot. differenza mediane",
+breaks = 15,
+freq = FALSE,
+ylab = "Densità",
+xlab = "Realizzazioni bootstrap per la differenza tra le mediane")
+```
+
+
+In this case we note that the differences between the medians calculated on the bootstrap samples trend
+to always take on a limited number of values. For example, a high number of
+differences with values between 13 and 15 and almost nothing between 15 and 17. This can be explained by the few observations
+originally available: bootstrapping tends to repeat observations and accordingly
+also the values of the final result. In this case with the bootstrap it is not possible to estimate some
+quantiles of the distribution.
+
+
+## Exercise 26
+Consider the following data assuming that they refer to the number of cancer cases
+rare found in an area of a large city every year for 23 years: 23, 16, 21, 24,
+34, 28, 28, 28, 24, 30, 28, 24, 26, 18, 23, 23, 36, 37, 49, 50, 51, 56, 46, 41, 54, 30, 40,
+31.
+1. Report the descriptive statistics indices and graphic analyzes and comment.
+2. Apply the bootstrap function to generate 3000 bootstrap realizations for
+the mean and for the median. Report the two standard errors obtained with the
+method and comments.
+3. Draw the bootstrap distribution and report the estimator bias
+and the standard error. Comment on the results.
+4. Repeat step .1 without using the bootstrap function, and report the estimates
+obtained for the quantities referred to in point .2 and point .3.
+
+26.1
+The data is loaded into a vector and the descriptive statistics and main representations are provided
+graphics. Comments are left to the student.
+
+```{r}
+x <- c(23, 16, 21, 24, 34, 28, 28, 28, 24, 30, 28, 24, 26, 18,
+23, 23, 36, 37, 49, 50, 51, 56, 46, 41, 54, 30, 40, 31)
+summary(x)
+```
+
+```{r}
+sd(x)
+```
+
+Mean and median, which will be analyzed with the bootstrap technique in the next points
+of the financial year, are worth 33 and 29 respectively.
+
+```{r}
+plot(x)
+```
+It is noted that the first findings all present low values (less than 40) for the number of cases
+of rare tumor. The latest findings, however, take much higher values.
+
+26.2
+
+To apply the bootstrap procedure (with the bootstrap::bootstrap command), we first define
+the function needed to calculate the mean and median on bootstrap samples.
+The implemented bootstrap::bootstrap function executes the bootstrap procedure by sampling in
+randomly and with reinsertion of the indexes of the rows of the original dataset. The number of different
+replications is set at 3000.
+
+```{r}
+n <- length(x)
+B <- 3000
+set.seed(2410)
+mean_B <- bootstrap::bootstrap(1:n, B, function(i) mean(x[i]))
+set.seed(2410)
+median_B <- bootstrap::bootstrap(1:n, B, function(i) median(x[i]))
+```
+
+Note that setting the same value for the prim seed of both function calls
+bootstrap::bootstrap uses the same samples for both the averaged and averaged calculations
+with the medians. We now analyze the results relating to the two indices by calculating the standard error.
+
+```{r}
+sd(mean_B$thetastar)
+
+sd(median_B$thetastar)
+```
+It is observed that both values of the standard error are rather contained; the accuracy for
+both estimators (sample mean and median), estimated through the bootstrap method on
+base of 3000 replications of the original sample, is therefore high. In particular that the value of the
+standard error for the mean is slightly lower than that for the median;
+it is known that the bootstrap method does not always work optimally for quartiles.
+
+26.3
+
+We report the histograms of the two bootstrap distributions in a single graphic window.
+
+```{r}
+par(mfrow = c(1, 2))
+hist(mean_B$thetastar,
+main = "Dist. Boot. medie",
+breaks = 15,
+freq = FALSE,
+ylab = "Densità",
+xlab = "Realizzazioni bootstrap per le medie")
+abline(v = mean(x), col = "red", lty = 2)
+abline(v = mean(mean_B$thetastar), col = "blue", lty = 3)
+hist(median_B$thetastar,
+main = "Dist. Boot. mediane",
+breaks = 15,
+freq = FALSE,
+ylab = "Densità",
+xlab = "Realizzazioni bootstrap per le mediane")
+abline(v = median(x), col = "red", lty = 2)
+abline(v = mean(median_B$thetastar), col = "blue", lty = 3)
+```
+
+The two graphs appear significantly different from each other. The one relating to the average is almost
+perfectly symmetrical; the average values on the original dataset and the average on the 3000 values
+bootstrap coincide with each other and are positioned at the central peak. Resampling
+bootstrap, however, was not as effective as regards the mediama: the form
+of the histogram is not symmetrical, showing a single very high peak in correspondence
+of a value between 27 and 28 (not in the center of the distribution). This peak does not
+coincides neither with the median calculated on the original dataset, nor with the average of the calculated medians
+on the 3000 bootstrap samples. Furthermore, these two values are themselves not coincident. The range
+of this bootstrap distribution is wider than that obtained in the case of the average.
+Regarding the bias of the two estimators, we calculate the difference between the value of
+estimator obtained on the original dataset and the average of the bootstrap values.
+
+```{r}
+mean(mean_B$thetastar) - mean(x)
+```
+The distortion obtained for the mean estimator is very low (equal to 0.05), a sign that the
+estimator (sample mean) is not distorted. On the contrary, the value of the distortion for the
+median is 0.7, indicating a slight bias for the corresponding estimator.
+
+26.4
+
+Please refer to the solutions of the previous points and exercises.
+
+
+
+
+
+## Exercise 27
+Consider the data present in the file called warfarin.Rdata. There are two of them
+measures of the anticoagulant that is used in heart patients. The first
+measurement (cread) is obtained in the clinic while the second (lread) is obtained in the laboratory.
+(Data taken from Riffenburgh R. H. 2012. Statistics in Medicine, Academic
+Press.)
+1. Describe the observed data.
+2. Report and interpret the value of the ratio between the two arithmetic means. This
+allows you to evaluate whether there is an average difference between the two tests.
+3. Use the bootstrap method with the bootstrap library functions to obtain
+the standard error for the estimate referred to in the previous point.
+
+
+27.1
+
+The dataset is loaded and the main descriptive statistics are analysed.
+`
+```{r}
+load("data/warfarin.Rdata")
+skimr::skim_without_charts(warfarin[, -1])
+```
+
+There are 104 individuals, for whom measurements of two variables are taken. The two distributions
+they have a very similar range of variation, taking only positive values, and with a maximum
+around 4. The average of the anticoagulant measurements taken in the clinic is higher than
+that of the values detected in the laboratory. Conversely, these measurements are more variable,
+having a higher standard deviation value than those detected in the clinic.
+We now represent the observations in the Cartesian plane (scatter plot), using colors
+different for measurements in the clinic and those in the laboratory.
+
+```{r}
+plot(warfarin[, 2],
+ylab="Anticoagualante",
+main = "",
+xlab = "Misurazioni")
+points(warfarin[, 3],
+col="pink")
+legend("topright",
+col = c("black", "pink"),
+c("Clinica", "Laboratorio"),
+pch = c(1, 1),
+cex = 0.6)
+```
+The values obtained through both types of measurement are arranged uniformly in the
+plane, without forming particular point structures (patterns) or prevalence of one of the two methods
+measurement in certain regions of the plane. The values obtained in the clinic appear to be higher
+compared to those obtained in the laboratory, but the difference is extremely limited (as already seen
+with descriptive statistics).
+We also represent the two empirical distribution functions in the same graph so as to
+be able to compare them.
+
+```{r}
+plot(ecdf(warfarin[, 2]),
+col = "black",
+xlab = "Anticoagualnte",
+do.points = FALSE,
+main = "Funzioni di ripartizione empiriche")
+plot(ecdf(warfarin[, 3]),
+col = "pink",
+do.points = FALSE,
+add = TRUE)
+legend(3.5, 0.2,
+col = c("black", "pink"),
+c("Clinica", "Laboratorio"),
+lty = c(1, 1),
+cex = 0.6)
+```
+With the same abscissa (i.e. anticoagulant measurement), and up to the value 𝑥 = 2.7, the function
+distribution for values obtained in clinic is lower than that for values obtained in
+laboratory. In other words, for values 𝑥 ≤ 2.7 of anticoagulant, the probability ℙ(𝑋𝐶𝑙𝑖𝑛𝑖𝑐𝑎 ≤ 𝑥)
+is always less than the probability $ℙ(𝑋_{lab}\leq 𝑥). The situation is reversed for values of 𝑥
+above 2.7. The slope of both curves attenuates for high anticoagulant values.
+
+27.2
+
+The plug-in estimator for the ratio between the arithmetic means is applied, where 𝐶 denotes the
+measurements in the clinic and with 𝐿 those in the laboratory:
+$\theta_{\text{plug-in}} = \frac{C}{L}$
+
+```{R}
+th <- mean(warfarin$cread)/mean(warfarin$lread); th
+```
+
+We note that the estimate $\theta_{\text{plug-in}}$ on the sample is 1.05, i.e. slightly higher than 1.
+It should be considered that the estimator is biased as it is the ratio between two arithmetic means.
+
+27.3
+
+To obtain the standard error of the estimate calculated in the previous point, the function is used
+bootstrap::bootstrap; we therefore first implement the function that defines the plugin estimator
+of interest for a generic bootstrap sample. This function requires the argument as input
+numeric that defines the position of the ind units that are used for the bootstrap sample once
+at a time and returns the plug-in estimate calculated on that sample.
+
+```{r}
+theta1 <- function(ind) {
+Y <- warfarin[ind, 2]
+Z <- warfarin[ind, 3]
+mean(Y)/mean(Z)
+}
+```
+
+The bootstrap::bootstrap function performs the bootstrap procedure by sampling randomly
+and with reinsertion of the indexes of the rows of the original dataset. The number of different replications is
+set at 2000.
+
+```{r}
+n <- dim(warfarin)[1]
+B <- 2000
+set.seed(18243)
+bootw <- bootstrap::bootstrap(1:n, B, theta1)
+head(bootw$thetastar)
+```
+
+The output object, bootw$thetastar, returns the vector containing the 2000 values of the estimate
+plug-ins created on each extracted sample. By viewing the first 10 values you can see that they are all
+slightly higher than 1. Using the summary function we analyze the main statistics
+descriptive.
+
+```{r}
+summary(bootw$thetastar)
+```
+
+
+The minimum value is equal to 1.006, confirming that none of the bootstrap estimates take on value
+less than 1. The maximum value is instead 1.096, thus denoting a very limited range. Average and
+median coincide with each other and approximately with the value of the calculated ratio between the means
+on the original dataset.
+The standard deviation of the bootstrap replications allows us to evaluate the variability due
+to random sampling (standard error).
+
+```{r}
+sd(bootw$thetastar)
+```
+
+Finally, the difference found between the parameter estimate calculated on the original data and the one is calculated
+average value obtained through the bootstrap.
+
+```{r}
+Tm1 <- mean(bootw$thetastar)
+Tm1 - th
+```
+
+This value is rather small; the distortion is therefore negligible and does not need to be corrected
+the estimate.
+
+
+
+## Exercise 28
+1. With reference to Exercise 25, determine the 95% confidence intervals
+for the difference between the two means and for the difference between the two medians with the
+percentile method and with the Bca method. Comment on the results and drawings
+the bootstrap distribution indicating both the value realized on the sample and the
+mean value in bootstrap replications, the extremes of the two intervals together
+to the legend. Comment on the graph.
+2. With reference to Exercise 26, determine the 95% confidence intervals
+for both the mean and the median with the percentile method and with the method
+Bca. Comment on the graph drawn as in the previous point.
+3. With reference to Exercise 27, determine the 90% confidence intervals
+for the ratio between the two arithmetic means with the percentile method and with
+the Bca method. Comment on the graph drawn as in the previous point.
+
+SOLUTIONS TO EXERCISE 28
+
+28.1
+
+Please refer to the solutions in point 28.3.
+
+28.2
+
+Please refer to the solutions in point 28.3.
+
+28.3
+
+The data relating to Exercise 27 regarding anticoagulant measures are considered. The interval is reported
+confidence at the 90% level for the ratio between the means obtained with the percentile method e
+with the Bias Corrected Accelerated Bootstrap (BCAB) method. Please note that the quantities already entered
+in exercise 27 they are not recalculated here.
+The bootstrap confidence interval calculated by the percentile method is based on the distribution
+empirical of bootstrap replications. Quantiles are used as limits of the confidence interval
+appropriate for the distribution of bootstrap replications.
+In particular, by setting the coverage level at 0.90, the extremes considered are determined
+the fifth and ninety-fifth percentiles. The quantile command allows you to calculate quantiles
+specified.
+
+```{r}
+Q <- quantile(bootw$thetastar, c(0.05,0.95)); Q
+```
+
+At the 90% confidence level we note that the interval always contains values greater than 1; we can
+therefore conclude that the values detected in the clinic are significantly higher than those detected in the
+laboratory.
+For the calculation of the confidence interval (at the 90% confidence level) with the BCAB method yes
+instead use the bcanon function from the bootstrap package. This requires the same arguments
+of the bootstrap function (range of values on which to resample, number of copies
+bootstrap, function to apply) in addition to the confidence level value. Let's remember this
+confidence interval corrects for bias and uses an acceleration constant.
+
+```{r}
+require(bootstrap)
+set.seed(1023)
+n <- dim(warfarin)[1]
+CIBca <- bootstrap::bcanon(1:n, nboot = 2000, theta1, alpha = c(0.05,0.95))
+CIBca$confpoints
+```
+
+It is possible to obtain the interval thus calculated by specifying the $confpoints field of the object
+defined. We note that at the 90% confidence level the extremes of the confidence interval
+differ from those obtained with the percentile method. In particular the width of the interval
+is slightly larger. The lower bound is however less than 1, confirming the
+conclusion obtained previously that the values detected in the clinic are significantly higher
+to those detected in the laboratory.
+
+```{r}
+CIBca$acc
+
+CIBca$z0
+```
+
+We can also obtain values for the acceleration and distortion constants,
+equal to -0.02 and 0.03 respectively, both different from zero (albeit slightly).
+Finally we add the extremes of the confidence intervals obtained with the two methods to the representation
+graphics of the bootstrap distribution.
+
+```{r}
+hist(bootw$thetastar,
+main = "Dist. Boot. Rapporto medie clinica vs laboratorio",
+breaks = 60,
+freq = FALSE,
+ylab = "Densità",
+xlab = "Realizzazioni bootstrap per rapporto tra medie")
+abline(v = c(th, Tm1,
+Q[1], Q[2],
+CIBca[["confpoints"]][3], CIBca[["confpoints"]][4]),
+col = c("red", "blue", "violet","violet", "green", "green"),
+lty = c(1, 1, 2, 2, 3, 3))
+legend("topright",
+c("mediaOR", "mediaB", "IC Perc.", "IC BCA"),
+col = c("red", "blue", "violet", "green"),
+lty = c(1, 1, 2, 3),
+cex = 0.5)
+```
+
+The graphical representation of the bootstrap distribution shows that the obtained values are distributed
+approximately symmetrically. The average calculated on the original sample is the
+average of the bootstrap estimates coincide and are approximately at the
+central and highest peak of the histogram. The lines of the confidence intervals are very close
+between them, even if the amplitude of that obtained with the bootstrap method is slightly greater
+(as noted previously).
+
+
+
+
+
+## Exercise 29
+Consider a randomized study conducted on 139 women who had cancer
+at the breast. We intend to evaluate the presence of metastases (𝑌 ) in women who have
+performed an immunotherapy treatment called Tumor-Infiltrating Lymphocytes
+(𝑋). Consider the following absolute frequencies of the contingency table a
+double entry $𝑁_{11} = 10, 𝑁_{1.} = 59, 𝑁_{01} = 50, 𝑁_{0.} = 80$.
+
+1. Assuming we are interested in estimating the relative risk of developing metastases,
+report and comment on the resulting value referring to the rough estimate
+likelihood.
+2. Apply the bootstrap method considering 2000 repetitions and setting the seed to
+value 2753 and provide a measure of variability for the estimate obtained in the point
+previous.
+3. Plot and comment on the bootstrap distribution of relative risk, together
+at the extremes of the confidence interval obtained with the percentile method.
+4. Draw the distribution of the estimation error and comment on it.
+5. Consider the maximum likelihood estimator of the relative difference
+
+$$\hat{D}= \hat{p_1} - \hat{p_0}$$
+Determine the estimate in the sample considered and interpret the result obtained.
+6. Draw the distribution obtained with the bootstrap method and add the value
+original and that of bootstrap replications. Comment on the graph.
+7. Determine the 95% confidence intervals for the relative risk with the method
+of the percentile and with the Bca method for the difference in probability estimator.
+Comment on the results.
+
+29.1
+
+Data referring to the presence of metastases relating to 139 women with breast cancer are analysed
+compared to immunotherapy treatment. The corresponding dataframe is constructed, denoting with
+𝑋 the immunotherapy treatment variable and with 𝑌 the metastasis variable. Relative risk yes
+calculates as the ratio between the frequency of women with metastases and immunotherapy treatment and
+the frequency of women with metastases but without immunotherapy treatment.
+
+
+```{r}
+dataR <- data.frame(X = rep(c("TRUE", "FALSE"), c(59, 80)),
+Y = rep(c(TRUE, FALSE, TRUE, FALSE), c(10, 59-10, 50, 80-50)))
+table(dataR)
+```
+
+```{r}
+CC <- proportions(table(dataR), 1); CC
+```
+
+```{r}
+RR <- CC[4]/CC[3]; RR
+```
+
+The maximum likelihood estimate of the relative risk of developing metastases is 0.27, significantly
+distant from 1. It can be deduced that there is an association between the presence of metastases and the
+immunotherapy treatment: the probability of having metastases is approximately four times lower for
+women who have undergone immunotherapy treatment compared to women who have not
+executed.
+
+29.2
+
+We use the bootstrap method to determine a measure of accuracy for the resulting result
+to the previous point. The dataset from which to resample is made up of two columns, the variables
+presence/absence of metastases and immunotherapy treatment. Each row of the dataset contains the
+information relating to a woman: it is therefore necessary to resample the two columns together.
+We then proceed by resampling the row index (from 1 to 𝑛) and subsequently obtaining the row
+corresponding in the dataframe. After determining a bootstrap sample the function is applied
+theta1 which allows you to calculate the relative risk in a similar way to what was done in the point
+previous.
+
+```{r}
+n <- dim(dataR)[1]
+theta1 <- function(i) {
+CC <- prop.table(table(dataR[i, ]), 1)
+CC[4]/CC[3]
+}
+set.seed(2753)
+boot_RR <- bootstrap::bootstrap(x = 1:n, nboot = 2000, theta = theta1)
+summary(boot_RR$thetastar)
+```
+We briefly comment on the results through the main descriptive statistics (function
+summary). The range of variation of the 2000 bootstrap replications of the relative risk value
+it is rather limited, varying from a minimum of 0.07 to a maximum of 0.58. It is therefore about
+values always lower than 1, a sign that the probability of having metastases is significantly reduced for
+women who have undergone immunotherapy treatment. On average (mean value equal to 0.28)
+this reduction is approximately 3 and a half times (1/0.28). The average value is approximately
+equal to that of the median and that of the relative risk calculated on the original dataset.
+Finally, to obtain a measure of accuracy for the result determined in the previous point,
+we calculate the standard deviation of the relative risk values over the 2000 bootstrap replications.
+
+```{r}
+sd(boot_RR$thetastar)
+```
+
+The result, equal to 0.08, underlines that the standard error is very limited, a sign of high
+accuracy of the relative risk value calculated on the original dataset.
+
+29.3
+
+Before graphing the bootstrap distribution, let's calculate the confidence interval
+with the percentile method; it is simply a matter of determining the appropriate quantiles of the
+bootstrap distribution.
+
+```{r}
+Q <- quantile(boot_RR$thetastar, c(0.025, 0.975)); Q
+```
+
+The extremes of the bootrstap confidence interval with a significance level of 0.95 are 0.13
+and 0.44: in 95% of cases (i.e., considering 95% of the bootstrap replications) the risk value
+relative lies within this interval. We now represent the bootrstap distribution in the form of a histogram, adding the extrema
+of the confidence interval determined, in addition to the relative risk value calculated on the dataset
+original, and to the average value over bootstrap replications.
+
+```{r}
+hist(boot_RR$thetastar,
+main = "Distribuzione Bootstrap per il rischio relativo",
+breaks = 60,
+freq = FALSE,
+ylab = "Densità",
+xlab = "Realizzazioni bootstrap")
+abline(v = c(RR, mean(boot_RR$thetastar), Q[1], Q[2]),
+col = c("red", "blue", "violet", "violet"))
+legend("topright",
+c("valore sul campione", "valore bootstrap", "CI percentile"),
+col = c("red", "blue", "violet"),
+lty= c(1, 1, 1),
+cex = 0.5)
+```
+
+The shape of the histogram is approximately symmetrical, although slightly right-tailed
+longer than the left one. The extremes of the confidence interval include
+the majority of observations (95%), and the values of the relative risk and the average over the replications
+bootstraps are positioned approximately in the center of the interval. It is also noted that
+these two values are positioned in the central part of the histogram, although remaining slightly
+deviated from the highest peak of the bootstrap distribution.
+
+29.4
+
+To obtain the distribution of the estimate error it is sufficient to calculate the difference between the value of the
+relative risk calculated on the original sample and the average of the bootstrap values.
+
+```{r}
+hist(boot_RR$thetastar - RR,
+main = "Distribuzione Bootstrap per l'errore di stima",
+breaks = 60,
+freq = FALSE,
+ylab = "Densità")
+```
+
+Also in this case the shape of the histogram is approximately symmetrical (obviously follows
+the shape of the previous histogram). It is observed that the range of variation is quite
+limited, having a minimum equal to -0.2 and a maximum equal to 0.3. The distribution is centered at 0
+(where the highest peak is also located), a sign that on average the estimation error is zero.
+
+29.5
+
+Let us now consider the estimator of the difference between probabilities.
+
+```{r}
+DD <- CC[4]-CC[3]; DD
+```
+
+The maximum likelihood estimate of the difference in probabilities is -0.47. Being a
+value less than 0 confirms the conclusion drawn previously that there is an association between
+the presence of metastases and immunotherapy treatment. It is in fact known that 𝑅𝑅 = 1 and 𝐷𝐷 = 0
+they are two equivalent conditions (necessary and sufficient) to have statistical independence between the two
+phenomena.
+
+29.6
+
+Similarly to what was done for the relative risk estimator, 2000 replications are obtained
+bootstrap the dataset and s calculates the difference in probabilities on each of these.
+
+
+```{r}
+n <- dim(dataR)[1]
+theta2 <- function(i) {
+CC <- prop.table(table(dataR[i, ]), 1)
+DD <- CC[4] - CC[3]
+}
+set.seed(2753)
+boot_DD <- bootstrap::bootstrap(x = 1:n, nboot = 2000, theta = theta2)
+summary(boot_DD$thetastar)
+
+sd(boot_DD$thetastar)
+```
+
+
+The values obtained for each of the 2000 bootstrap samples have a range of variation
+entirely contained in the set of real numbers less than zero; the value of the maximum is equal to -
+0.23 (the minimum is instead -0.66), confirming the fact that, for each bootstrap replication, the women who
+have not undergone immunotherapy treatment are more likely to develop
+metastasis. On average the difference between the probabilities is equal to -0.45, a value coinciding with both the
+median and with the difference obtained on the original dataset.
+
+```{r}
+hist(boot_DD$thetastar,
+main = "Distrib. Boot. per la differenza delle probabilità",
+breaks = 60,
+freq = FALSE,
+ylab = "Densità",
+xlab = "Realizzazioni bootstrap del valore dello stimatore")
+abline(v = c(DD, mean(boot_DD$thetastar)),
+col = c("red", "blue"))
+legend("topleft",c("Valore sul campione", "Valore bootstrap"),
+col = c("red", "blue"),
+lty= c(1, 1),
+cex = 0.5)
+```
+
+The graphical representation of the bootstrap distribution confirms the conclusions drawn so far;
+we also observe that it has an approximately symmetrical shape around a peak
+central which coincides both with the average of the bootstrap values and with the result obtained on the sample
+original.
+
+29.7
+
+Finally, we calculate the confidence intervals (95%) for the value of the difference in probabilities
+using both the percentile method and the BCA method.
+
+```{r}
+quantile(boot_DD$thetastar, c(0.025, 0.975))
+
+boot_DD_CI <- bootstrap::bcanon(x = 1:n,
+nboot = 2000,
+theta = theta2,
+alpha = c(0.025, 0.975))
+boot_DD_CI$confpoints
+```
+
+
+The confidence interval obtained with the percentile method is [−0.59, −0.32]; includes only values
+negative, further confirming the association between the onset of metastases and the (non)
+execution of immunotherapy treatment. It is interpreted considering that in 95% of cases (95%
+of the bootstrap samples considered) the value of the difference between the probabilities falls within
+of the interval. The BCA method allows you to correct for distortion. The resulting interval is
+very similar to the previous one, but has a slightly wider amplitude. We observe that the two
+parameters of the latter range, acceleration and correction for distortion, are both
+different from 0.
+
+```{r}
+boot_DD_CI$acc
+
+boot_DD_CI$z0
+```
+
+## Exercise 30
+Consider the following absolute frequencies assuming a study where two patients
+with a characteristic of interest were compared with a control group
+in a specific period of time with respect to three different residential locations (a), (b) and
+(c). $(a) 𝑁_{11} = 138, 𝑁_{1.} = 3786, 𝑁_{01} = 167, 𝑁_{0.} = 3411, (b) 𝑁_{11} = 186, 𝑁_{1.} = 5775,
+𝑁_{01} = 250, 𝑁_{0.} = 5445, (c) 𝑁_{11} = 123, 𝑁_{1.} = 1446, 𝑁_{01} = 117, 𝑁_{0.} = 14294.
+1. Report and interpret the estimate obtained with the maximum likelihood method
+of the relative risk for the three locations.
+2. Report and interpret the estimate of the 95% confidence interval obtained with
+the bootstrap procedure using the percentile method.
+3. Report and interpret the histogram of the bootstrap distribution by inserting the
+estimate of the relative risk in the sample, the average of the replication estimates
+bootstrap and the extremes of the interval calculated in the previous point for each
+lease.
+
+4. Can independence be established between 𝑌 and 𝑋 at some location? Justify it
+answer.
+5. determine the 95% confidence intervals with the Bca method for the estimator
+of relative risk. Comment on the differences with the intervals obtained
+with the percentile method for each location.
+
+
+
+
