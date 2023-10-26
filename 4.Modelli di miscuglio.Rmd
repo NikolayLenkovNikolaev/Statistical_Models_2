@@ -1,0 +1,964 @@
+---
+title: "3. Modelli Miscuglio"
+author: "NikolayNikolaev"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Introduction to models mixture
+## 3.1 Introduction
+Statistical models of finite mixtures (nite mixture models, McLachlan and
+Peel (2000)) allow us to explore the structure of the data in inferential terms
+and determine groups of units (clusters) assuming the population of
+reference as heterogeneous. These allow you to classify units into
+distinct homogeneous groups with respect to the characteristics of interest, in a way
+similar to cluster analysis which allows you to group a set of units
+in such a way that the units of the same group (called cluster) are more similar
+among themselves than with those in other groups.
+
+
+Consider, for example in a pharmacological treatment patients can
+have particularly different reactions to the same drug (think of
+adverse effects of the COVID-19 vaccine). Asthma is treated with theo lline
+and the dose depends on individual weight therefore a pharmaco-kinetic model
+(i.e. which concerns the study of the absorption and disposition of the drug
+for the development of new drugs) that assumed an identical parameter
+for all subjects it would be unrealistic. There is often a high variability between the units treated with respect to the following characteristics: rate of
+absorption into the blood, metabolism and elimination of the drug (which means
+ca biological transformation and volume with which the drug is eliminated from
+body). In the context considered, it is model-based clustering because it is
+the population is assumed as a mixture of subgroups and each component
+(cluster) has a distinct density function. For other examples, see
+Schlattmann (2009).
+
+Mixture models allow us to estimate unknown subgroups in a certain context
+collectivity (population of interest) classifying the homogeneous units within
+a group and creating non-homogeneous groups between them. Sometimes it is very useful
+distinguish sub-populations of units that characterize the universe of
+reference. An example taken from recent studies concerns genetic polymorphism
+which indicates the multiple forms that a gene takes on an individual level
+or group. It mainly refers to the fact that there are multiple forms
+of a single gene in the same environment and at the same time point. Yes
+it therefore speaks of sequences of DNA variations that persist over time and
+they do not imply advantages (unlike mutations). In the human liver they are
+many polymorphisms have been observed with respect to a certain enzyme. Enzymes
+present the same sequence but the polymorphic structure could influence
+the way in which substances are absorbed into the body. In these
+contexts identify which subjects have similar polymorphic structures
+promotes a more precise knowledge of the phenomenon.
+
+The mixture models with assumed components are presented below
+with a Gaussian distribution. These models are widely used for
+They can be tractable on a mathematical level, due to the fact that it is quite easy
+obtain maximum likelihood estimates of the parameters. However how
+explained below, the selection of the model, or the choice of the number
+of the components (clusters) requires particular attention.
+
+## 3.2 Mixture model for continuous random variables
+
+In the following reference, Y indicates the random variable and y indicates one
+its realization. A class of mixture distributions was initially
+proposed by Pearson (1894), composed of only two components with
+Normal distribution $\phi(y, ,\mu_1, \sigma_1^2)$ and $\phi(y, \mu_2, \sigma_2^2)$
+
+$$f(y; \theta)= \pi \phi(y, \mu_1, \sigma_1^2) + (1-\pi)\phi(y, \mu_1, \sigma_1^2)$$
+where $\theta$ we denote the vector of parameters characterizing the distribution of Y , with $\phi(y, \mu, \sigma^2)$ we denote the univariate Gaussian density while with, $\pi$ and $1-\pi$ the weight of the first and second components respectively is represented. The model parameters are as follows $\theta(\pi, \mu_1, \sigma_1, \mu_2, \sigma_2)$. Estimating parameters using the method of moments requires solving
+a polynomial equation of the ninth degree while estimating it with the method of
+Maximum likelihood is based on the Expectation-Maximization algorithm
+(EM) (Baum et al., 1970; Dempster et al., 1977). For error estimation
+standard of model parameters bootstrapping is used.
+
+More generally, let Y be a continuous random variable with relative values
+sample space; its distribution is a mixture of nite components
+when
+$$y(y, \theta) = \pi_1 f_1(y_1; \theta_1)+ ... + [i_k f_k(u_k. \theta_k)$$
+
+where:
+- $\pi_1..\pi_k$ - are the weights;
+- $f_j; j=1...k$- represents the density (probability) of the component
+jth of the mixture function $(f_j(.) > geq 0; \int f_j(y))= dy=1$ and $\theta_1...\theta_k$ 
+are the specific parameters of each component;
+
+- every weight is greater than zero $\pi_j > 0; j=1...k$
+
+- the sum of the weights is constrained to one: $\sum_j \pi_j = 1$
+
+If each component has the same density and is supposed to be known, for example
+these belong to the same Gaussian parametric family, then
+in the previous notation it is possible to avoid indexing the densities of the singles
+components writing:
+
+$$f(y; \theta) = \pi_1 f(y; \theta_1) + ... \pi_k f(y; \theta_k)$$
+
+where $f(. ; \theta_j)$ indicate the j-th memeber of the family and $\theta_j$  represents
+the vector of family parameters j. For further details please refer
+to the works initially proposed in Ban eld and Raftery (1993) and Fraley and
+Raftery (2002).
+The following function is a mixture of two components:
+
+$$f(y) = 0.4 \phi(y; 1,1) + (1-0.4) \phi(y;1,1)$$
+
+it is a convex linear combination of Gaussian density functions that it generates
+a bimodal mixture distribution representing a population
+heterogeneous. 
+
+Note the conceptual difference between modeling a phenomenon (e.g
+example income) through a mixture model and through a distribution
+univariate as that represented by the following lognormal density
+representing a homogeneous population
+
+$$f(x; \theta) = \frac{1}{\sqrt{2\pi}x \sigma} exp (-\frac{1}{2} (log x- \mu)^2)$$
+
+whre $x \in (0; +\infty)$ and $\mu \in (-\infty; +\infty), \sigma >0$
+
+### Recall: convolution of random variables
+Mixture models represent situations of heterogeneity and therefore
+they must be distinguished from the density which is obtained with the convolution of variables
+random. Let $X_1...X_n$ independent and identically random variables
+distributed and let S be the sum of these variables which in English is called n-fold convolution:
+
+
+$$S = X_1 + ...+X_n$$
+
+We know that the convolution of exponential random variables gives rise to a v.c. Gamma. The random variable $\chi^2 (\nu)$ it is a convolution of $\nu$ random variables
+of Gauss squared. The Negative Binomial distribution NegBin(r,p) e
+a convolution of r independent Geometric random variables Geom(p).
+and identically distributed.
+
+For example, the convolution of two independent random variables $X_1$ and $X_2$ with
+Gaussian distribution such that $X_1 \sim N(0,1)$  and $X_2 \sim(3,1)$ it's the following:
+
+$$S = a_1X_1 + a_2X_2$$
+where
+
+$$S \sim N(3a_2, a_1^2 + a_2^2)$$
+That is, S does not represent a mixture unless constraints are placed
+per unit sum for $a_1$ and $a_2$
+
+## 3.3 Multivariate Gaussian distribution
+
+In the following we recall the notation of the Gaussian distribution as a joint distribution of k independent and identically distributed random variables$X_1 ...X_k$ with k>2. This distribution is widely used for its simple mathematical formulation and for the property that is available
+of vectors of independent and identically distributed random variables
+then the sample mean in the case of large numbers tends to be
+distributed as a multivariate Gaussian distribution.
+
+In the following, we first introduce the bivariate, relative Gaussian distribution
+to two random variables X and Y, and then the discussion is extended to the case of more than
+two random variables.
+
+## 3.3.1 Bivariate Gaussian distribution
+Consider a double random variable (X; Y ) and therefore (x; y) is its own
+realization and f (x; y) is the joint density function. Given a < b and c <
+d constants, the probability P (a < X < b; c < Y < d) is de ned by the following
+volume:
+
+$$P(a< X < B, c < Y < d)= \int_a^b \int_c^d f(x,y)dx dy$$
+
+In particular, we say that (X; Y) has a Gaussian (or Normal) distribution
+bivariate if the random variable resulting from any linear combination of the
+following type $W = aX + bY; \text{all of }a,b \in \mathcal{R}$has univariate Normal distribution.
+The parameters of this distribution are the means $\mu_x, \mu_y$, the varinaces $\sigma_x^2, \sigma_y^2$
+and the linear correlation coefficient $\rho_{xy}$ (tote that: $cov(X,Y)= \rho_{xy}\sigma_x \sigma_y$)
+
+Therefore it is written in compact notation
+
+$$(X,Y) \sim N(\mu_x, \mu_y, \sigma_x, \sigma_y, \rho_{xy})$$
+
+and the density function is the following
+
+$$f(X=x; Y=y) = \frac{1}{2 \pi \sigma_x \sigma_y \sqrt{1-\rho_{xy}^2}} exp(-g)$$
+where
+
+$$ g = \frac{\frac{(x-\mu_x)^2}{2\sigma_x^2} + \frac{(y-\mu_y)^2}{2\sigma_y^2} + \rho[\frac{(x-\mu_x)(y-\mu_y)}{\sigma_x \sigma_y}]}{1-\rho_{xy}^2}$$
+- $-\infty < x$
+- $y < +\infty$
+- $-\infty < \mu_x, \mu_y < +\infty$
+- $\sigma_X >0, \sigma_y > 0$
+- $-1 < \rho_{xy} < 1$
+
+
+Some properties are listed below:
+• Variables with Gaussian distribution, if uncorrelated, are also independent
+(a result that does not hold in general) and the marginal distributions
+they are univariate Gaussians. Indeed, it is $(X,Y) \sim N(\mu_x; \mu_y, \sigma_x; \sigma_y \rho_{xy}=0)$
+a bivariate Gaussian distribution with uncorrelated variables, then:
+
+$$f(x;y; \rho_{xy}=0) = \frac{1}{2\pi \sigma_X \sigma_y} exp(\frac{(x-\mu)^2}{2\sigma_x^2} + \frac{(y-\mu_y)^2}{2\sigma_y^2})$$
+
+$$= \frac{1}{\sqrt{2\pi \sigma_x}} exp[\frac{(x-\mu_x)^2}{2 \sigma_x^2}]  exp[\frac{(x-\mu_y)^2}{2 \sigma_y^2}] = f(x)f(y)$$
+
+Pertanto $X  \bot Y$
+
+- Furthermore, it is shown that, marginalizing with respect to X or Y , holds $X \sim N(\mu_x, \sigma_x^2)$ and $Y \sim N(\mu_y; \sigma_y^2)$. Also conditional distributions $(X|Y=y)$ and $(Y|X=x)$
+
+they are univariate Normals. In particular, it is demonstrated that:
+
+$$E[X|Y=y] = \mu_x + \frac{\rho_{xy} \sigma_x\sigma_y}{\sigma_y^2} (y-\mu_y) = \mu_x + \rho_{xy} \frac{\sigma_x}{\sigma_y} (y-\mu_y)$$
+
+
+$$E[X|Y=y] = \mu_y + \frac{\rho_{xy} \sigma_x\sigma_y}{\sigma_y^2} (y-\mu_x) = \mu_y + \rho_{xy} \frac{\sigma_x}{\sigma_y} (y-\mu_x)$$
+
+$$Var[X|Y=y] = \sigma_x^2 (1-\rho_{xy}^2)$$
+$$Var[Y|X=x] = \sigma_y^2 (1-\rho_{xy}^2)$$
+
+- The contour lines of a bivariate Gaussian distribution are some
+ellipses; the x;y correlation coefficient de nes the direction of the axis
+greater than the ellipse. Some cases are shown in Figure 3.2
+examples.
+- when k varies the volume of the ellipsoid changes, but the proportions between
+the axes remain unchanged;
+- the eigenvectors of the variance-covariance matrix define the equations
+of the main axes of the ellipsoids;
+- the eigenvalues of the variance-covariance matrix are proportional
+to the squares of the lengths of the principal axes of the ellipsoids.
+
+
+
+## 3.3.2 Multivariate Distribution
+Generalizing the concepts expressed in the previous section, we can introduce
+the multivariate Gaussian distribution as a distribution referred to the random vector
+$\vec{Y}= (Y_1...Y_p) \sim N_p (\mu, \sum)$ where $\mu \in \mathcal{R^p}$
+is the vector of the means and $\sum \in \mathcal{R^{p*p}}$ is the symmetric variance-covariance matrix and positive density. The inverse of the variance-covariance matrix, $\sum^{-1}$ it is known as matrix
+of forecasts.
+
+Recall: The variance-covariance matrix of random variables $X_1..X_n$ and defined as
+
+
+$$
+\begin{bmatrix}
+    \sigma_11^2   & \sigma_{12} & ... & \dots & \sigma_{1n} \\
+    \sigma_12     & \sigma_2^2 & \dots & \dots & \sigma_{2n} \\
+    \vdots        &    \dots & \dots & \dots & \vdots \\
+    \sigma_{1n}       & \sigma_{2n} & \dots & \dots & \sigma_{n}^2
+\end{bmatrix}
+$$
+where $\sigma_i^2 = Var[X_i]$ and $\sigma_{ij} = \COv[X_i; X_j]; i \ne j$ It's a square matrix
+symmetrical with $\sigma_{ij} = \sigma_{ji}$ and defined as semi-positive.
+
+
+The density function is defined as follows
+
+$$f(y)= f(y_1..y_p)= \frac{1}{\sqrt{(2\pi)^p det (\sum)}} exp(-\frac{1}{2}(y-\mu)^T \sum^{-1}(y-\mu))$$
+
+where the exponent term coincides with the square of the Mahalanobis distance
+and assumes a Chi-square distribution with p degrees of freedom:
+
+$\bigtriangleup_{\sum}^2 (y,\mu)= (y-\mu)^T \sum^{-1}(u-\mu) \sim \chi_p^2$
+
+since it is the sum of p standardized Normal random variables.
+In the case of a Standard multivariate Gaussian distribution $Z \sim N(0; \sigma I_n)$
+the density function reduces to
+
+$$f(z)= \frac{1}{\sqrt{(2\pi)^p}} exp(-\frac{1}{2}z^T z)$$
+
+Please remember that the non-diagonal elements of $\sum^{-1}$ express the correlation
+nor partial. Therefore if an element external to the diagonal is equal to
+zero then in the case of normal distribution the variables are independent
+conditionally on the remaining $p -2$.
+
+
+
+# DEMO:
+
+Generation of determinations from Bivariate Normal
+The mvtnorm::rmvnorm function (from the mvtnorm library) allows you to generate realizations
+from a Gaussian bivariate (or multivariate) density distribution.
+The function requires as input the vector of means and the variance and covariance matrix
+Σ.
+
+Considering the following joint distribution for the two causal variables
+
+$$(X_1, X_2) \sim N(\mu_1, \mu_2, \sigma_1, \sigma_2, \sigma_{12})$$
+the following values of the parameters $𝑁 (0, 0, 3, 3, 2)$ are fixed and therefore $\rho_{12} = 0.67$ (approximately)
+that is, these are variables with a strong positive linear association.
+The rmvnorm function requires as input:
+
+- the number of elements to generate
+- the vector of means
+- the square matrix of variances and covariances sigma1
+
+In the following code, notice that the variance and covariance matrix is specified as
+matrix object with the matrix function
+
+
+```{r}
+require(mvtnorm)
+sigma1 <- matrix(c(3,2,2,3), ncol=2); sigma1
+
+```
+
+The realizations of the Double Normal are obtained in the following way:
+
+```{r}
+set.seed(1234)
+n <- 10
+x <- rmvnorm(n, 
+             mean=c(0,0), 
+             sigma=sigma1)
+x
+
+```
+The output object contains the 10 realizations from $(𝑋_1, 𝑋_2)$, where the first column refers
+to $𝑋_1$ and the second to $𝑋_2$.
+The empirical variance and covariance and correlation matrices for the obtained realizations
+they are as follows.
+```{r}
+cov(x)
+cor(x)
+```
+The number of realizations is increased up to 2000 by fixing the averages of the two variables
+random to zero, respectively and leaving the variance-covariance matrix unchanged.
+
+```{r}
+set.seed(1234)
+n <- 2000
+x <- rmvnorm(n, mean=c(0,0), sigma=sigma1)
+cov(x)
+cor(x)
+```
+The descriptive statistics of the empirical values and the variance-covariance matrix e are calculated
+that of correlation
+
+```{r}
+require(skimr)
+skim_without_charts(x)
+```
+```{r}
+cov(x)
+cor(x)
+sd(x[,1])
+sd(x[,2])
+```
+The adherence of the simulated values to those of the theoretical distribution is noted.
+
+## Scatter diagram of the values obtained
+Previous achievements can also be viewed through the scatter plot
+two-dimensional
+
+
+```{r}
+plot(x[,1],
+x[,2], main = "Realizzazioni da Normale Bivariata N(0,0,3,3,2)")
+```
+
+Note that the points are arranged in the shape of an ellipse with the focus centered on the averages.
+### Level curves
+The contour line corresponds to the geometric locus of the points on the identified plane
+from the equation $𝑓(𝑥_1, 𝑥_2) = 𝑘$ where $𝑘$ is the level. The number of levels is set by default by
+contour function based on density.
+These are the orthogonal projections of the curves obtained by intersecting the previous graph
+with a plan.
+As $𝑘$ or the height of the plane increases, the circles get closer to the center.
+
+Values are generated and density determined
+
+
+```{r}
+x1 <- x2 <- seq(-10, 10, length = 51)
+dens <- matrix(dmvnorm(expand.grid(x1, x2),
+sigma = sigma1),
+ncol = length(x1))
+contour(x1,
+x2,
+dens,
+main = "Livelli della dist. N(0,0,3,3,2)",
+col="blue",
+xlab = "x1",
+ylab = "x2")
+
+```
+
+Note that geometrically the orientation of the ellipses allows you to establish whether the association
+between the two random variables is positive or negative. The center and length are also of interest
+of the half aces.
+
+## Expectation-Maximization (EM) algorithm
+Consider the following double-entry contingency table
+
+$$
+Right   Left     Center   Default 
+------- ------ ---------- ------- 
+     12 12        hmmm        12 
+    123 123        123       123 
+      1 1            1         1
+$$
+
+|$X|Z$| 1 | 2 | 3 |  |
+|---|---|---|---|---|
+| 1 |$y_{11}$ | $y_{12}$|$y_{13}$|$y_{1}$ |
+| 2 |$y_{21}$ | $y_{22}$|$NA$    | $y_{2}$|
+|   |$y_{.1}$ | $y_{.2}$|$y_{.3}$| $ y_{..}$|
+
+
+$$ y_{ij} = \mu + \alpha_i + \beta_j + \epsilon_{1j}$$
+
+where $\mu$ is an intercept, $\alpha$ is the parameter for the row and $\beta$ for the column, while the hypothesis for the
+error term is that this component follows a Normal distribution $\epsilon_{ij} \sim N(0; \sigma^2)$.
+
+Zero-sum constraints are placed on the parameters $\sum_i a_i = 0$ and $\sum_j \beta_j = 0$
+
+In the following, the EM algorithm is used to estimate the model parameters and the
+missing data through the values of the parameters obtained upon convergence of the algorithm.
+The steps of the estimation procedure are as follows:
+
+- An initial value is assigned to missing data or unobserved frequencies $y_{23}^{(0)}$.A generally used way to initialize the algorithm is to use the statistics values of the observed data. For example, you assign to $y_{23}^{(0)}$ the average value of
+observed frequencies.
+• at step E (Expectation): they calculate the parameter estimates using the known solutions
+in closed form with the initial values being the following
+
+$\hat{\mu} = \bar{y}$
+
+$\hat{\alpha}^{(0)} = \bar{y_{i.}} - \bar{y}$
+
+$\hat{\beta_j}^{(0)} = \bar{y_{.j}} - \bar{y_{.}}$
+
+
+The missing value is imputed as follows: $y_{23}^{(1)} = \hat{\mu}^{(0)} + \hat{\alpha_i}^{(0) +\hat{\beta_j}^{(0)} }$
+
+- at step M (Maximization): we proceed iteratively by recalculating the values of
+parameters based on the imputed value $y_{23}^{(1)}$ until the value set for is reached
+the convergence criterion.
+
+
+In the following example, consider the frequencies that concern two variables: 𝑋 assumption
+of placebo or drug and 𝑌 state of health (very bad, good, excellent). It is intended to apply the
+previous model and impute the missing value relating to the frequency of those who have
+taken the drug and have excellent health.
+The table with the frequencies is constructed using the matrix function and adding the
+missing value
+
+
+```{r}
+y <- matrix(c(10,15, 17, 22, 23, NA),2,3,byrow=TRUE); y
+```
+
+The following function called em1 assigns an initial value to the missing cell of the
+table and reconstructs the value based on the closed-form solutions for the model parameters
+(these are shown on page 69 of the handouts).
+Note the use of the apply function
+
+```{r}
+em1 <- function(y23, y){
+ystar <- y
+ystar[2,3] <- y23
+mu.hat <- mean(ystar)
+alpha.hat <- apply(ystar, MAR = 1,
+mean) - mean(ystar)
+beta.hat <- apply(ystar, MAR = 2,
+mean) - mean(ystar)
+y23 <- mu.hat + alpha.hat[2] + beta.hat[3]
+return(c(mu = mu.hat,
+alpha = alpha.hat,
+beta = beta.hat,
+y23 = y23))
+}
+```
+
+The function returns the values of the model parameters obtained with the fit solutions
+closed
+
+```{r}
+em1(21,y)
+```
+
+The following function em.step calls the previous function em1 to repeat the procedure
+calculation updating the estimates until convergence.
+The estimates of the maximum likelihood parameters and the corresponding are obtained as output
+value of the missing data.
+The function requires 2 inputs:
+• the values of the contingency table
+• the tolerance level 𝜖 to choose for the convergence of the EM algorithm. Among the values
+possible is considered $\epsilon = 10^{-8}$ or 0.00000001 indicated below with the notation 1e-8
+
+
+In the body of the function, the dist function is called to calculate the distance between the values
+contained in the trace object at iteration h+1 and at the h-th iteration (as shown
+in theory lecture notes).
+Note the use of the while construct to increment the counter until convergence.
+
+```{r}
+set.seed(1832)
+em.step <- function(y, epsilon= 1e-8){
+trace <- NULL
+convergenza <- FALSE
+trace <- t(em1(y23 = mean(y, na.rm = TRUE), y = y))
+y23id <- grep("y23", colnames(trace))
+h <- 0
+while(!convergenza){
+h <- h + 1
+trace <- rbind(trace,
+em1(y23 = trace[h, "y23"],
+y = y))
+convergenza <- (dist(trace[h:(h+1), -y23id]) < epsilon)
+}
+return(trace)
+}
+```
+The data matrix function applies
+
+```{r}
+em.step(y)
+```
+
+The object that has the value of each parameter as its row is obtained at each iteration of the algorithm. 
+Convergence with respect to the established criterion $\epsilon < 1e^{-8}$ is reached after 49 iterations.
+The model parameter estimates are as follows:
+
+$\hat{\mu}= 19, \hat{\alpha_1}=-5, \hat{\alpha_2}= 5, \hat{\beta_1}= -3, \hat{\beta_2}= 0, \hat{y_{23}}=27$
+
+## Trace plot
+The graphical representation of the values obtained at each step of the algorithm, also called
+trace plot, is done using the matplot function
+
+```{r}
+ris<- em.step(y)
+matplot(ris[,-7], type = "l")
+```
+
+With the following syntax you define the labels and colors and add them to the graph together
+to the legend.
+
+```{r}
+names1 <- expression(mu,
+alpha[1],
+alpha[2],
+beta[1],
+beta[2],
+beta[3])
+pal1<- c("red", "yellow", "green", "violet", "blue", "orange")
+matplot(ris[,-7],
+type = "l",
+col = pal1,
+lwd = 2,
+lty = 1,
+xlab = "Iterazioni dell'algoritmo EM",
+ylab = "Stime dei parametri del modello")
+legend(x = 0,
+y = 15,
+legend = names1,
+lwd = 2 ,
+col = pal1,
+lty = 1,
+horiz=TRUE,
+cex=0.8)
+```
+
+
+The graph allows you to view all the values of each parameter estimated at each step.
+The values vary particularly in the first 10 iterations and in the subsequent ones there is an adjustment
+which concerns the last decimal places.
+
+# Mixture density of Gaussian components
+The density is graphed for some mixture model with two components
+Gaussians for a specific value of the weight of each component.
+The function funcmxn calculates the value of the mixture density considering.
+The weight of the first component $\pi \in (0,1)$ indicate witn $p$.
+
+The parameter values $\mu_1, \mu_2, \sigma_2, \sigma_2$ of the first and second components in the mu vectors
+and sd.
+Note that the function returns the value of the mixture density at a point denoted by f.
+
+```{r}
+funcmxn <- function(x, p, mu, sd){
+f1 <- dnorm(x, mu[1], sd[1])
+f2 <- dnorm(x, mu[2], sd[2])
+f <- p*f1 + (1-p)*f2
+f
+}
+```
+
+
+In the following, the mixture density is represented for three distinct scenarios.
+## Scenario 1
+In the first scenario, a mixture with two components is considered $X_1$ and $X_2$ such taht $X_1 \sim N(11)$ and $X_2 \sim N(4,1)$ that is, with the same variability but with the weight of the first component
+equal to $\pi_1 = 0.4$ and for the second $1- \pi_1 = 0.6$
+
+Si determina il valore della densità nel punto 𝑦 = 0.5.
+
+```{r}
+mu1 <- c(1,4)
+sd1 <- c(1,1)
+p1 <- 0.4
+funcmxn(0.5,
+p1,
+mu1,
+sd1)
+```
+
+A density value of 0.14 is obtained.
+For a sequence of y values the corresponding value of the mixture density is obtained
+
+```{r}
+y1 <- seq(-5,10,0.01)
+length(y1)
+#> [1] 1501
+pr1 <- funcmxn(x = y1,
+p = p1,
+mu = mu1,
+sd = sd1)
+require(skimr)
+skim_without_charts(pr1)
+```
+
+It is noted that the density is concentrated between the values delimited by the interquartile difference.
+The obtained values are plotted to visualize the shape of the mixture density
+
+```{R}
+plot(y1,
+pr1,
+xlab = "y",
+ylab="Densita'",
+lwd=3,
+col="lightsteelblue1",
+type = "l",
+main="Miscuglio di N(1,1) e N(4,1) con peso 0.4")
+```
+
+
+
+Multimodality is noticeable.
+
+Scenario 2
+In the second scenario the following two components are considered   $X_1$ and $X_2$ such taht $X_1 \sim N(4,1)$ and $X_2 \sim N(4,64)$ which have the same mean but the variability of the second component is very high
+wider than that of the first, the weight of the first component is $\pi_1 = 0.1$ and the second $1-\pi_1 = 0.9$
+
+For $y=0.5$
+
+```{r}
+mu2 <- c(4,4)
+sd2 <- c(1,8)
+p2 <-0.1
+set.seed(1235)
+funcmxn(0.5,
+p2,
+mu2,
+sd2)
+
+```
+
+the density value is lower than that calculated in the previous scenario.
+A sequence of values with a wider range of variation is generated
+
+```{r}
+y2 <- seq(-30,40,0.01)
+pr2 <- funcmxn(x = y2,
+p = p2,
+mu = mu2,
+sd = sd2)
+skim_without_charts(pr2)
+```
+
+The density is concentrated between 0.0002 and 0.024.
+The graph allows you to detect the shape of the mixture density in the second scenario
+
+```{r}
+plot(y2,
+pr2,
+xlab = "y",
+ylab="Densità miscuglio",
+lwd=3,
+col="orange",
+type = "l",
+main="Miscuglio di N(4,1) e N(4,64) con peso 0.1 ")
+```
+
+In this case a single maximum is observed.
+The density is concentrated between
+
+## Scenario 3
+
+In the third scenario, the value of the mixture density of two components is considered  $X_1$ and $X_2$ such taht $X_1 \sim N(0,1)$ and $X_2 \sim N(0,9)$ which have the same mean but the variability of the second
+component is higher, the weight of the first component is equal to that of the second $\pi_1= 0.5$.
+
+For $y=0.5$
+
+```{r}
+mu3 <- c(0,0)
+sd3 <- c(1,3)
+p3 <-0.5
+funcmxn(0.5,
+p3,
+mu3,
+sd3)
+
+```
+the value is higher than the two obtained in example 1 and example 2.
+
+For a sequence of y values (note that the sequence of values must be generated in relation
+to the range of variation of the two variables in order to obtain the value of the mixture density
+on the support considered) the corresponding density is calculated
+
+```{r}
+y3 <- seq(-10,20,0.01)
+pr3 <- funcmxn(x = y3,
+p = p3,
+mu = mu3,
+sd = sd3)
+skim_without_charts(pr3)
+```
+
+
+The graph allows you to detect the shape of the mixture density
+
+```{R}
+plot(y3,
+pr3,
+xlab = "y",
+ylab="Densità",
+lwd=3,
+col="Pink",
+type = "l",
+main="Miscuglio di N(0,1) e N(0,9) con peso 0.5"
+)
+```
+
+
+
+## Univariate mixture model with two Gaussian components
+
+I dati riportati in datacol.Rdata riguardano alcuni individui selezionati per uno studio al
+fine di valutare il ruolo del colesterolo come fattore di rischio per le malattie cardiovascolari.
+I valori del colesterolo (espressi in mg su dl di plasma) sono riferiti sia ai maschi (variabile
+binaria sex codificata con 1 per maschi) che alle femmine.
+
+```{r}
+load('data/datacol.Rdata')
+dim(datacol)
+head(datacol)
+```
+
+```{r}
+require(skimr)
+skim_without_charts(datacol)
+```
+
+
+
+The average level observed in the sample for cholesterol is 220.5 and presents a high variability
+average around the arithmetic mean is 44.
+The following section reports the descriptive analysis with respect to gender
+
+```{r}
+table(datacol$sex)
+require(dplyr)
+datacol%>%
+dplyr::group_by(sex) %>%
+skim_without_charts()
+
+# or 
+# tapply(datacol$cholst, datacol$sex, summary)
+# tapply(datacol$cholst, datacol$sex, sd)
+```
+
+In the sample there are 97 women and 103 men and it is noted that the average cholesterol level for
+for women it is 222.7 while for men it is lower at 218.4.
+The average variability with respect to the arithmetic mean is equal to 42 for women and 45 for i
+males.
+The following representation shows the observed values through a scatter plot:
+male values are represented by the larger circle
+
+```{R}
+n <-dim(datacol)[1]
+with(datacol,
+symbols(x=1:n,
+y=cholst,
+circles=sex,
+inches=1/30 ,
+xlab = "id",
+ylab = "Colesterolo",
+bg="red",
+fg=NULL))
+```
+
+### Estimation of the parameters of the mixture model
+The library called mclust (Gaussian Mixture Modeling for Model-Based Clustering)
+allows you to estimate the parameters of the mixture model with Gaussian components.
+
+```{r}
+require('mclust')
+```
+
+#### Mclust function
+The main function of the mclust::Mclust library requires as arguments:
+- the data frame of the data,
+- i.e. the number of components of the mixture model (G),
+- the modelNames = "E" option to specify whether the model components are assumed
+with same variance, homoscedastic model or modelNames = "V" if assumed with
+specific variance for each component, heteroscedastic model
+
+
+```{r}
+mod1 <- Mclust(datacol$cholst,
+G = 2,
+modelNames = "E")
+```
+
+Note that the tolerance for the stopping criterion of the algorithm can be set with the option
+control = emControl(tol = 1.e-6)
+
+```{r}
+summary(mod1)
+```
+
+
+The summary function returns:
+- the value of the log-likelihood function at convergence after the parameters
+were estimated with the EM algorithm.
+- number of model parameters free to vary (in the model with two components
+are given by the two means, the variance and the weight).
+
+
+Parameter estimates are requested with
+```{R}
+summary(mod1,parameters = TRUE)
+```
+
+
+Where:
+- Mixing probable are the estimates of the weights $\hat{\pi}$ of each component, $\hat{\pi_1}= 0.78 $ for the first and $\hat{\pi_2}= 0.22$ for the second.
+
+- means the values of the averages of the two components. From the estimates it can be seen that the first
+component is represented by a Normal random variable with mean value $\hat{\mu_1}= 204$, while the second
+$\hat{\mu_2} = 279$
+
+- Variances: the estimates of the variances of the components. Since by hypothesis they are the same
+this is the estimate of a single variance $\hat{\sigma^2} = 936$. This indicates that on average
+both in the first and second subpopulation the average variability with respect to the value
+average is 30 mg per dl of plasma. 
+
+
+From the estimation of this mixture model we know that the population is characterized by
+a mixture of two subpopulations the first described by $X_1 \sim N(204, 936)$ and the second is $X_2 \sim N(279, 936)$
+
+Classification of units
+- clustering table returns the total number of patients that have been classified
+as belonging to the first or second component.
+
+In the observed sample of 158 patients, 42 patients are classified in the first group
+the remainder in the second.
+
+Note that this assignment is made with respect to the posterior probabilities that
+are found in object z
+
+
+```{r}
+head(mod1$z)
+```
+According to this mixture model with two components the first unit has a probability
+almost certain on the first component. The second unit, on the other hand, has a posterior probability
+greater than being classified in the second component. While the fourth unit has a
+probability of 0.75 of being classified in the first component and 0.25 of being classified
+in the second component.
+Based on this uncertainty of the a posteriori classification, the term of is calculated
+penalty present in the ICL information criterion, reported in the model summary.
+Note that it is possible to adopt the criterion of the maximum a posteriori probability that will come
+shown below also applying the which.max function
+
+
+```{r}
+head(apply(mod1$z,1,which.max))
+```
+
+which returns the vector of elements 1 or 2 if the id is classified in the first or in the
+second component respectively.
+The following graph instead allows you to view all the observed values of black cholesterol,
+and which values are classified into group 2 red and group 1 blue.
+
+```{r}
+plot(mod1,
+what='classification', xlab = "colesterolo")
+```
+
+From the graph you can see the cholesterol value that discriminates the two subpopulations is slightly
+above 250.
+We can see how the units were classified according to male or female gender
+
+```{r}
+class<-mod1$classification; head(class)
+table(class,datacol$sex)
+
+```
+
+
+The two genders are present in almost equal numbers in the two groups.
+78% of the subjects belong to the first component.
+#### Representation of mixture density
+The mixed density graph is obtained as follows
+
+```{r}
+plot(mod1,
+what='density', xlab = "Colesterolo")
+```
+
+### Choice of the number of components
+The mclus:mclustBIC function allows you to display the information criterion values
+Bayesian (BIC) when mixture models with numeric components are estimated
+growing.
+The BIC is calculated with respect to mixture models that differ in the number of components
+depending on whether these have the same variance (option E) or different variability (option V).
+The function takes the data vector as input
+
+
+```{R}
+bayesinf <- mclustBIC(datacol$cholst)
+bayesinf
+```
+
+The table lists the realized BIC values for each mixture model with a
+number of components varying from 1 to 9 (rows). The first line refers to the model without
+heterogeneity or without components that assumes a homogeneous population.
+The first column refers to models in which equal variability is assumed for the components
+of the mixture while the second to models in which specific variability is assumed for each
+component.
+The best model is the one that has the minimum BIC value or with the highest
+log-likelihood relative to the number of parameters and the number of observations.
+The three best models with respect to this criterion are displayed below with the writing
+top 3 models.
+The most parsimonious model that explains the variability present in the data is the one with 2 components
+and same variance, which is precisely the model estimated previously.
+The table values can also be represented graphically as follows.
+
+
+```{r}
+plot(bayesinf)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
