@@ -1,0 +1,683 @@
+---
+title: "5.Teorema_spetrala_EM-miscuglio"
+author: "NikolayNikolaev"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### 3.3.3. Spectral decomposition theorem 
+
+An orthonormal matrix is defined as a square matrix whose columns (and rows) are orthonormal vectors (They have a unit norm and are orthogonal to each other). In this case the following apply
+
+$$Q^T Q = Q^T Q = I$$
+
+$$Q^T = Q^{-1}$$
+
+Let A be a real, symmetric and positive defined matrix. Then A can be
+expressed as
+
+$$A = Q \Lambda Q^T$$
+
+where:
+- Q is an orthonormal matrix having the same dimensions as A, whose
+columns are the eigenvectors of A;
+- $\Lambda= diag)\lambda_1...\lambda_k$ is a diagonal matrix formed by the eigenvalues
+normalized by A.
+
+The spectral decomposition for the j-th component, $j = 1... k$ of the
+variance and covariance matrix $\sum$ results
+$$\sum_j = \lambda_j Q_j Q_j^T$$
+
+by construction these are ellipses centered on the mean and $Q_j$ (referring to the
+eigenvectors) provides the orientation for the j component being the matrix
+orthogonal of the eigenvectors, $\Lambda_j$ determines the shape of the density being
+a diagonal matrix with values that are proportional to the given eigenvalues
+in decreasing order, the scalar $\lambda_j = |\sum_j|^i/q$ (with q indicating space
+parametric) determines the volume.
+
+
+## Reminder of quadratic forms
+If A is a square symmetric matrix $p*p$, and t is a vector of $p$ components,
+the homogeneous function of the second degree is called quadratic form
+following:
+$$V^` = t^T At$$
+
+- if $t^TAt> 0$ then A is positive definite while $t^TAt \geq A$ it is defined as semipositive.
+
+A positive definite quadratic form defines an ellipsoid in a p-dimensional space by the equation $t^TAt = k$.  The volume of this ellipsoid is
+function of the determinant of matrix A.
+
+When $X \sim N_p(0, I)$ then we know that $X^TX$ has distribution $\xhi_p^2$. So be it $V^T = X^T A X$
+with A symmetric square matrix $p*p$ then calculating the spectral decomposition of A: $A = Q \Lambda Q^T$ with $\Lambda$ it is matrix
+diagonal formed by the eigenvalues is obtained
+
+$$V^T = W \Lambda W^T = Q^T X^T = \sum_{j=1}^p \lambda W_i^2$$
+
+from which the components are all distributed as gods $\chi^2$ independent with
+$1$ degree of freedom .
+
+Then V is distributed as a linear combination of p random variables
+independent chi-squares with one degree of freedom, with coe cients given by
+eigenvalues of A.
+
+### 3.3.4. Recall: likelihood function and estimate of maximum likelihood
+
+Considering a certain family of probability distributions, the estimators
+of maximum likelihood (ML) are consistent, asymptotically unbiased
+as well as asymptotically e cient. The method, known as the estimation method
+of maximum likelihood, allows us to identify a precise estimate
+for the parameter based on the likelihood of observing the sample.
+
+The likelihood function (denoted L) or the logarithm of the function
+of likelihood (log-likelihood, denoted by l) describes the support that i
+observed data provide the possible values of the parameter. Thanks to his
+properties, the maximum likelihood method is the most used technique
+to derive the estimators, as it allows us to choose the values of the parameters
+which are more plausible in light of the observed data. Therefore, the estimate of
+maximum likelihood and the one that shows the greatest empirical evidence
+based on the model chosen and the data available.
+
+We recall the following characteristics of the likelihood function considering
+the case of a single parameter. Is $x= (x_1...x_n)$ an observed sample of n independent, identically distributed observations drawn from
+a population, and let $f(y;\theta)$ their joint probability function of -
+nited according to a family of unknown parameters $\theta \in \Theta  \subseteq \mathcal{R}$.
+
+The function of
+likelihood:
+
+$$L(\theta)= f(x_1; \theta )...f(x_n;\theta) = \prod_{i=1}^n f(x_i; \theta)$$
+
+Although a likelihood function shows probabilities, it is not one
+probability distribution.
+
+In practice, $L( \theta)$ is the probability (or density) of the observed data as a function
+of the parameter. Hence, it provides data evidence in favor of each individual
+value of $\theta$ in  $\theta$: If for two values of $\theta$ , for example $\theta^{(1)}$ and $\theta^{(2)}$, we have that $L(\theta^{(1)}) > L(\theta^{(2)})$
+, the probability of the observed sample is greater with $\theta^{(1)}$
+and therefore there is more empirical evidence in favor of this value of $\theta$ .
+
+The likelihood function allows you to sort the different theta values into
+based on the "degree of likelihood" that they obtain from the sample data
+maximum likelihood estimate and that value of $\theta$ (if it exists) is more likely".
+That is, the value of $\theta$ in $\Theta$ which maximizes the likelihood function $L(\theta, x_1...x_n)$.
+
+We therefore obtain the maximum likelihood estimate which,
+formally, it can be de ned as the value:
+
+$$\hat{\theta} = \hat{\theta}(x) \text{ such that } L(\hat{\theta}) = sup_{\theta \in \Theta} L(\theta)$$
+Consequently the maximum likelihood estimator is $\hat{\theta}(X)$
+
+To find the maximum likelihood estimator $\hat{\theta}(X)$ occurs often
+solve an optimization problem using differential calculus.
+It is usually simpler to maximize the log-likelihood:
+
+$l(\theta) = ln L(\theta)= \sum_{i=1}^n ln f(x_i; \theta)$
+instead of $L(\theta)$ since the logarithm is a monotone increasing transformation.
+The natural logarithm of the likelihood function $log L(\theta)= l{\theta} \sum_{i}^n log (y_i ;\theta)$
+is an increasing monotone transformation of the function and is
+easier to maximize to derive the point estimate and the interval estimate
+larity of the parameter. The graph of the likelihood function is shown
+probability of the observed data for all possible values of the parameter, but in
+gender does not integrate to 1.
+
+In simple cases, maximization, when considering a vector of parameters
+of quantity k, can be performed by solving the system of equations
+of likelihood:
+
+$$\frac{\partial l (\theta)}{\partial \theta_i} = 0; i=1...k$$
+
+in this way one or more candidates for the estimator are found, since it is the derivative
+before which is zero is just a necessary condition for a maximum. Then
+it is necessary to verify that the matrix of the second derivatives is de ned negative
+
+$$\frac{\partial^2 l(\theta)}{\partial \theta_i \partial \theta_j}|_{\theta=\hat{\theta}}$$
+- $i=1...k$ and $j= 1...k$
+
+is negative definite(A symmetric matrix n n, and de ned positive (negative), if $X^T AX$ is positive/negatie for all $x \ne 0 \in \mathcal{R^n}$ A way to check if a matrix is defined
+positive (negative) and check its eigenvalues: If all the eigenvalues of a matrix
+are positive (negative), the matrix is de ned positive (negative).). Note that the estimators obtained with this method have some properties
+
+
+
+asymptotic (i.e. for large n):
+- Maximum likelihood estimators can be biased. However,
+bias decreases as sample size increases.
+They are asymptotically correct, i.e. as the size increases
+sample distortion tends to 0;
+- The exact sampling distribution is sometimes di cult to obtain, but,
+as we will see, for a truly remarkable property their distribution
+ne asymptotic sample distribution and generally always a distribution of
+Gauss;
+- Maximum likelihood estimators are consistent: as they increase
+of n the estimator converges towards the true value of the parameter. This
+it is a property that occurs in the limit of n;
+- Maximum likelihood estimators are asymptotically and cien-
+ti: the other estimators do not have standard errors smaller than these e
+they tend to approach the true value of the parameter.
+The asymptotic sampling distribution of the maximum likelihood estimator
+whatever the probabilistic model, it tends towards a distribution of
+Gauss.
+
+$$\frac{\hat{\theta}_n - \theta}{\sqrt{var(\hat{\theta})}} -> _d Z \sim N(0,1)$$
+
+The Fisher information is:
+
+$$ \bar{I} (\theta) = E_{\theta}[(\frac{\partial}{\partial \theta} log f(X|\theta))^2] = -E_{\theta}[(\frac{\partial^2}{\partial \theta^2} log f(X|\theta))^2]$$
+
+when appropriate conditions of regularity are assumed. By reference
+to a sample of n observations independent of the hypothesized model, the information
+Fisher's overall simply becomes $I(\theta)= n.\bar{I}(\theta)$. It deals with
+of the matrix of dimension $p*p$ of the second derivatives of the function of
+likelihood changed sign, and if it has a high value it means that,
+in parameter space, there exists a region with high likelihood.
+
+
+Generally $\bar{I}\theta($) it is a measure of the amount of information $\theta$ provided by
+a single observation and $I(\theta)$ is that provided by a sample size
+n. For the Gaussian distribution with known mean we have
+
+$$X \sim N(\mu, \sigma^2)$$
+
+$$\bar{I} (\mu) = 1/\sigma^2$$
+
+That is, the Fisher information is equal to the reciprocal of the variance of
+population. Fisher proved that the approximate distribution of the
+ML estimator is:
+
+$$\bar{\theta} \sim(\theta; \frac{1}{I(\theta)})$$
+
+The variance decreases as n increases and therefore as the information increases.
+In summary, the log-likelihood function is important not only for identification
+the value of $\hat{\theta}$ that maximizes it, but also to use its curvature for
+determine the precision of $\hat{\theta_{ML}}$ as an estimator of $\theta$.
+
+The functions to be maximized do not always have a single maximum. For example
+note how starting from the following Cauchy density through a
+transformation we obtain a score function with many relative maxima:
+
+$$f(x; \theta_1, \theta_2) = \frac{1}{\theta_2[1+ (\frac{x-\theta_1}{\theta_2})^2]}$$
+- where $x \in R$ and $\theta_1, \theta_2 \geq 0$ with $\\theta_1 $ called the location parameter (defines the location of the maximum point) and $\theta_2$  of scale (de nes the density by half
+of the distribution with respect to the maximum point). It is used to describe
+those phenomena for which there is a fairly high probability of obtaining
+observations distant from the median value (the median is equal to the mode). If X
+follows a standard Cauchy distribution where $\theta_1 = 0, \theta_2=1$ and it works
+the transformation $Y=X + \theta_2$ the score function presents various relative maxima
+rooms for small sample sizes.
+
+
+
+## 3.4 Expectation-Maximization algorithm
+The algorithm called Expectation-Maximization (EM) is employed
+for the maximum likelihood estimation of the parameters of the mixture model.
+In fact, there are no exact solutions to optimize the function with respect to
+one or more parameters we resort to iterative methods which provide good and even
+excellent approximate solutions.
+
+The EM algorithm became popular in the 1970s through the works of Baum
+et al. (1970); Dempster et al. (1977) because it is formulated in terms of data
+missing or incomplete, but had been implicitly introduced by McKendrick
+(1926) to estimate the infection rate if data are observed
+which do not distinguish between exposed and non-exposed individuals who present the
+same symptoms (see also, McLachlan (1997)). They are considered below
+therefore of the unobserved variables and the joint distribution of the variables
+not observed (missing) and observed. It is used because it is simple
+to implement and monitor. The EM algorithm exploits the notion of data
+incomplete or missing and imputes them iteratively. It is used for
+estimate the parameters of the mixture model and with two steps repeated in a manner
+iterative (E step and M step) allows you to solve the system of equations
+of verisimilitude.
+
+The properties that make it optimal are the following:
+- and numerically stable,
+- often converges to the global maximum of the likelihood function,
+- and quite simple to implement (E step and M step),
+- both steps require little memory space,
+- the convergence of the algorithm can be monitored by checking the
+monotonicity of the increments of the likelihood function.
+
+
+Convergence in the final steps is generally slow (but methods exist
+acceleration), and in certain cases the choice of the initial values to assign to the parameters is relevant. This must be implemented with caution in relation
+to the methodological and application context.
+
+## 3.4.1 Steps of the EM algorithm
+
+Y indicates the n-dimensional vector that collects the $Y_1... Y_n$ variables
+referring to the observed data y, and with C the variable referring to the complete data
+(indicated by c) which includes not only Y but also the variables underlying the non-data
+observed (or missing indicated with u) whose variable is indicated with U. Therefore
+C characterizes the joint density of the random variables referring to the data
+observed and missing C = (Y ;U). Considering the complete data, yes or no
+observes (Y) and increased compared to what is not observed (U).
+
+The objective of maximizing the log-likelihood function of the observed data
+$l( \theta; y)$ with respect to $\theta$ , p-dimensional vector of parameters $\theta \in \Theta \subset \mathcal{R^p}$ is achieved by considering the log-likelihood function of the data
+complete $l_c (\theta,c)$and carrying out the following steps:
+- E: Expectation: calculates the expected value of the joint log-likelihood
+of the complete data conditional on the observed data y and a value
+initial $\theta^0$ of the parameter vector
+
+$Q(\theta|\theta^{(0)}) = E_{\theta^{(0)}} [l_c(\theta;c)|y, \theta^{(0)}]$
+
+In the next expression we replace the log-likelihood function
+of density
+
+$$Q(\theta|\theta^{(0)})= E_{\theta^{(0)}}[log f_c(c;\theta)| y, \theta^{(0)}]$$
+
+In the next expression we calculate the expected value as a marginal quantity
+compared to unobserved data (considering as an example the
+support of the parameter vector on the real number scale).
+
+Note that when we condition ourselves on the observed data Y = y, u results
+the only random part
+
+$$Q(\theta|\theta^{(0)})- \int [log f_c(c; \theta)] f_{u|y}(u|y, \theta^{(0)}) du$$
+
+M: Maximization: it is maximized considering the value it yields
+maximum $Q(\theta|\theta^{(0)}) versus $\theta$
+
+$$Q(\theta^{(1)}, \theta^{(0)}) \geq Q(\theta, \theta^{(0)})$$
+where $\theta^{(1)}$ represents the value of the parameter vector at iteration
+(i+1).
+
+Therefore step E calculates the values of the unknown variables using the
+expected value conditioned on the current values of the parameters; the stepMproduces
+of the estimates by maximizing the quantity calculated in step E. The two steps yes
+follow one another iteratively until the point set by the is reached
+convergence criterion.
+
+Due to the monotonicity property of the algorithm it turns out that:
+- $L(\theta^{(1)}) \geq L(\theta^{(0)})$ - L is likelihood
+- for a limited sequence of values the likelihood converges monotonically
+towards the $L^*$ value which leads to the rough estimate
+likelihood $L^* = L(\hat{\theta}$
+
+Note that convergence is generally established by considering distance
+between the parameter values referring to subsequent iterations. Therefore
+the algorithm is not interrupted as long as
+
+$$max_h |\theta_h^{(1)} - \theta_h^{(0)}| \geq \epsilon > 0$$
+
+dove $\epsilon$ un valore piccolo rispetto alla situazione di riferimento, ad esempio
+$\epsion = 10^{-3}$
+
+## Example
+For the following double entry contingency table where the frequencies
+of a cell are missing and the algorithm can be used to impute i
+missing values. Indicating with $y_ij$ the absolute frequencies of the table where
+$i = 1; 2$ and $ j = 1; 2; 3$ represent the rows and columns, respectively
+missing value and referring to the cell $y_{23}
+
+|$X|Z$| 1 | 2 | 3 |  |
+|---|---|---|---|---|
+| 1 |$y_{11}$ | $y_{12}$|$y_{13}$|$y_{1}$ |
+| 2 |$y_{21}$ | $y_{22}$|$NA$    | $y_{2}$|
+|   |$y_{.1}$ | $y_{.2}$|$y_{.3}$| $ y_{..}$|
+
+The observed data are $y= [y_{11},y_{12},y_{13},y_{21},y_{22} ]$ while the missing data is
+$u = y_{23}$ and the full data in the above notation is $c = (y; u)$.
+
+Consider a linear model of the following type $y_{ij}= \mu + \alpha_i + \beta_j + \epsilon_{ij}$
+with parameter constraints $\sum_i \alpha_i=0$ and $\sum \beta_j=0$ where a component is assumed
+randomly distributed as follows $\epsilon_{ij} \sim N(0, \sigma^2)$
+
+It is possible to apply the EM algorithm using data in incomplete form
+according to the following steps:
+- missing values are imputed, for example with the average of the observed values,
+- in the initial step, parameter estimates are calculated using the solutions
+closed-form notes
+
+- $\hat{\mu} = \hat{y}$
+- $\hat{\alpha_i} = \bar{y_{i.} -\bar{y}$
+- $\hat{\beta_j} = \bar{y_{.j}} - \bar{y}$
+
+- proceed in the following steps iteratively by recalculating the value
+missing based on the estimates obtained at the i-th step $y_{23}^{i+1} = \hat{\mu}^{i}+ \hat{\alpha_2^{(i)}} + \hat{\beta_3}^{(i)}$ until the criterion established for convergence is reached
+
+Note that the following maximum likelihood estimate for the variance
+$\hat{\sigma^2} = \frac{1}{5} \sum_{ij} (y_{ij} - \hat{\mu}- \hat{\alpha_i} -\hat{\beta_j})^2$
+appears distorted.
+
+
+## 3.4.2 Estimation of the parameters of the mixture model
+In the following, we first introduce a general formulation of variable models
+latent and then the steps of the EM algorithm are declined for the mixture model
+with Gaussian components.
+Considering a set of response variables denoted by Y and a set
+of covariates denoted by X in the models considered herein
+section the association between X and Y is postulated by introducing a set of
+latent variables denoted by U.
+
+
+The model is therefore formulated based on the assumptions above $f_{Y|U,X}(y|u,x)$ that is, on the corresponding conditional distribution of the response variables
+given the explanatory variables and the latent variable. This part of the model is
+de nita (measurement model), while $f_{U|X}(u|x)$ represents the distribution
+conditioning of the latent variables given the explanatory variable and this part
+of the model and de ned (structural) model.
+The manifest distribution of the response variables i.e. the distribution
+condition of Y given X, can be expressed as 
+
+$$f_{Y|X} (y|x)= \int f_{Y|U,X} (y|u,x) f_{U|X} (u|x) du$$
+
+The posterior distribution of the latent variables, i.e. the distribution
+condition of U given X and Y is determined according to the Bayesian rule
+following
+
+$$ f_{U|X,Y} = (u|x,y) = \frac{f_{Y|U,X} (y|u,x) f_{U|X} (u|x)}{f_{Y|X}(y|x)}$$
+
+which is used for parameter estimation and to assign each uni to a
+a certain con guration of latent variables.
+Mixture models are based on the assumption that the sample comes from
+a population composed of several subpopulations or clusters, not directly
+observable, and also referred to as mixture components.
+These models extend the range of model-based clustering methods,
+also known as unsupervised learning,
+
+Everitt et al. (2011)). For all units of the same cluster, we have the same distribution of response variables which, in general, is different from that
+corresponding to the other clusters. They are models that allow a remarkable
+degree of
+flexibility and are useful for modeling even complex structures
+dependencies that may appear in the observed data. They were indeed applied
+successfully in many different fields such as agriculture, astronomy,
+bioinformatics, biology, economics, environmental ecology, bioinformatics,
+biology, economics, environmental ecology, engineering, genetics,
+imaging, science, marketing, medicine, neuroscience, psychiatry
+and psychology, as well as in the biological, physical and social sciences.
+
+Below we illustrate the two steps of the EM algorithm under the hypothesis that the parameters
+of the components of the mixture function are completely known
+and therefore only the weights of each component need to be estimated. In this case
+the parameter vector is $\theta= (\pi_1..\pi_k)^`$ the log-likelihood function
+based on n sample observations $y = (y_1...y_n)$ results
+
+$$log L(\theta) = l(\theta;y) = \sum_{i=1}^n log [\sum_{j=1}^k \pi_j f_j (y_i; \theta)]$$
+
+The likelihood equations or the derivatives of the previous function
+with respect to each parameter set equal to zero they do not have a solution
+explicit for $\theta= (\pi_1..\pi_{k-1})^`$ Therefore, considering $c = (y;u)$ la
+log-likelihood of the complete data
+
+$$ log L_C (\theta) = l_c (\theta;c) =\sum_{i=1}^n \sum_{j=1}^k u_{ij} log \pi_j + \sum_{i=1}^n \sum_{j=1}^k u_{ij log(y_i)}$$
+
+where $u_{ij}$ is a binary variable that is equal to one if the i-th unit belongs to the
+j-th component of the mixture or zero.
+The two steps of the EM algorithm in this context are as follows:
+• step E (at generic iteration h): calculates the conditional expected value
+of $u_ij$ to the observed data $y$
+$$E_{\theta^{(h)}} (u_{ij}|y) =p(U_{ij} =1|y)$$
+
+By applying Bayes' theorem we obtain the a-posteriori probability
+that the i-th sample unit with observed values yi belongs to the
+j-th component of the mixture
+
+$$ u_{ij}^{(h)} =\frac{\pi_j^{(h)} f_j(y_i)}{f(y_i; \theta^{(h)})}$$
+
+for $i=1...n$ and $j=1...k$
+
+- step M (at the generic iteration h + 1): replaces a $u_{ij}$ the value $u_{ij}^{(h)}$
+such that
+
+$$\pi_j^{(h+1)} =\frac{\sum_{i=1}^n u_{ij}^{(h)}}{n}; j=1..k$$
+
+The algorithm allows the likelihood equations to be solved iteratively
+initializing the values of $\theta$ with numbers which are then updated in
+iteratively until the convergence criterion is reached. Initialization
+of the parameters can be random or deterministic, or it can be based
+on the estimate through classification methods such as $k-means$. To
+example, the convergence criterion could be the following
+
+$$ |\pi_1^{(h+1)} -\pi_1^{(h)}| \leq 10^{-5} $$
+
+## 3.5 Model selection
+The number of components of the mixture model de nes the order of the mixture
+and is usually the minimum number of components with homogeneous elements
+within them and different between groups. The most suitable number can be decided
+a priori based on knowledge on the topic of study. Otherwise it can
+be chosen on the basis of some criteria known as information criteria. Self
+the model is estimated using the maximum likelihood principle
+log-likelihood of the mixture increases with respect to the number of components,
+therefore the information criteria penalize it for the number of parameters
+of the model. With these criteria the number of components is chosen based on the minimum value of the information index when comparing models
+with an increasing number of components.
+Among the information criteria the Bayesian adaptation index is called
+Bayesian Information Criterion (BIC) (Schwarz, 1978) and is one of the most
+used. This involves choosing an order of the mix capable of
+provide a good estimate of the underlying probability function. The criterion
+BIC is de ned as follows
+
+$$ BIC_k = -2\hat{l_k} (\theta) + \# par_k log(n)$$
+
+- $\hat{l_k}$indicates the value of the convergence log-likelihood of the algorithm
+of estimation with a number of components of the mixture function equal to k. There
+log-likelihood of the mixture is therefore penalized for the number of
+model parameters (#park) taking into account the logarithm of the numerousness
+(n) of observations.
+
+
+The Akaike information criterion (Akaike, 1973) is defined in the manner
+following
+
+$$ BIC_k = -2\hat{l_k} (\theta) + 2\# par_k$$
+
+and compared to the BIC it does not consider the overall number. Sometimes
+this criterion tends to overestimate the number of components needed
+de nire the mixture.
+Another criterion for selecting the number of components is known as
+Integrated Completed Likelihood (ICL, Biernacki et al., 2000) and adds a
+measure to the value of the BIC that re
+et the uncertainty with which a model with k
+components assigns the membership of each unit to each component. The ICL
+and defined as follows:
+
+$$ ICL_k = -2 \hat{l_k} +\# par_k log(n) + EN_k(\hat{\theta})$$
+
+- where $EN_k(\hat{\theta}) and an entropy criterion that is used for the uncertainty of the
+classification of each unit.
+Following the choice of the order of the mixture each unit is assigned
+according to a speci c criterion with one and only one component. The most used assignment method is the one based on the probability a-
+rear.
+Note that the likelihood ratio test can also be used
+which compares the model with k components to the model with k + 1
+components defined as follows
+
+$$LR = -2(\hat{l_0} -\hat{l_1})$$
+
+- where $\hat{l_0})$ and the maximum of the log-likelihood of the model with the fewest components
+and $\hat{l_1})$is the maximum for the largest model. However this approach
+requires that the calculation of the p-value for the test be based on parametric bootstrapping
+as the usual regularity hypotheses that they allow do not apply
+to use the chi-square distribution.
+
+
+### 3.5.1 Classification
+Classification in general terms can be understood as determination
+of an optimal number of groups of which a heterogeneous population is constituted.
+The units within the group are homogeneous in certain characteristics
+of interest and the groups are heterogeneous among themselves. A typical example of class-
+cation occurs when an analysis is carried out to classify patients based on
+to their state of health with respect to both observational and clinical parameters
+patients.
+
+Bayes' theorem allows us to establish a probabilistic rule of classes -
+cation which is based on the estimated parameters of the mixture model with the number
+of nito components for example k. It has been proven that the Bayesian rule
+allows the classification error to be minimized (McLachlan, 2004).
+The probability of missing values is considered conditional on the observed data
+which according to Bayes' rule is given by the following expression
+
+$$ f(u|y)= \frac{f(y|u)f(u)}{f(y)}$$
+
+- where $f(y|u)$ represents the likelihood function referring to the observed data and f(u) indicates the a priori probability law of the missing data.
+Mixture models are based on denoted individual-speci c latent variables
+from $U_i, i = 1...; n$, and having support points from 1 to k, where k is the
+number of components. The distribution referring to the observed variable is the
+following
+
+$$f_{Y_i} (y_i) = \sum_{u=1}^k f_{Y_i|U_i} (y_i|u) \pi_u$$
+
+where $f_{Y_I|U_i} = (y_i|u)$ represents the conditional probability of $Y_i$ given $U_i=u$ and $\pi_u =p(U_i=u)$ is the weight from the u component.
+
+### 3.5.2 Multivariate mixture models of Gaussian components
+
+When continuous response variables are considered jointly, the hypothesis
+typical and that, conditional on $U_i = u, Y_i$ has a distribution
+Gaussian (multivariate) with specific mean vector of each component u
+and variance-covariance matrix which is common to all components if there is
+the homoskedasticity hypothesis.
+
+Note that in the case of the multivariate mixture model they are employed
+two possible parameterizations for the variance-covariance matrix with dei
+constraints placed on both $\lambda_j$ and $Q_j$ .
+
+Assuming spherical covariance we have that $Q_j =I$ and $\Lambda_j=I$ about that $Q_j \Lambda_j Q_j^T$ and the two formulations for the model
+are: i) which presupposes components of the mixture (without orientation)
+with the same volume and the same shape (and is indicated with EII in the library
+of R called mclust Gaussian Mixture Modeling for Model-Based Clustering,
+Classi cation, and Density Estimation); ii) $\lambda_j I $ which presupposes that
+the components of the mixture are without orientation but with different volumes
+(denoted VII in the R mclust library).
+It is then possible to obtain the standard errors, which represent measures of
+precision to be associated with parameter estimates across a range of
+with dence using resampling methods. In particular it is used
+the non-parametric bootstrap to obtain the 95% confidence intervals
+for parameter estimates.
+
+## 3.6 Latent class model
+
+The inclusion of latent variables in a statistical model entails a high
+degree of
+exibility, why and dependence structures between observed variables
+even very complex ones are treated more easily. Secondly
+place, this model typically has a direct interpretation, above all
+when latent variables correspond to explanatory factors that cannot
+be observed for any reason. Under certain conditions an interpretation is possible
+causal factor of the parameters of interest, since the model takes into account
+adequate way of certain forms of unobserved confounding, for major
+details please refer to the review article in Bartolucci et al. (2022).
+The latent class model was initially proposed by Lazarsfeld (1950)
+then developed in different ways, for a detailed illustration please refer
+in Goodman (2002). In the following discussion one or more are considered
+categorical response variables (binary, ordinal or polytomous variables) and whose
+observations are detected at a certain moment in time (cross section data)
+(Pennoni, 2014). The speci cation of the model is that proposed in Bartolucci
+et al. (2013).
+
+Is $Y_{ij}$ the response variable referring to subject $i; i = 1; : : : ; n $compared to
+variable (or item in the following) j-th $j = 1; : : : ; J_i$. This is a variable
+categorical with $y = 0; : : : ; r_j -1$ levels or categories. Think for example
+In addition to the test batteries aimed at evaluating autism, there is a test that defines the
+the patient's language skills and response levels are the following six:
+0 prelinguistic level, 
+- 1 holophrastic level, 
+- 2 presyntactic level, 
+- 3 level protosyntactic, 
+- 4 initial morphosyntactic level, 
+- 5 morphosyntactic level developed.
+
+When more than one response variable is considered, the vector is defined $Y_i = (Y_{i1} ...Y_{iJ})$
+of the response variables for each individual $i; i = 1; : : : ; n$.
+The model postulates an unobserved variable Ui with discrete distribution
+unspecified (semiparametric model) and support points $1; : : : ; k$, where
+$k$ and a number represents the number of components. The model in the version
+simpler assumes conditional independence between the response variables
+given the latent variable (local independence). Conditional on the latent class the probability of observing $Y_{ij}$ is independent of the probability of
+observe $Y_{il}$ for $j \ne l$. The model parameters are:
+
+$$\phi_{iy|u}= p(y|u) = \prod_{j=1}^J p(Y=y|U = \xi_u)$$
+the initial probabilities concern the latent model and represent i
+speci c weights of each component (or latent class)
+
+$$\pi_u = p(U=\xi_u)$$
+The log-likelihood of the observed data is:
+
+$$l(\theta) = \sum_{i=1}^n log p(Y_i=y)$$
+
+where $Y_i= Y_{i1}...Y_{iJ}$ vector of responses for subject $i$ and  $\theta$ vector
+of the model parameters.
+The log-likelihood of the complete data is written as follows: 
+
+$$L^* (\theta) = \sum_{i=1}^n \sum_{u=1}^k \lambda_{ui} [log \pi_u + log p_u (y_i)]$$
+
+where $\lambda_{ui}$ it is the indicator variable that takes on the value 1 if individual i belongs to
+to the latent class u or takes the value 0.
+
+The likelihood is maximized using the Expecation-
+Mazimization. As illustrated above this algorithm consists of two
+steps which in the latent class model are the following:
+
+step E: after having initialized the parameters with values chosen in this way
+appropriate, the conditional expected value of the loglikelihood function is calculated
+of the complete data and this corresponds to the calculation of $\lambda_{ui}$ using the current value of the model parameters and obtaining $\hat{\lambda_{ui}^1}$
+
+
+- step M: maximizes $l^*(\theta)$ replacing  $\hat{\lambda_{ui}^1}$ and the values are updated
+of the parameters until the algorithm converges.
+
+The optimal number of latent classes when not known a priori is chosen in
+based on the information criteria previously introduced BIC and AIC. They respect each other
+therefore models with a gradually increasing number of latent classes
+and the model that presents the smallest value of the information criterion is chosen.
+The posterior probabilities are estimated for each unit and in
+based on the maximum posterior probability each unit is assigned in a manner
+exclusive to one and only one latent class
+ 
+
+$\hat{\lambda_{ui}} = \frac{\hat{pi_u}\hat{p_u} (y)}{\sum_{c=1}^k \hat{\pi_c} \hat{p_c}} (y)$
+
+Entropy is a measure that allows you to evaluate the model based on uncertainty
+with which the unit is classified and provides another competing measure
+to form the information criterion called ICL.
+It is then possible to obtain the standard errors, which represent measures of
+precision to be associated with parameter estimates using the information matrix
+observed or its expected value.
+
+### 3.6.1 Latent class model with covariates
+
+The latent class model was extended to include the presence of covariates,
+see among others the proposal by Dayton and Macready (2002). Practically
+it's about evaluating the in
+uence of covariates on the model distribution
+measurement or latent model. The formulation of the model that includes
+the covariates in the latent part allows you to evaluate how the latent trait
+of interest measured with appropriate indicators, think for example of quality
+a of life and how this can be
+uenced by covariates such as ad
+for example age, income, etc.
+
+
+
+
+In the following formulation the multinomial parametrization is adopted (yes
+refers to Chapter 2 in Bartolucci et al. (2013) for further information).
+The initial probabilities that define the weights of each latent class $\pi_{ui|x}$ they are speci c to units $i = 1; : : : ; n$ and depend on the vector of covariates
+$X_i = (X_{1i}; : : : ;X_{c}i)$. Assuming only one covariate $x_1$ the model is the
+following
+
+$$log \frac{\pi_{ui|x_1}}{\pi_{1i|x_1}} =\gamma_{1u} + x^`_1 \gamma_{2u}$$
+
+for $u = 2; : : : ; k$. In this type of parameterization the intercept
+1u is a speci c parameter of the latent class and represents the general trend
+towards the latent class $u$ versus to the first latent class which is chosen as
+reference class (baseline). The regression coefficient
+$\gamma_{2u}$ is interpreted
+as the share in favor of class u compared to the first latent class for
+each unit increase of the covariate $x_1$.
+
+The maximum likelihood estimation of the model parameters is done using
+the Expectation-Maximization algorithm in a version similar to that
+illustrated above and appropriately initialized. For choosing the number
+of latent classes, the information criteria illustrated in are always used
+precedence.
+
+
+
+
+
+
+
+

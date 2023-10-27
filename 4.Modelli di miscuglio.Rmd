@@ -928,6 +928,705 @@ plot(bayesinf)
 
 
 
+### Multivariate mixture model with Gaussian components
+The values representing the findings compared to two clinical tests performed are considered
+on 200 patients (simulated data). In the data.Rdata file, assume that $Y_1$ represents the level
+of white blood cells and $Y_2$ the hemoglobin level.
+
+```{r}
+load("data/data.Rdata")
+head(data)
+```
+
+For the first patient the reading of white blood cells is 185 while that of hemoglobin
+of 223.
+
+```{r}
+require(skimr)
+skim_without_charts(data)
+```
+
+Patients have an average white blood cell level of 206 and hemoglobin level of 212. Variability
+average around the average is around 37 for white blood cells and 36 for hemoglobin.
+
+```{r}
+cov(data)
+cor(data)
+```
+
+
+The sample linear correlation coefficient is 0.6 and suggests a positive association
+quite high between the two variables.
+The two graphs highlight this association
+
+```{r}
+plot(data$Y1.1, data$Y2.1, xlab = "Globuli Bianchi",
+ylab = "Emoglobina", col = "orange")
+```
+
+
+
+```{r}
+plot(data$Y2.1, data$Y1.1,
+xlab = "Emoglobina", ylab = "Globuli Bianchi", col = "blue")
+```
+
+The multivariate mixture model is estimated with the mclust library using decomposition
+spectral for the variance-covariance matrix of the components. Initially
+the spherical model is considered.
+The following specifications EII and VII define the spherical model or the model in which
+the components are independent with the same variance E or different variance V.
+
+## Selection of the number of components
+As in the univariate case, the selection of the components occurs with the information criterion
+Bayesian in the following way
+
+
+```{r}
+require(mclust)
+mcc <-Mclust(data, modelNames = c("EII", "VII"))
+mcc$BIC
+```
+Evaluating a few different models for an increasing number of components with equal variance
+or different the criterion suggests 3 components with equal variance (E).
+## Parameter estimation
+The model selected as best is estimated as follows
+
+```{r}
+mc <-Mclust(data,
+G = 3,
+modelNames = c("EII"))
+summary(mc,parameters = TRUE )
+```
+
+
+The parameters free to vary in the model are 9 because the model is multivariate. The parameters
+are the following:
+- The weights of two components (mixing probabilities, the third is determined by difference
+with respect to the sum constraint 1)
+- The values of the means for the two variables in each subpopulation (6 means)
+- The variance assumed to be equal for all components (1 variance)
+From the estimated values we note that:
+- The weight of each group is as follows 49% for the first group, 28% for the second, and 23%
+for the third.
+- The third subpopulation (group 3) is made up of those who have the highest average values
+low for both variables.
+- The first subpopulation represents those who have average white blood cell values
+and hemoglobin 202 and 212 respectively.
+- The second subpopulation is characterized by those who have the highest average values
+and equal to 245 and 247.
+- The average variability around the mean is the same for all components and is 23.
+
+The classification chart below shows how drives are allocated into the three groups.
+
+
+```{r}
+plot(mc,"classification", xlab = "globuli bianchi",
+ylab = "emoglobina")
+```
+
+The ellipses represent the univariate density of each component: they have the same shape with
+focus corresponding to the estimated group means and have no orientation.
+The mixture density contour lines are obtained as follows.
+
+```{r}
+plot(mc,"density", xlab = "globuli bianchi", ylab = "emoglobina")
+```
+
+The greatest density is concentrated at the point of intersection of the sample means. The
+ellipses are oriented to the right since there is a positive correlation between the two variables.
+### Mixture model with spherical components and specific variances for each component
+The model with non-homogeneous distribution between groups postulates different variances for each
+component and is specified with option VII
+
+```{r}
+mc1 <-Mclust(data, G = 3, modelNames = c( "VII"))
+summary(mc1, parameters = TRUE)
+```
+
+
+From the results we note that:
+- The parameters free to vary are 11 or 3 more than the model estimated in
+precedence.
+- The BIC value is higher than that of the previous model
+- The percentage of patients belonging to the first component is lower than that
+estimated in the previous model
+- The weights of the components are not very different from those of the previous model
+- The average values of each component are similar to those estimated previously
+- The second component represents the subpopulation of patients with higher values
+white blood cells and hemoglobin but also with greater variability than the other two
+components. The estimated standard deviation is 26.
+- The width of the ellipse of group 3 (red) is larger than that of group 2
+(blue), due to the different variability and due to the hypothesis of a spherical model the ellipses do not have
+orientation.
+
+Note that the following graph shows ellipses of different widths representing the three
+components having different variability.
+
+```{r}
+plot(mc1,"classification")
+```
+
+## Non-spherical mixture model
+In the event that a covariance between the response variables other than zero is also assumed
+specific for each component, the mixture model is estimated with the VEE option which assumes the
+same shape for the densities and same orientation
+
+```{r}
+mc2 <-Mclust(data, G = 3, modelNames = c( "VEE"))
+summary(mc2, parameters = TRUE)
+```
+
+
+From the results it can be seen that
+
+- the parameters free to vary are 13 or 2 more than the previous model (5 in
+more than in the initial model), the covariance between the response variables is greater in the
+second component (the one in which the means of the two variables are greater)
+
+```{r}
+plot(mc2,"classification")
+```
+
+
+## Bootstrap for standard errors and confidence intervals
+The confidence intervals for the model parameters are obtained by applying bootstrap
+the percentile method.
+Below we illustrate the application of the bootstrap for the first model that takes on structure
+spherical and absence of correlation (EII).
+The mclust::bootClust function allows you to get the boostrap sampling results
+using by default 𝐵 = 999 bootstrap samples
+
+```{r}
+bootClust <- MclustBootstrap(mc)
+```
+
+The summary function returns the results by reporting the estimated standard errors for each
+parameter
+
+```{r}
+summary(bootClust, what = "se")
+```
+
+and the confidence intervals calculated at the 95% confidence level.
+
+```{r}
+summary(bootClust, what = "ci")
+```
+
+## Latent class model
+Consider the following data regarding the responses to two tests administered to patients of
+an oncology department to evaluate depression and anxiety. (The data is taken from Zigmond,
+A. and Snaith, R. (1983), The hospital anxiety and depression scale, Acta Psychiatrika
+Scandinavica, 67, 361-370.)
+
+```{r}
+load("data/psico.Rdata")
+dim(Y)
+
+head(Y)
+
+tail(Y)
+```
+
+
+The observations in the first column refer to the first item of the questionnaire it measures
+depression and those in the second column refer to the second item which measures anxiety.
+The items are measured on an ordinal scale with four levels coded from 0 to 3: 0 low,
+1 medium-low, 2 medium, 3 high.
+201 patients responded to the questionnaire and the relative frequency of each category can be
+displayed with the apply function as follows
+
+
+```{r}
+n<-dim(Y)[1]
+apply(Y,2,table)/n
+```
+
+Dalle frequenze relative per ogni categoria di risposta si nota che il 52% dei pazienti ha una
+depressione medio-bassa ed il 46% un livello di ansia medio-basso. Solo il 4% presenta alti
+livelli di depressione e di ansia.
+
+Il modello a classi latenti con distribuzione non parametrica per la variabile latente con
+supporto discreto e supposta con un numero di punti di supporto finito viene stimato con la
+libreria MultiLCIRT (Multidimensional Latent Class Item Response Theory) e la funzione
+est_multi_poly.
+
+La funzione richiede che si determini il pattern delle configurazioni di risposta utilizzando la
+funzione aggr_data nel modo seguente
+
+```{R}
+require(MultiLCIRT)
+Yout <- aggr_data(Y)
+S <- Yout$data_dis;S
+
+yv <- Yout$freq; yv
+
+cbind(S,yv)
+```
+
+The S object returned by the function contains the joint configurations of the levels of the two
+response variables, while the vector yv associates the respective sample frequencies. Therefore
+there are 79 patients who have a medium-low level of depression and anxiety. There are 4
+patients who present high levels of depression and anxiety.
+The function to estimate the model requires S and yv and requires you to specify the number of classes
+latent 𝑘. Assuming for the moment the existence of two latent classes, the function returns
+the following output
+
+```{r}
+mod2 <- est_multi_poly(S,yv,k=2)
+
+summary(mod2)
+
+mod2$np
+```
+
+
+The value of the convergence log-likelihood of the EM algorithm is -374.62 and the model
+with two latent classes it has 13 parameters free to vary, and the value of the information criterion
+Bayesian is 818.18.
+From the parameter estimates we note that the weight of the first component is 0.48 while that
+of the second component is 0.52.
+From the estimates of the conditional probabilities we can characterize the first latent class
+such as that referring to the subpopulation of patients at low risk of depression and anxiety
+as the probability of reporting a high level of depression or anxiety is zero and is
+the probability of responding in the first category of both variables is high.
+The second latent class represents more than half of the patient population and is
+characterized by those who are more prone to depression and anxiety because
+the probability of the first category is zero while the probability for the remaining ones is higher
+categories.
+The classification of patients into the two groups occurs with a posteriori probabilities. This
+is required by specifying output = TRUE in the estimate function and then the probabilities are
+contained in the Pp object of the model.
+
+```{r}
+mod2 <- est_multi_poly(S,yv,k=2,
+output = TRUE)
+round(mod2$Pp,2)
+```
+
+We note that for those who have a response pattern of 1,1 (first row of the S matrix) the
+estimated a posteriori probabilities are 0.036 and 0.964 of belonging to the first and second
+latent class respectively. With the rule of maximum a posteriori probability these
+patients are allocated to the second latent class.
+Considering those who have response patterns 1, 2 (line 7 of S) we notice that in line 7
+of Pp we have 0.126 and 0.874. So those who have a medium-low level of depression and
+a medium level of anxiety are allocated with probability 0.9 in the second latent class.
+
+
+
+
+
+# Exercise:
+
+## Realizations from the Bivariate Normal distribution
+Exercise 31
+1. Obtain first 10 and then 3000 realizations from a Normal distribution double $(𝑋_1, 𝑋_2) \sim 𝑁 (\mu_1, \mu_2, \sigma_1^2, \sigma_2^2, \sigma_{12}$ with the following parameter values:
+$𝑁 (0, 0, 3, 3, 0)$. Set the seed to the value 14263.
+2. Describe the data generated considering 𝑛 = 3000 and draw the
+empirical distribution. Yes comments.
+3. Draw the scatter plot of the realizations and comment on them.
+4. Draw and interpret the level curves obtained from the theoretical distribution.
+
+31.1.
+To obtain pseudo-random realizations from a Bivariate Normal Random Variable you use the rmvnorm function from the mvtnorm package. This command
+requires as arguments the number of values to generate (n), the vector of means (mean) and the
+variance covariance matrix (sigma).
+
+```{r}
+require(mvtnorm)
+medie <- c(0, 0)
+varcov <- matrix(c(3, 0, 0, 3), ncol = 2, byrow = TRUE)
+set.seed(14263)
+x <- mvtnorm::rmvnorm(n = 3000, mean = medie, sigma = varcov)
+```
+
+31.2.
+The object returned in output from the rmvnorm function is a matrix of two columns and 3000 rows: the
+two columns represent the two components $(𝑋_1 and X_2)$ of the bivariate variable, while each
+row corresponds to a different observation.
+We calculate the sample values of the means and the variance covariance matrix with the corresponding ones
+theorists.
+
+```{r}
+apply(x, 2, mean)
+
+cov(x)
+
+```
+
+We observe, for all the indices considered, a good adherence of the empirical values obtained to those
+of the theoretical distribution.
+
+We also note that, in this case, the covariance between the two components is equal to 0, i.e
+two components are uncorrelated. It follows that they are also independent: the first component
+(first column) has Univariate Normal distribution with mean 0 and variance 3, i.e. 𝑋1 ∼ 𝑁 (0, 3),
+while the second component (second column) in turn has Univariate Normal distribution
+with mean 0 and variance 3, i.e. 𝑋2 ∼ 𝑁 (0, 3), independent of the first. It is important to underline
+that this result does not hold in general if the two components are correlated, that is, if 𝜎12 ≠ 0.
+In conclusion, we represent the two empirical distribution functions in the same graphic window.
+
+
+```{r}
+par(mfrow=c(1, 2))
+plot(ecdf(x[, 1]),
+do.points = FALSE,
+xlim = c(-8, 8),
+main = 'Fun. Rip. Emp. prima componente')
+plot(ecdf(x[, 2]),
+do.points = FALSE,
+xlim = c(-8, 8),
+main = 'Funz. Rip. Emp. seconda componente')
+```
+
+Confirming the fact that the two components can be considered as generated by the same one
+univariate Gaussian distribution (𝑁 (0, 3)), the two curves are substantially indistinguishable from each other
+on the other; it can also be observed that they follow the function curve practically perfectly
+of theoretical distribution for a V.C. corresponding.
+
+31.3.
+
+We visualize the scatter graph by simply plotting the vectors relating to the two in the plane
+components of the bivariate distribution (x-axis: first component, y-axis: second component).
+
+```{r}
+plot(x[, 1], x[, 2],
+col = "orange",
+asp = 1,
+main = "Diagramma a dispersione",
+xlab = "Prima componente",
+ylab = "Seconda componente")
+```
+
+The asp = 1 option allows you to use the same unit of measurement for the x axis and y axis. This
+allows you to precisely visualize the shape of the point cloud, highlighting in particular
+the differences between the two components and the relationships between them. In this case yes
+observe that the point cloud takes on a perfectly circular shape, a consequence of the fact that
+the variances $\sigma_1^2$ and $\sigma_2^2$
+ are equal and the covariance $\sigma_{12}$ is equal to $0$. The range of variation for the two
+components is approximately the same, varying in both cases from a minimum of approximately
+- 6 to a maximum of approximately 6. Finally we observe that the points are more distributed in the
+central area, corresponding to the point given by the averages of the two components, with a density that
+it gradually decreases as you move away from the center.
+
+31.4.
+
+The graphical representation of the density of a V.C. Bivariate normal is obtained through a
+three-dimensional representation (three-dimensional space). A 2D representation can be
+obtained by intersecting the three-dimensional surface with planes placed at different heights and parallel to each other
+They. The result is the so-called level curves. Practically, in R, the steps to follow are i
+following:
+- a (2D) grid of points is defined: in this case we select the vectors z1 and z2 as one
+sequence of equally spaced points from -10 to 10. The expand.grid command allows you to obtain
+the grid by constructing all possible pairs of points $(z_1[i], z_12[j])$;
+- the density value is calculated at each of the grid points: the dmvnorm function (in mode
+analogous to the dnorm function in the univariate case) requires as input the grid of points, the vector
+of the means and the variance-covariance matrix and returns the density at the grid points
+in vector form. It is subsequently necessary to transform it into a matrix object;
+111
+- finally, the contour command is used to plot the density values just calculated.
+
+
+```{r}
+z1 <- z2 <- seq(-10, 10, by = 0.1)
+griglia <- expand.grid(z1, z2)
+dens <- matrix(dmvnorm(griglia,
+mean = medie,
+sigma = varcov),
+ncol = length(z1))
+contour(z1, z2, dens,
+asp = 1,
+# nlevels = 3,
+# levels = c(0.01, 0.02, 0.04, 0.07),
+main = "Curve di Livello", xlab = expression(X[1]), ylab = expression(X[2]),
+col = "dodgerblue")
+```
+
+
+By default the contour function automatically establishes the level curves to represent; And
+However, it is possible to specify the number of curves you want to obtain or even the specific values of the
+odds. As already observed in the scatterplot, we notice that the level curves have shape
+perfectly circular (equal axis length and consequently no specific orientation).
+The center of each circle is located at the point (0,0), corresponding to
+of the averages of the two components.
+
+
+## Exercise 32
+Consider the following distribution $(𝑋_1$, X_2) ∼ 𝑁 (\mu_1, \mu_2, \sigma_1^2, \sigma_2^2, \sigma_{12}) Bivariate Normal
+$𝑁 (2, 2, 100, 100, 4)$ and repeat the points from the previous exercise. In the representation
+of the contour lines, pay attention to the definition of the grid for
+the density calculation.
+
+```{r}
+require(mvtnorm)
+medie <- c(2, 2)
+varcov <- matrix(c(100, 4, 4, 100), ncol = 2)
+set.seed(14263)
+x <- rmvnorm(n = 3000, mean = medie, sigma = varcov)
+```
+
+2.
+
+Descriptive statistical analyzes (in this case the covariance is different from 0, therefore the two components
+cannot be considered independent).
+
+
+```{r}
+mean(x)
+
+cov(x)
+```
+
+
+Graph of empirical distribution functions
+
+```{r}
+par(mfrow = c(1, 2))
+plot(ecdf(x[, 1]),
+do.points = FALSE,
+main = 'Funz. Rip. Emp. prima componente')
+plot(ecdf(x[, 2]),
+do.points = FALSE,
+main = 'Funz. Rip. Emp. seconda componente')
+```
+
+.3
+
+Scatter plot of the two components.
+
+```{R}
+plot(x[, 1], x[, 2],
+col = "green",
+asp = 1,
+main = "Diagramma a dispersione",
+xlab = "Prima componente",
+ylab = "Seconda componente")
+```
+
+
+Although it is impossible to detect it precisely from the graph, it is known that the point cloud is in
+in this case centered in (2, 2), corresponding to the averages of the two components. It is also difficult to detect
+the orientation of the point cloud, which we know is upwards (the major axis of the ellipse
+is arranged along a straight line with a positive angular coefficient). The cause is the value of the variances that
+is significantly higher than that of the covariance. In fact, it is observed that the range of variation of
+two components is much higher than what was noted in the previous exercise. Let's reiterate
+finally that, although the shape of the point cloud appears to be a circumference, it is this
+case an ellipse, given the value of the covariance different from 0.
+
+
+##.4 
+
+The procedure is identical to the one introduced in Exercise 31; we only observe that the vectors z1
+and z2 must be defined differently: first, in the previous exercise the averages were
+equal to 0, therefore the two vectors were symmetrical with respect to 0 (they went from -5 to 5); now the averages are
+equal to 2, therefore z1 and z2 must be symmetrical with respect to 2. Secondly, the variability
+it was very limited in the previous year (variances equal to 3); in this case we have one instead
+much greater variability (variances equal to 100): it is therefore necessary that the intervals represented
+from z1 and z2 are much wider.
+
+
+```{R}
+z1 <- z2 <- seq(-20, 24, by = 0.1)
+griglia <- expand.grid(z1, z2)
+dens <- matrix(dmvnorm(griglia,
+mean = medie,
+sigma = varcov),
+ncol = length(z1))
+contour(z1, z2, dens,
+   asp = 1,
+# nlevels = 3,
+# levels = c(0.01, 0.02, 0.04, 0.07),
+main = "Curve di Livello", xlab = expression(X[1]), ylab = expression(X[2]),
+col = "dodgerblue")    
+```
+
+
+The interpretation and comments relating to the graph mostly follow those of the previous year;
+we simply observe that the values of the height of the parallel planes are significantly lower
+compared to those shown in the previous year. This testifies to a three-dimensional shape
+of the very lowest distribution, flattened and extended in the plane.
+
+
+
+# Soluzioni esercizi “Applicazione dell’algoritmo EM”
+## SOLUZIONI ESERCIZIO 33
+
+Consider the example shown in the handouts of the usage part of the applications
+of the EM algorithm to impute the missing values of the contingency table. Yes
+consider the following observations for the absolute frequencies: $𝑦_{11} = 16, 𝑦_{12} = 7,
+𝑦_{13} = 7, 𝑦_{21} = 𝑁 𝐴, 𝑦_{22} = 64, 𝑦_{23} = 5.$
+
+1. Describe the functions that allow you to estimate the model parameters
+generalized linear for frequencies using the EM algorithm.
+
+2. Describe the iterative process through the parameter estimates graph
+obtained at each iteration. Report and comment on the parameter estimates
+and the missing value.
+
+3. Change the input parameter of the function to stop the algorithm
+having less than 20 iterations. Justify the result compared to the new ones
+parameter estimates.
+
+.1
+
+Si considera una tabella di contingenza costituita da 2 righe e 3 colonne e contenente un valore
+mancante (NA). Si utilizza l’algoritmo di Expectation-Maximization (EM) per stimare il dato mancante
+sulla base di un modello lineare $𝑦_{𝑖𝑗} = \mu + \alpha_i + \beta_i + \epsilon_{ij}$, dove $\mu$ è l’intercetta, $\alpha_i$ è il parametro
+di riga, $\beta_j$ è il parametro di colonna e $\epsilon_ij \sim 𝑁 (0, \sigma_2)$ è un termine di errore.
+
+L’algoritmo EM è costituito da due passi (si vedano le dispense di applicazioni per maggiori dettagli):
+
+
+- step E (expectation): by assigning an initial value to the missing value, the values are calculated
+of the model parameters;
+- M step (maximization): the model parameters are used to estimate and update the
+value of the missing data. The em1 function defined below implements the two steps described;
+returns as output the value of all the estimated quantities.
+
+```{r}
+em1 <- function(y21, y){
+ystar <- y
+ystar[2, 1] <- y21
+# Expectation Step
+mu.hat <- mean(ystar)
+alpha.hat <- apply(ystar, MAR = 1, mean) - mean(ystar)
+beta.hat <- apply(ystar, MAR = 2, mean) - mean(ystar)
+# Maximization Step
+y21 <- mu.hat + alpha.hat[2] + beta.hat[1]
+return(c(mu = mu.hat,
+alpha = alpha.hat,
+beta = beta.hat,
+y21 = y21))
+}
+y <- matrix(c(16, 7, 7, NA, 64, 5), nrow = 2, ncol = 3, byrow = TRUE); y
+```
+
+
+```{r}
+em1(19.8, y)
+```
+
+By executing the function, setting the value of 19.8 (even) as the initial value for the missing data
+to the average of the present data), the values shown above are obtained. In particular the value of
+missing frequency is estimated to be 27.7, thus updating the initially assigned value of
+19.8.
+
+
+The EM algorithm involves iterating the procedure by iterating these two steps until convergence. Yes
+it then iterates the execution of the em1 function through a while loop until the estimate of
+parameters remains “stable”, i.e. until the difference between the value of the two parameters
+subsequent iterations of the algorithm is less than a certain threshold 𝜀 (10−8 in the example below).
+```{r}
+em.step <- function(y, epsilon = 1e-8) {
+trace <- NULL
+convergenza <- FALSE
+trace <- t(em1(y21 = mean(y, na.rm = TRUE), y = y))
+y21id <- grep("y21", colnames(trace))
+i <- 0
+while(!convergenza) {
+i <- i + 1
+trace <- rbind(trace, em1(y21 = trace[i, "y21"], y = y))
+convergenza <- (dist(trace[i:(i+1), -y21id]) < epsilon)
+}
+return(trace)
+}
+set.seed(183)
+est <- em.step(y)
+```
+
+The generated output is a matrix of 51 rows and 7 columns. Each column represents a different
+parameter estimated by the model. The last column in particular is the value obtained for the data
+missing. Each row instead contains the estimates obtained at one iteration of the algorithm. For
+reaching convergence the EM algorithm therefore requires 51 iterations. Particularly in the last line
+we find the values of the convergent parameters (therefore "definitive"). The value of the missing data
+estimated through the EM algorithm is therefore equal to 43.5 (it must be approximated, since it is
+a frequency).
+
+.2
+
+Since reading the output matrix is not easy, we can represent the values
+obtained through a graph (trace plot). The matplot function is used which allows you to represent
+each of the data series contained in the matrix (we exclude the estimated value for the
+missing frequency).
+
+```{R}
+names1 <- expression(mu, alpha[1], alpha[2], beta[1], beta[2], beta[3])
+pal1 <- c("red", "yellow", "green", "violet", "blue", "orange")
+matplot(est[, -7],
+type = "l",
+col = pal1,
+lwd = 2,
+lty = 1,
+xlab = "Iterazioni dell'algoritmo EM",
+ylab = "Stime dei parametri del modello")
+legend(x = 0,
+y = -5,
+legend = names1,
+lwd = 2 ,
+col = pal1,
+lty = 1,
+horiz = TRUE,
+cex = 0.5)
+```
+
+
+We observe that the parameters 𝜇, 𝛼2 and 𝛽3 have an increasing trend as the iterations increase
+of the algorithm, unlike the remaining parameters. It is also noted that the EM algorithm, by updating
+the values of the estimates from one iteration and the following, involves a sensitive adjustment during
+the first steps (before the tenth), while the adjustments are much more limited for the steps
+subsequent ones.
+
+.3
+
+Below we modify the em.step function in such a way that the stopping criterion of the EM algorithm does not
+both the convergence of the estimated parameters, but the achievement of a maximum number of iterations
+(NB. In practice the two conditions are often combined: convergence is required
+achieved, but if after a maximum number of iterations, the EM algorithm is still "running",
+then it is blocked anyway. This maximum number of iterations is usually quite high.
+It is absolutely not recommended to use only having achieved the algorithm as a stop condition
+a maximum number of iterations.). No changes to the em1 function are needed. In function
+em.step only changes the definition of the convergence object (renamed maxit_reached).
+
+
+
+```{r}
+em.step <- function(y, maxit = 20) {
+trace <- NULL
+maxit_reached <- FALSE
+trace <- t(em1(y21 = mean(y, na.rm = TRUE), y = y))
+y21id <- grep("y21", colnames(trace))
+i <- 0
+while(!maxit_reached) {
+i <- i + 1
+trace <- rbind(trace, em1(y21 = trace[i, "y21"], y = y))
+maxit_reached <- (i >= (maxit-1))
+}
+return(trace)
+}
+est_mod <- em.step(y, maxit = 20)
+```
+
+
+therefore there is no guarantee that the parameter estimates are actually reliable (in this
+case no significant differences are found, but the estimates obtained with the second method are
+however less precise).
+
+
+
+## Solutions to the “Mixture density” exercises
+## Densità miscuglio
+## Esercizio 36
+1. Si utilizzi la funzione ‘funcmxn‘ implementata a lezione per rappresentare graficamente
+i valori della densità della funzione miscuglio considerando il seguente
+scenario: $𝑋_1 \sim 𝑁 (1, 1.3), 𝑋_2 \sim𝑁 (0, 1.3)$ e peso per la prima componente
+$𝑝 = 0.32$.
+
+2. Si crei la funzione chiamata ‘rnormxn‘ che genera 1000 realizzazioni da entrambe
+le componeti definite al punto precedente e restituisce le corrispondenti
+realizzazioni del miscuglio di cui sopra.
+
+3. Si riporti l’istogramma delle realizzazioni ottenute al punto .2 e si commenti il
+risultato.
 
 
 
@@ -935,17 +1634,114 @@ plot(bayesinf)
 
 
 
+## SOLUTIONS TO EXERCISE 36
+
+.1
+
+Let's consider the funcmxn function implemented in class to graph the function
+of density of a mixture with two Gaussian components.
 
 
+```{R}
+funcmxn <- function(x, p, mu, sd){
+f1 <- dnorm(x, mu[1], sd[1])
+f2 <- dnorm(x, mu[2], sd[2])
+f <- p*f1 + (1-p)*f2
+f
+}
+```
+
+We define the vectors for the means and standard deviations and the weight value of the first component;
+the function funcmxn determines the value of the density at the point (x) that is passed to it as input.
+
+```{r}
+mu <- c(1, 0)
+sd <- c(sqrt(1.3), sqrt(1.3))
+p <- 0.32
+funcmxn(0.5, p, mu, sd)
+```
+
+Per esempio, nel punto 𝑥 = 0.5 la funzione di densità del miscuglio Gaussiano considerato ha valore
+pari a 0.32. Una rappresentazione grafica dei valori della desnità consenste di valutare meglio il
+miscuglio considerato. Per ottenere il grafico è necessario determinare la densità in un intervallo
+di punti. Consideriamo quindi una successione di numeri equispaziati da -5 a 10 (in generale
+gli estremi devono essere valutati caso per caso ed eventualmente aggiustati dopo una visione
+preliminare del grafico). La successione di punti viene poi passata in argomento alla funzione
+funcmxn. Aggiungiamo le righe tratteggiate in corrispondenza delle medie delle due componenti.
+
+```{r}
+y <- seq(-5, 6, by = 0.01)
+pr <- funcmxn(x = y, p = p, mu = mu, sd = sd)
+plot(y, pr,
+xlab = "y", ylab = "Densità",
+lwd = 3,
+col = "lightsteelblue1",
+type = "l",
+main = "Miscuglio di peso 0.32 tra N(1, 1.3) e N(0, 1.3)")
+abline(v = c(0, 1), lty = c(2, 2), col = c("red", "red"))
+
+```
+
+In this case the density graph does not allow the two components to be distinguished; is observed
+in fact a single maximum, with a central peak apparently symmetrical with respect to a point
+between 0 and 1 (the averages of the two components). The average values of the two components
+in fact they are too close to each other (in relation to a variance greater than 1), to be consistent
+to distinguish the two peaks. It would be necessary to increase the distance between the two averages or decrease it
+the value of the variance.
+
+2.
+
+We define the function rnormxn which generates pseudo realizations from a mixture function with
+two Gaussian components. Similarly to the previous function, it requires the values of the as input
+weight of the first component (w) and the vectors of the means and variances of the two components. Everything is fine
+observation is extracted with probability equal to w from the first component and with equal probability
+1-w from the second component.
+
+```{r}
+rnormxn <- function(n, w, mu, sd){
+x = numeric(n)
+for(i in 1:n){
+dm = runif(1, 0, 1)
+if(dm < w)
+x[i] = rnorm(1, mu[1], sd[1])
+else
+x[i] = rnorm(1, mu[2], sd[2])
+}
+x
+}
+
+val <- rnormxn(1000, w = p, mu = mu, sd = sd)
+summary(val)
+
+var(val)
+
+```
+
+We calculate the descriptive statistics of the 1000 pseudo-realizations obtained from the mixture function.
+The range of variation of the observed data goes from a minimum of -3.3 to a maximum of 4.3.
+Mean and median are approximately coincident: half of the observations take on a value
+less than 0.35. In general, the symmetry already observed in the graph seems to be confirmed
+of the density of the mixture. The variance value is 1.44, slightly higher than the (common) value
+of the two Gaussian components of the mixture.
+
+.3
+
+The histogram of the realizations obtained in the previous point substantially confirms the observation
+of the previous point: the range of variation is rather limited, the (single) center of the
+distribution is slightly above 0, and the shape of the histogram is approximately symmetrical.
+The presence of a double maximum corresponding to the two components of the mixture is not noted.
 
 
+```{r}
+hist(val,
+breaks = 25,
+ylab = "Frequenze assolute",
+xlab = "Realizzazioni",
+main = "Pseudo-det. miscuglio di peso 0.32 e N(1,1.3), N(0,1.3)")
+```
 
 
-
-
-
-
-
+Ecsercise 37 ???
 
 
 
